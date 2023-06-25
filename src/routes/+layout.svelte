@@ -10,13 +10,13 @@
 	});
 </script>
 
-<nav class="flex flex-col w-full font-bold text-center capitalize items-center text-slate-300">
-	<div class="flex w-3/6 bg-slate-600 m-2 rounded-lg p-1 drop-shadow-lg">
+<nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-mid">
+	<div class="flex w-3/6 bg-theme-mid m-2 rounded-lg p-1 drop-shadow-lg">
 		<div class="p-3 uppercase rounded-lg">gmstracker</div>
 
 		<div class="flex">
 			<div
-				class="flex flex-col pl-5 pr-5 bg-slate-700 rounded-lg p-1 justify-center font-bold text-slate-300 uppercase text-sm"
+				class="flex flex-col pl-5 pr-5 bg-theme-fill rounded-lg p-1 justify-center font-bold text-theme-mid uppercase text-sm"
 			>
 				Reset
 				<div>
@@ -27,22 +27,22 @@
 
 		<ul class="flex ml-auto">
 			<a href="/">
-				<li class="p-2 m-1 hover:bg-slate-500 rounded-lg duration-200 active:scale-90">dashboard</li>
+				<li class="p-2 m-1 hover:bg-theme-fill rounded-lg duration-200 active:scale-90">dashboard</li>
 			</a>
 
 			<a href="characters">
-				<li class="p-2 m-1 hover:bg-slate-500 rounded-lg duration-200 active:scale-90">characters</li>
+				<li class="p-2 m-1 hover:bg-theme-fill rounded-lg duration-200 active:scale-90">characters</li>
 			</a>
 
 			<a href="simulate">
-				<li class="p-2 m-1 hover:bg-slate-500 rounded-lg duration-200 active:scale-90">simulate</li>
+				<li class="p-2 m-1 hover:bg-theme-fill rounded-lg duration-200 active:scale-90">simulate</li>
 			</a>
 
 			{#if $ActiveStore.length !== 0}
 				<a href="track">
-					<li class="flex p-2 m-1 hover:bg-slate-500 rounded-lg duration-200 active:scale-90">
+					<li class="flex p-2 m-1 hover:bg-theme-fill rounded-lg duration-200 active:scale-90">
 						<svg
-							class="w-[1.5rem] text-green-200"
+							class="w-[1.5rem] text-theme-base"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 512 512"
 							fill="currentColor"
@@ -58,9 +58,3 @@
 </nav>
 
 <slot />
-
-<style>
-	:root {
-		background-color: #2e3442;
-	}
-</style>

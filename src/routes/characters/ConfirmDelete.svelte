@@ -39,28 +39,24 @@
 	};
 
 	const closeModal = () => {
-		let delModal = document.querySelector('#del-modal-content') as HTMLButtonElement;
-
-		if (delModal !== null) {
-			delModal.className = 'hidden';
-			toggleOverlayFunction();
-		}
+		let delCharModal = document?.querySelector('#del-char-modal') as HTMLDialogElement;
+		delCharModal.close();
+		delCharModal.className = 'hidden';
 	};
 
 	const showModal = () => {
-		let delModal = document.querySelector('#del-modal-content') as HTMLButtonElement;
+		let delCharModal = document?.querySelector('#del-char-modal') as HTMLDialogElement;
+		delCharModal.showModal();
 
-		if (delModal !== null) {
-			delModal.className = 'flex flex-col bg-slate-600 rounded-lg w-[25%] h-[20%] m-20';
-		}
+		delCharModal.className = 'w-[25%] flex flex-col bg-theme-mid rounded-lg mt-32';
 	};
 </script>
 
-<div id="del-modal-content" class="hidden">
-	<div class="flex font-bold text-slate-300 text-2xl p-2">Delete Character</div>
+<dialog id="del-char-modal" class="hidden">
+	<div class="flex font-bold text-theme-mid text-2xl p-2">Delete Character</div>
 
-	<div class="flex font-bold text-slate-300 text-xl p-2 justify-center">You are about to delete '{name}'</div>
-	<div class="flex font-bold text-slate-300 text-xl p-2 justify-center">Are you sure?</div>
+	<div class="flex font-bold text-theme-mid text-xl p-2 justify-center">You are about to delete '{name}'</div>
+	<div class="flex font-bold text-theme-mid text-xl p-2 justify-center">Are you sure?</div>
 
 	<div class="flex mt-auto">
 		<button
@@ -78,4 +74,4 @@
 			Delete
 		</button>
 	</div>
-</div>
+</dialog>

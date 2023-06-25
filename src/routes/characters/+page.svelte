@@ -41,15 +41,13 @@
 	});
 </script>
 
-<div class={isOverlayActive ? 'overlay' : 'hidden'}>
-	<ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
-</div>
+<ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
 
 <main class="flex flex-col w-full items-center mt-10">
 	<Form bind:this={FormComponentInstance} />
 
-	<div class="flex flex-col w-9/12 bg-slate-600 rounded-lg drop-shadow-lg scroll-container">
-		<table class="w-full table-fixed bg-slate-600 text-slate-300 text-slate-30 rounded-lg drop-shadow-lg">
+	<div class="flex flex-col w-9/12 bg-theme-mid rounded-lg drop-shadow-lg scroll-container">
+		<table class="w-full table-fixed bg-theme-mid text-theme-mid rounded-lg drop-shadow-lg">
 			<tr class="font-bold text-lg w-full">
 				<td class="w-1/5 text-center align-middle p-2 uppercase">image</td>
 				<td class="w-1/5 text-center align-middle p-2 uppercase">name</td>
@@ -61,7 +59,7 @@
 				{#each $DataStore as character (character.id)}
 					<tr
 						id={character.name}
-						class="cursor-pointer border-b border-b-slate-800"
+						class="cursor-pointer border-b border-[#464646]"
 						on:click={() => activateCharacter(character.id)}
 					>
 						<td class="w-full align-middle flex justify-center">
@@ -100,7 +98,7 @@
 			{/if}
 		</table>
 		{#if $DataStore.length == 0}
-			<div class="text-center w-ful text-lg text-slate-300 font-bold p-5">No Data Available</div>
+			<div class="text-center w-ful text-lg text-theme-mid font-bold p-5">No Data Available</div>
 		{/if}
 	</div>
 </main>

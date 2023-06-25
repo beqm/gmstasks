@@ -124,7 +124,7 @@
 			if (input) {
 				input.className =
 					lvl >= value
-						? 'text-slate-300 font-bold text-lg w-1/3 text-center border border-gray-500 bg-slate-700 rounded-lg'
+						? 'text-theme-mid font-bold text-lg w-1/3 text-center border border-gray-500 bg-slate-700 rounded-lg'
 						: 'hidden';
 			}
 		});
@@ -134,33 +134,23 @@
 		return img_url.endsWith('.jpg') || img_url.endsWith('.png') ? img : default_img;
 	};
 
-	const showForm = (cleanInputs: boolean) => {
-		let addCharPopup = document?.querySelector('#add-char-popup');
-		let addCharOverlay = document?.querySelector('#add-char-overlay');
+	const showForm = (clearInputs: boolean) => {
+		let addCharModal = document?.querySelector('#add-char-modal') as HTMLDialogElement;
+		addCharModal.showModal();
 
-		if (addCharPopup !== null && addCharOverlay !== null) {
-			addCharOverlay.className = 'overlay';
-			addCharPopup.className = 'flex flex-col bg-slate-600 rounded-lg w-[75%] m-20';
-			if (cleanInputs) {
-				message = '';
-
-				id = '';
-				img = '';
-				name = '';
-				job = '';
-				lvl = 1;
-			}
+		if (clearInputs) {
+			message = '';
+			id = '';
+			img = '';
+			name = '';
+			job = '';
+			lvl = 1;
 		}
 	};
 
 	const closeForm = () => {
-		let addCharPopup = document?.querySelector('#add-char-popup');
-		let addCharOverlay = document?.querySelector('#add-char-overlay');
-
-		if (addCharPopup !== null && addCharOverlay !== null) {
-			addCharPopup.className = 'hidden';
-			addCharOverlay.className = 'hidden';
-		}
+		let addCharModal = document?.querySelector('#add-char-modal') as HTMLDialogElement;
+		addCharModal.close();
 	};
 </script>
 
@@ -179,51 +169,51 @@
 	</button>
 </div>
 
-<div id="add-char-overlay" class="hidden">
-	<form id="add-char-popup" class="hidden" on:submit|preventDefault={handleSubmit}>
+<dialog id="add-char-modal" class="bg-theme-mid">
+	<form id="add-char-form" on:submit|preventDefault={handleSubmit}>
 		<div class="flex flex-col w-full items-center">
-			<div class="flex font-bold text-slate-300 text-2xl">Add new Character</div>
+			<div class="flex font-bold text-theme-mid text-2xl">Add new Character</div>
 			<p class="font-bold text-red-300 p-2 text-lg">{message}</p>
 		</div>
 
 		<div class="flex w-full">
 			<div class="flex flex-col w-2/6 items-center">
-				<div class="flex w-full font-bold text-slate-300 justify-center text-2xl mb-10">Character</div>
+				<div class="flex w-full font-bold text-theme-mid justify-center text-2xl mb-10">Character</div>
 
-				<label for="img" class="block text-m text-slate-300 font-bold text-lg">Image URL</label>
+				<label for="img" class="block text-m text-theme-mid font-bold text-lg">Image URL</label>
 				<div class="mt-1">
 					<input
 						id="img"
 						name="img"
 						type="text"
-						class="mb-8 bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+						class="mb-8 bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 						bind:value={img}
 					/>
 				</div>
 
-				<label for="name" class="block text-m text-slate-300 font-bold text-lg">Name</label>
+				<label for="name" class="block text-m text-theme-mid font-bold text-lg">Name</label>
 				<div class="mt-1">
 					<input
 						id="name"
 						name="name"
 						type="text"
-						class="mb-8 bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+						class="mb-8 bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 						bind:value={name}
 					/>
 				</div>
 
-				<label for="job" class="block text-m text-slate-300 font-bold text-lg mt-2">Job</label>
+				<label for="job" class="block text-m text-theme-mid font-bold text-lg mt-2">Job</label>
 				<div class="mt-1">
 					<input
 						id="job"
 						name="job"
 						type="text"
-						class="mb-8 bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+						class="mb-8 bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 						bind:value={job}
 					/>
 				</div>
 
-				<label for="level" class="block text-m text-slate-300 font-bold text-lg mt-2">Level</label>
+				<label for="level" class="block text-m text-theme-mid font-bold text-lg mt-2">Level</label>
 				<div class="mt-1">
 					<input
 						on:input={handleLevelValidation}
@@ -231,36 +221,36 @@
 						id="level"
 						name="level"
 						type="number"
-						class="bg-slate-500 focus:bg-slate-700 outline-none border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+						class="bg-slate-500 focus:bg-slate-700 outline-none border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 						bind:value={lvl}
 					/>
 				</div>
 			</div>
 			<div id="symbol-form" class="flex flex-col w-2/3">
-				<div class="flex w-full font-bold text-slate-300 justify-center text-2xl mb-10">Symbols</div>
+				<div class="flex w-full font-bold text-theme-mid justify-center text-2xl mb-10">Symbols</div>
 
 				<div class="flex flex-wrap">
 					<button id="VJ-input" class="hidden" disabled>
 						VanishingJourney
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[0].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[0].exp}
 								/>
 							</div>
@@ -271,23 +261,23 @@
 						Chuchu
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[1].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[1].exp}
 								/>
 							</div>
@@ -298,23 +288,23 @@
 						Lachelein
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[2].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[2].exp}
 								/>
 							</div>
@@ -325,23 +315,23 @@
 						Arcana
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[3].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[3].exp}
 								/>
 							</div>
@@ -352,23 +342,23 @@
 						Morass
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[4].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[4].exp}
 								/>
 							</div>
@@ -379,23 +369,23 @@
 						Esfera
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[5].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={arcSymbolInputs[5].exp}
 								/>
 							</div>
@@ -406,23 +396,23 @@
 						Cernium
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={sacSymbolInputs[0].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={sacSymbolInputs[0].exp}
 								/>
 							</div>
@@ -433,23 +423,23 @@
 						Arcus
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={sacSymbolInputs[1].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={sacSymbolInputs[1].exp}
 								/>
 							</div>
@@ -460,23 +450,23 @@
 						Odium
 						<div class="flex mb-10 justify-evenly">
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-lvl" class="block text-m text-slate-300 font-bold text-lg">Level</label>
+								<label for="s-lvl" class="block text-m text-theme-mid font-bold text-lg">Level</label>
 								<input
 									id="s-lvl"
 									name="s-lvl"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={sacSymbolInputs[2].level}
 								/>
 							</div>
 
 							<div class="flex flex-col w-1/4 justify-center">
-								<label for="s-exp" class="block text-m text-slate-300 font-bold text-lg">Exp</label>
+								<label for="s-exp" class="block text-m text-theme-mid font-bold text-lg">Exp</label>
 								<input
 									id="s-exp"
 									name="s-exp"
 									type="text"
-									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-slate-300 text-xl"
+									class=" bg-slate-500 focus:bg-slate-700 border-[0.15rem] rounded-lg border-gray-800 text-theme-mid text-xl"
 									bind:value={sacSymbolInputs[2].exp}
 								/>
 							</div>
@@ -491,7 +481,7 @@
 				<div class="flex flex-col w-2/5 items-center text-center">
 					<img id="img-char-form" src={img} alt="Character" class="hidden" />
 
-					<div class="w-full mt-auto h-8 text-center font-bold text-slate-300 text-lg">
+					<div class="w-full mt-auto h-8 text-center font-bold text-theme-mid text-lg">
 						<div class="max-h-[50px] overflow-hidden">
 							{name}
 						</div>
@@ -516,4 +506,4 @@
 			</div>
 		</div>
 	</form>
-</div>
+</dialog>
