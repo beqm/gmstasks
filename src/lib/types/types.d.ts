@@ -7,11 +7,21 @@ export type MSymbol = {
 	active: boolean;
 };
 
+export type MBoss = {
+	name: string;
+	difficulty: string;
+	active: boolean;
+	complete: boolean;
+	mesos: number;
+};
+
 export type MEvent = {
 	name: string;
 	complete: boolean;
+	difficulty?: string;
 	active: boolean;
 	amount: number;
+	unique?: boolean;
 };
 
 export type MEvents = {

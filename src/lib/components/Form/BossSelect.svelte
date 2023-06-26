@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { MEvent } from '$lib/types/types';
+	import type { MBoss } from '$lib/types/types';
 
 	export let inputLabel: string;
-	export let selectData: MEvent[];
+	export let selectData: MBoss[];
 
 	const showEventSelect = () => {
 		const EventItems = document.querySelector(`#${inputLabel}`);
@@ -37,7 +37,7 @@
 	>
 		{#each selectData as item}
 			<li class="flex text-left w-full">
-				<label class="p-2" for={item.name}>{item.name.replace('_', ' ')}</label>
+				<label class="p-2" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
 				<input type="checkbox" id={item.name} class="ml-auto mr-2" bind:checked={item.active} />
 			</li>
 		{/each}

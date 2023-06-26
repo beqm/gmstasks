@@ -4,8 +4,9 @@
 	import default_img from '$lib/assets/default_img.png';
 	import SymbolInput from '$lib/components/Form/SymbolInput.svelte';
 	import Input from '$lib/components/Form/Input.svelte';
-	import type { Character, MEvent, MSymbol } from '$lib/types/types';
+	import type { Character, MEvent, MSymbol, MBoss } from '$lib/types/types';
 	import EventSelect from '$lib/components/Form/EventSelect.svelte';
+	import BossSelect from '$lib/components/Form/BossSelect.svelte';
 
 	let arcSymbolInputs: MSymbol[] = [
 		{ name: 'VanishingJourney', level: 1, req_level: 200, exp: 1, gain: 8, active: false },
@@ -22,22 +23,93 @@
 		{ name: 'Odium', level: 1, req_level: 275, exp: 1, gain: 8, active: false }
 	];
 
-	let dailyBosses: MEvent[] = [
-		{ name: 'Gollux', complete: false, active: false, amount: 1 },
-		{ name: 'Easy_Normal_Arkarium', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_Hard_Hanmaru', complete: false, active: false, amount: 1 },
-		{ name: 'Easy_Normal_Magnus', complete: false, active: false, amount: 1 },
-		{ name: 'Easy_Normal_Papulatus', complete: false, active: false, amount: 1 },
-		{ name: 'Easy_Normal_Hard_VonLeon', complete: false, active: false, amount: 1 },
-		{ name: 'Easy_Normal_Chaos_Horntail', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_Hilla', complete: false, active: false, amount: 1 },
-		{ name: 'Easy_Normal_Zakum', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_VonBon', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_Pierre', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_Crimson Queen', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_Vellum', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_OMNI-CLN', complete: false, active: false, amount: 1 },
-		{ name: 'Normal_PinkBean', complete: false, active: false, amount: 1 }
+	// Wrong prices, need to change to reboot price
+	let dailyBosses: MBoss[] = [
+		{ name: 'Gollux', difficulty: '', mesos: 0, complete: false, active: false },
+		{ name: 'Hanmaru', difficulty: 'Hard', mesos: 2_882_000, complete: false, active: false },
+		{ name: 'Papulatus', difficulty: 'Normal', mesos: 2_664_500, complete: false, active: false },
+		{ name: 'Magnus', difficulty: 'Normal', mesos: 2_592_500, complete: false, active: false },
+		{ name: 'Arkarium', difficulty: 'Normal', mesos: 2_520_500, complete: false, active: false },
+		{ name: 'VonLeon', difficulty: 'Hard', mesos: 2_450_000, complete: false, active: false },
+		{ name: 'VonLeon', difficulty: 'Normal', mesos: 1_458_000, complete: false, active: false },
+		{ name: 'Pink_Bean', difficulty: 'Normal', mesos: 1_404_500, complete: false, active: false },
+		{ name: 'Horntail', difficulty: 'Chaos', mesos: 1_352_500, complete: false, active: false },
+		{ name: 'OMNI-CLN', difficulty: 'Normal', mesos: 1_250_000, complete: false, active: false },
+		{ name: 'Arkarium', difficulty: 'Easy', mesos: 1_152_000, complete: false, active: false },
+		{ name: 'VonLeon', difficulty: 'Easy', mesos: 1_058_500, complete: false, active: false },
+		{ name: 'Horntail', difficulty: 'Normal', mesos: 1_012_500, complete: false, active: false },
+		{ name: 'VonBon', difficulty: 'Normal', mesos: 968_000, complete: false, active: false },
+		{ name: 'Vellum', difficulty: 'Normal', mesos: 968_000, complete: false, active: false },
+		{ name: 'Pierre', difficulty: 'Normal', mesos: 968_000, complete: false, active: false },
+		{ name: 'Crimson_Queen', difficulty: 'Normal', mesos: 968_000, complete: false, active: false },
+		{ name: 'Horntail', difficulty: 'Easy', mesos: 882_000, complete: false, active: false },
+		{ name: 'Hilla', difficulty: 'Normal', mesos: 800_000, complete: false, active: false },
+		{ name: 'Magnus', difficulty: 'Easy', mesos: 722_000, complete: false, active: false },
+		{ name: 'Papulatus', difficulty: 'Easy', mesos: 684_500, complete: false, active: false },
+		{ name: 'Hanmaru', difficulty: 'Normal', mesos: 648_000, complete: false, active: false },
+		{ name: 'Zakum', difficulty: 'Normal', mesos: 612_500, complete: false, active: false },
+		{ name: 'Zakum', difficulty: 'Easy', mesos: 200_000, complete: false, active: false }
+	];
+
+	let weeklyBosses: MBoss[] = [
+		{ name: 'Verus_Hilla', difficulty: 'Hard', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Verus_Hilla', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Darknell', difficulty: 'Chaos', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Gloom', difficulty: 'Chaos', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Will', difficulty: 'Hard', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Lucid', difficulty: 'Hard', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Damien', difficulty: 'Hard', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Lotus', difficulty: 'Hard', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Darknell', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Gloom', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Will', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Lucid', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Will', difficulty: 'Easy', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Lucid', difficulty: 'Easy', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Slime', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Damien', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Lotus', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Akechi', difficulty: 'Normal', mesos: 26_450_000, complete: false, active: false },
+
+		{ name: 'Papulatus', difficulty: 'Chaos', mesos: 26_450_000, complete: false, active: false },
+		{ name: 'Vellum', difficulty: 'Normal', mesos: 21_012_500, complete: false, active: false },
+		{ name: 'Magnus', difficulty: 'Hard', mesos: 19_012_500, complete: false, active: false },
+		{ name: 'Pierre', difficulty: 'Normal', mesos: 16_200_000, complete: false, active: false },
+		{ name: 'Crimson_Queen', difficulty: 'Normal', mesos: 16_200_000, complete: false, active: false },
+		{ name: 'VonBon', difficulty: 'Normal', mesos: 16_200_000, complete: false, active: false },
+		{ name: 'Princess No', difficulty: 'Normal', mesos: 15_312_000, complete: false, active: false },
+		{ name: 'Zakum', difficulty: 'Chaos', mesos: 9_112_500, complete: false, active: false },
+		{ name: 'Cygnus', difficulty: 'Normal', mesos: 9_112_500, complete: false, active: false },
+		{ name: 'Pink_Bean', difficulty: 'Chaos', mesos: 1_404_500, complete: false, active: false },
+		{ name: 'Hilla', difficulty: 'Hard', mesos: 800_000, complete: false, active: false },
+		{ name: 'Cygnus', difficulty: 'Easy', mesos: 9_112_500, complete: false, active: false }
+	];
+
+	let dailyEvents: MEvent[] = [
+		{ name: 'VanishingJourney_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'ChuChu_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Lachelein_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Arcana_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Morass_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Esfera_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Cernium_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Arcus_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Odium_Daily', complete: false, active: false, amount: 1 },
+		{ name: 'Yu_Garden', complete: false, active: false, amount: 1 },
+		{ name: 'FairyBro_Daily', complete: false, active: false, amount: 1, unique: true },
+		{ name: 'Tower_Oz', complete: false, active: false, amount: 5, unique: true },
+		{ name: 'Monster_Park', complete: false, active: false, amount: 7, unique: true },
+		{ name: 'Ursus', complete: false, active: false, amount: 3, unique: true },
+		{ name: 'MNN', complete: false, active: false, amount: 2, unique: true }
+	];
+
+	let weeklyEvents: MEvent[] = [
+		{ name: 'VanishingJourney_Quest', complete: false, active: false, amount: 1 },
+		{ name: 'ChuChu_Quest', complete: false, active: false, amount: 1 },
+		{ name: 'Lachelein_Quest', complete: false, active: false, amount: 1 },
+		{ name: 'Arcana_Quest', complete: false, active: false, amount: 1 },
+		{ name: 'Morass_Quest', complete: false, active: false, amount: 1 },
+		{ name: 'Esfera_Quest', complete: false, active: false, amount: 1 }
 	];
 
 	let id = '';
@@ -102,12 +174,12 @@
 			const arcanesLevels = [200, 210, 220, 225, 230, 235];
 			const sacredsLevels = [260, 270, 275];
 
-			sacSymbolInputs.forEach((arcane, index) => {
-				arcane.active = lvl >= arcanesLevels[index] ? true : false;
+			arcSymbolInputs.forEach((arcane) => {
+				arcane.active = lvl >= arcane.req_level ? true : false;
 			});
 
-			sacSymbolInputs.forEach((sacred, index) => {
-				sacred.active = lvl >= sacredsLevels[index] ? true : false;
+			sacSymbolInputs.forEach((sacred) => {
+				sacred.active = lvl >= sacred.req_level ? true : false;
 			});
 
 			const obj = createCharacter();
@@ -165,10 +237,10 @@
 	</button>
 </div>
 
-<dialog id="add-char-modal" class="bg-theme-base text-theme-dark relative">
+<dialog id="add-char-modal" class="bg-theme-base text-theme-dark relative rounded-lg">
 	<form class="h-[90%] overflow-y-auto" on:submit={handleSubmit}>
 		<div class="w-full text-center font-bold text-lg mb-2">Add new Character</div>
-		<div class="flex w-full h-2/4">
+		<div class="flex w-full">
 			<!-- Left Side -->
 			<div class="w-2/4 flex flex-col items-center border-r border-theme-decorated">
 				<!-- Character Section -->
@@ -203,7 +275,10 @@
 				<!-- Events Section -->
 				<div class="w-3/4">
 					<div class="w-full text-center font-bold text-xl mb-2">Events</div>
-					<EventSelect inputLabel="Daily_Bosses" bind:selectData={dailyBosses} />
+					<EventSelect inputLabel="Daily_Events" bind:selectData={dailyEvents} />
+					<EventSelect inputLabel="Weekly_Events" bind:selectData={weeklyEvents} />
+					<BossSelect inputLabel="Daily_Bosses" bind:selectData={dailyBosses} />
+					<BossSelect inputLabel="Weekly_Bosses" bind:selectData={weeklyBosses} />
 				</div>
 			</div>
 
