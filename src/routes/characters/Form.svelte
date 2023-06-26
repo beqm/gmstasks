@@ -2,8 +2,10 @@
 	import DataStore from '$lib/stores/DataStore';
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import default_img from '$lib/assets/default_img.png';
-	import SymbolForm from '$lib/components/SymbolForm.svelte';
-	import type { Character, MSymbol } from '$lib/types/types';
+	import SymbolInput from '$lib/components/Form/SymbolInput.svelte';
+	import Input from '$lib/components/Form/Input.svelte';
+	import type { Character, MEvent, MSymbol } from '$lib/types/types';
+	import EventSelect from '$lib/components/Form/EventSelect.svelte';
 
 	let arcSymbolInputs: MSymbol[] = [
 		{ name: 'VanishingJourney', level: 1, req_level: 200, exp: 1, gain: 8, active: false },
@@ -20,16 +22,29 @@
 		{ name: 'Odium', level: 1, req_level: 275, exp: 1, gain: 8, active: false }
 	];
 
+	let dailyBosses: MEvent[] = [
+		{ name: 'Gollux', complete: false, active: false, amount: 1 },
+		{ name: 'Easy_Normal_Arkarium', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_Hard_Hanmaru', complete: false, active: false, amount: 1 },
+		{ name: 'Easy_Normal_Magnus', complete: false, active: false, amount: 1 },
+		{ name: 'Easy_Normal_Papulatus', complete: false, active: false, amount: 1 },
+		{ name: 'Easy_Normal_Hard_VonLeon', complete: false, active: false, amount: 1 },
+		{ name: 'Easy_Normal_Chaos_Horntail', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_Hilla', complete: false, active: false, amount: 1 },
+		{ name: 'Easy_Normal_Zakum', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_VonBon', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_Pierre', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_Crimson Queen', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_Vellum', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_OMNI-CLN', complete: false, active: false, amount: 1 },
+		{ name: 'Normal_PinkBean', complete: false, active: false, amount: 1 }
+	];
+
 	let id = '';
 	let img = '';
 	let name = '';
 	let job = '';
 	let lvl = 1;
-
-	let test = {
-		name: 'VanishingJourney',
-		nameId: 'vj'
-	};
 
 	const createCharacter = (): Character => {
 		return {
@@ -82,6 +97,7 @@
 		}
 
 		if (formController == 'create') {
+			console.log(dailyBosses);
 			lvl = Math.min(Math.max(lvl, 1), 300);
 			const arcanesLevels = [200, 210, 220, 225, 230, 235];
 			const sacredsLevels = [260, 270, 275];
@@ -149,8 +165,8 @@
 	</button>
 </div>
 
-<dialog id="add-char-modal" class="bg-theme-base text-theme-dark">
-	<form class="h-[90%] overflow-y-auto" on:submit|preventDefault={handleSubmit}>
+<dialog id="add-char-modal" class="bg-theme-base text-theme-dark relative">
+	<form class="h-[90%] overflow-y-auto" on:submit={handleSubmit}>
 		<div class="w-full text-center font-bold text-lg mb-2">Add new Character</div>
 		<div class="flex w-full h-2/4">
 			<!-- Left Side -->
@@ -158,49 +174,10 @@
 				<!-- Character Section -->
 				<div>
 					<div class="w-full text-center font-bold text-xl mb-2">Character</div>
-					<label for="img" class="block font-bold text-lg">Image link</label>
-					<div class="mt-1">
-						<input
-							id="img"
-							name="img"
-							type="text"
-							class="mb-8 bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-							bind:value={img}
-						/>
-					</div>
-
-					<label for="name" class="block font-bold text-lg">Name</label>
-					<div class="mt-1">
-						<input
-							id="name"
-							name="name"
-							type="text"
-							class="mb-8 bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-							bind:value={name}
-						/>
-					</div>
-
-					<label for="job" class="block font-bold text-lg">Job</label>
-					<div class="mt-1">
-						<input
-							id="job"
-							name="job"
-							type="text"
-							class="mb-8 bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-							bind:value={job}
-						/>
-					</div>
-
-					<label for="lvl" class="block font-bold text-lg">Level</label>
-					<div class="mt-1">
-						<input
-							id="lvl"
-							name="lvl"
-							type="text"
-							class="mb-8 bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-							bind:value={lvl}
-						/>
-					</div>
+					<Input bind:value={img} inputLabel="Image" />
+					<Input bind:value={name} inputLabel="Name" />
+					<Input bind:value={job} inputLabel="Job" />
+					<Input bind:value={lvl} inputLabel="Level" />
 				</div>
 				<!-- Symbol Section -->
 				<div class="w-3/4">
@@ -208,48 +185,44 @@
 					{#if lvl < 200}
 						<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
 					{/if}
-					<SymbolForm bind:value={arcSymbolInputs[0]} char_lvl={lvl} />
-					<SymbolForm bind:value={arcSymbolInputs[1]} char_lvl={lvl} />
-					<SymbolForm bind:value={arcSymbolInputs[2]} char_lvl={lvl} />
-					<SymbolForm bind:value={arcSymbolInputs[3]} char_lvl={lvl} />
-					<SymbolForm bind:value={arcSymbolInputs[4]} char_lvl={lvl} />
-					<SymbolForm bind:value={arcSymbolInputs[5]} char_lvl={lvl} />
+					<SymbolInput bind:value={arcSymbolInputs[0]} char_lvl={lvl} />
+					<SymbolInput bind:value={arcSymbolInputs[1]} char_lvl={lvl} />
+					<SymbolInput bind:value={arcSymbolInputs[2]} char_lvl={lvl} />
+					<SymbolInput bind:value={arcSymbolInputs[3]} char_lvl={lvl} />
+					<SymbolInput bind:value={arcSymbolInputs[4]} char_lvl={lvl} />
+					<SymbolInput bind:value={arcSymbolInputs[5]} char_lvl={lvl} />
 
-					<SymbolForm bind:value={sacSymbolInputs[0]} char_lvl={lvl} />
-					<SymbolForm bind:value={sacSymbolInputs[1]} char_lvl={lvl} />
-					<SymbolForm bind:value={sacSymbolInputs[2]} char_lvl={lvl} />
+					<SymbolInput bind:value={sacSymbolInputs[0]} char_lvl={lvl} />
+					<SymbolInput bind:value={sacSymbolInputs[1]} char_lvl={lvl} />
+					<SymbolInput bind:value={sacSymbolInputs[2]} char_lvl={lvl} />
 				</div>
 			</div>
 
 			<!-- Right Side -->
 			<div class="w-2/4 flex flex-col items-center border-l border-theme-decorated">
-				<div class="w-full text-center font-bold text-xl mb-2">Events</div>
-				<label for="img" class="block font-bold text-lg">Weeklies</label>
-				<div class="mt-1">
-					<input
-						id="img"
-						name="img"
-						type="text"
-						class="mb-8 bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-						bind:value={img}
-					/>
+				<!-- Events Section -->
+				<div class="w-3/4">
+					<div class="w-full text-center font-bold text-xl mb-2">Events</div>
+					<EventSelect inputLabel="Daily_Bosses" bind:selectData={dailyBosses} />
 				</div>
+			</div>
+
+			<!-- Buttons -->
+			<div class="flex h-[10%] font-bold right-0 bottom-0 absolute m-2">
+				<button
+					on:click|preventDefault={closeForm}
+					class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
+				>
+					Cancel
+				</button>
+				<button
+					type="submit"
+					id="create-char-btn"
+					class="bg-green-300 p-2 ml-2 mt-auto rounded-lg text-theme-base hover:bg-green-500 duration-200 active:scale-90"
+				>
+					Confirm
+				</button>
 			</div>
 		</div>
 	</form>
-	<div class="flex h-[10%] font-bold mt-auto">
-		<button
-			on:click|preventDefault={closeForm}
-			class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
-		>
-			Cancel
-		</button>
-		<button
-			type="submit"
-			id="create-char-btn"
-			class="bg-green-300 p-2 ml-2 mt-auto rounded-lg text-theme-base hover:bg-green-500 duration-200 active:scale-90"
-		>
-			Confirm
-		</button>
-	</div>
 </dialog>
