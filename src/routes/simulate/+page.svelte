@@ -1,8 +1,1 @@
-<script lang="ts">
-    import TrainingTimer from "$lib/components/TrainingTimer.svelte";
-</script>
-
-<main>
-    <TrainingTimer/>
-</main>
-
+<div class="w-9/12 bg-theme-base rounded-lg mt-10 drop-shadow-lg">simulate</div>

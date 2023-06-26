@@ -5,16 +5,21 @@
 
 @layer base {
 	:root {
-		--bg-base: #0f0f0f;
-		--bg-mid: #3a3a3a;
-		--bg-inverted: #ffffff;
+		--color-primary-strong: #401a2a;
+		--color-primary: #d4163c;
+		--color-primary-soft: #2c2931;
 
-		--text-base: #f04391;
-		--text-mid: #ffffff;
-		--text-inverted: #0f0f0f;
+		--color-secondary-strong: #14161d;
+		--color-secondary: #1a1c26;
+		--color-secondary-soft: #202330;
 
-		--border-base: #3a3a3a;
-		--border-focus: #f04391;
+		--color-font-base: #15171f;
+		--color-font-dark: #dfe0e2;
+	}
+	body {
+		color: var(--color-font-dark) !important;
+		font-family: sans-serif !important;
+		scrollbar-color: #2c2e34;
 	}
 }
 

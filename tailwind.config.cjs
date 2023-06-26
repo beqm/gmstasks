@@ -5,22 +5,27 @@ const config = {
 	  extend: {
 		textColor: {
 		  theme: {
-			base: 'var(--text-base)',
-			mid: 'var(--text-mid)',
-			inverted: 'var(--text-inverted)'
+			base: 'var(--color-font-base)',
+			dark: 'var(--color-font-dark)',
+			decorated: 'var(--color-primary)',
+			strongdecorated: 'var(--color-primary-strong)',
 		  },
 		},
 		backgroundColor: {
 		  theme: {
-			fill: 'var(--bg-base)',
-			mid: 'var(--bg-mid)',
-			inverted: 'var(--bg-inverted)'
+			strong: 'var(--color-secondary-strong)',
+			base: 'var(--color-secondary)',
+			soft: 'var(--color-secondary-soft)',
+			decorated: 'var(--color-primary)',
+			strongdecorated: 'var(--color-primary-strong)',
+			softdecorated: 'var(--color-primary-soft)',
 		  }
 		},
 		borderColor: {
 		  theme: {
-			base: 'var(--border-base)',
-			focus: 'var(--border-focus)'
+			base: 'var(--color-secondary-strong)',
+			focus: 'var(--color-font-dark)',
+			decorated: 'var(--color-primary)',
 		  }
 		}
 	  },

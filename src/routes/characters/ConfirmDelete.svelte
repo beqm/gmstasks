@@ -48,20 +48,22 @@
 		let delCharModal = document?.querySelector('#del-char-modal') as HTMLDialogElement;
 		delCharModal.showModal();
 
-		delCharModal.className = 'w-[25%] flex flex-col bg-theme-mid rounded-lg mt-32';
+		delCharModal.className = 'w-[25%] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32';
 	};
 </script>
 
 <dialog id="del-char-modal" class="hidden">
-	<div class="flex font-bold text-theme-mid text-2xl p-2">Delete Character</div>
+	<div class="flex font-bold text-2xl p-2">Delete Character</div>
 
-	<div class="flex font-bold text-theme-mid text-xl p-2 justify-center">You are about to delete '{name}'</div>
-	<div class="flex font-bold text-theme-mid text-xl p-2 justify-center">Are you sure?</div>
+	<div class="flex font-bold text-xl p-2 justify-center">
+		You are about to&nbsp; <p class="text-theme-decorated">DELETE '{name}'</p>
+	</div>
+	<div class="flex font-bold text-xl p-2 justify-center">Are you sure?</div>
 
 	<div class="flex mt-auto">
 		<button
 			on:click={closeModal}
-			class="bg-gray-200 m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-gray-400 duration-200 active:scale-90"
+			class="bg-theme-soft m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-gray-500 duration-200 active:scale-90"
 		>
 			Cancel
 		</button>
@@ -69,7 +71,7 @@
 			on:click={() => delCharacter(currentCharIteration.id)}
 			type="submit"
 			id="create-char-btn"
-			class="bg-red-300 m-2 p-2 rounded-lg font-bold capitalize hover:bg-red-400 duration-200 active:scale-90"
+			class="bg-theme-strongdecorated m-2 p-2 rounded-lg font-bold capitalize hover:bg-theme-decorated duration-200 active:scale-90"
 		>
 			Delete
 		</button>

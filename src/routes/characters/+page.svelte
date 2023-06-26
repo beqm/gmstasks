@@ -43,11 +43,11 @@
 
 <ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
 
-<main class="flex flex-col w-full items-center mt-10">
+<div class="flex flex-col w-full items-center mt-10">
 	<Form bind:this={FormComponentInstance} />
 
-	<div class="flex flex-col w-9/12 bg-theme-mid rounded-lg drop-shadow-lg scroll-container">
-		<table class="w-full table-fixed bg-theme-mid text-theme-mid rounded-lg drop-shadow-lg">
+	<div class="flex flex-col w-9/12 bg-theme-soft rounded-lg drop-shadow-lg scroll-container">
+		<table class="w-full table-fixed rounded-lg drop-shadow-lg">
 			<tr class="font-bold text-lg w-full">
 				<td class="w-1/5 text-center align-middle p-2 uppercase">image</td>
 				<td class="w-1/5 text-center align-middle p-2 uppercase">name</td>
@@ -59,7 +59,7 @@
 				{#each $DataStore as character (character.id)}
 					<tr
 						id={character.name}
-						class="cursor-pointer border-b border-[#464646]"
+						class="cursor-pointer border-b border-theme-base"
 						on:click={() => activateCharacter(character.id)}
 					>
 						<td class="w-full align-middle flex justify-center">
@@ -73,7 +73,7 @@
 							<button
 								on:click={() => editCharacter(character.id)}
 								id="add-char-btn"
-								class="bg-blue-500 m-2 p-3 ml-auto rounded-lg font-bold capitalize duration-200 active:scale-90"
+								class="bg-blue-400 m-2 p-3 ml-auto rounded-lg font-bold capitalize duration-200 active:scale-90"
 							>
 								<svg class="w-[1.7rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"
 									><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
@@ -98,10 +98,10 @@
 			{/if}
 		</table>
 		{#if $DataStore.length == 0}
-			<div class="text-center w-ful text-lg text-theme-mid font-bold p-5">No Data Available</div>
+			<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
 		{/if}
 	</div>
-</main>
+</div>
 
 <style>
 	.scroll-container {
