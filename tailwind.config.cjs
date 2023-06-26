@@ -16,6 +16,7 @@ const config = {
 			strong: 'var(--color-secondary-strong)',
 			base: 'var(--color-secondary)',
 			soft: 'var(--color-secondary-soft)',
+			softer: 'var(--color-secondary-softer)',
 			decorated: 'var(--color-primary)',
 			strongdecorated: 'var(--color-primary-strong)',
 			softdecorated: 'var(--color-primary-soft)',
