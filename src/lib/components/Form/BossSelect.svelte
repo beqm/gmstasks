@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { MBoss } from '$lib/types/types';
+	import { afterUpdate } from 'svelte';
 
 	export let inputLabel: string;
+	export let resetBoolean: boolean;
 	export let selectData: MBoss[];
 
 	const showEventSelect = () => {
@@ -9,6 +11,18 @@
 		EventItems?.classList.toggle('invisible');
 		EventItems?.classList.toggle('h-2');
 	};
+
+	const closeEventSelect = () => {
+		const EventItems = document.querySelector(`#${inputLabel}`);
+		EventItems?.classList.add('invisible');
+		EventItems?.classList.add('h-2');
+	};
+
+	afterUpdate(() => {
+		if (resetBoolean) {
+			closeEventSelect();
+		}
+	});
 </script>
 
 <div>

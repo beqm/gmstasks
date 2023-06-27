@@ -4,30 +4,32 @@
 	export let char_lvl: number;
 </script>
 
-{#if char_lvl >= value.req_level}
-	<div class="flex flex-col justify-center bg-theme-soft p-2 text-center mt-4">
-		<div class="block font-bold text-lg">{value.name}</div>
-		<div class="flex">
-			<div class="flex flex-col w-2/4 mr-1">
-				<label for={value.name + '-lvl'} class="block font-bold text-lg">LVL</label>
-				<input
-					id={value.name + '-lvl'}
-					name={value.name + '-lvl'}
-					type="number"
-					class=" bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-					bind:value={value.level}
-				/>
-			</div>
-			<div class="flex flex-col w-2/4">
-				<label for="vj-exp" class="block font-bold text-lg">EXP</label>
-				<input
-					id={value.name + '-exp'}
-					name={value.name + '-exp'}
-					type="number"
-					class=" bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
-					bind:value={value.exp}
-				/>
+{#if value}
+	{#if char_lvl >= value.reqLevel}
+		<div class="flex flex-col justify-center bg-theme-soft p-2 text-center mt-4">
+			<div class="block font-bold text-lg">{value.name}</div>
+			<div class="flex">
+				<div class="flex flex-col w-2/4 mr-1">
+					<label for={value.name + '-lvl'} class="block font-bold text-lg">LVL</label>
+					<input
+						id={value.name + '-lvl'}
+						name={value.name + '-lvl'}
+						type="number"
+						class=" bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
+						bind:value={value.level}
+					/>
+				</div>
+				<div class="flex flex-col w-2/4">
+					<label for="vj-exp" class="block font-bold text-lg">EXP</label>
+					<input
+						id={value.name + '-exp'}
+						name={value.name + '-exp'}
+						type="number"
+						class=" bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
+						bind:value={value.exp}
+					/>
+				</div>
 			</div>
 		</div>
-	</div>
+	{/if}
 {/if}

@@ -1,7 +1,7 @@
 export type MSymbol = {
 	name: string;
 	level: number;
-	req_level: number;
+	reqLevel: number;
 	exp: number;
 	gain: number;
 	active: boolean;
@@ -27,9 +27,10 @@ export type MEvent = {
 export type MEvents = {
 	arcanes: MSymbol[];
 	sacreds: MSymbol[];
-	dailies: MEvent[];
-	weeklies: MEvent[];
-	genericEvents: MEvent[];
+	dailyEvents: MEvent[];
+	weeklyEvents: MEvent[];
+	dailyBosses: MBoss[];
+	weeklyBosses: MBoss[];
 };
 
 export type Character = {

@@ -12,7 +12,6 @@
 		if (currentCharIteration !== undefined) {
 			toggleOverlayFunction();
 			showModal();
-			console.log(currentCharIteration.name);
 			name = currentCharIteration.name;
 		}
 	}

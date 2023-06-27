@@ -1,9 +1,9 @@
 <script lang="ts">
 	import DataStore from '$lib/stores/DataStore';
 	import ActiveStore from '$lib/stores/ActiveStore';
-	import Form from './Form.svelte';
-	import ActiveDisplay from './ActiveDisplay.svelte';
-	import ConfirmDelete from './ConfirmDelete.svelte';
+	import Form from '../../lib/components/Form/Form.svelte';
+	import ActiveDisplay from '../../lib/components/Form/ActiveDisplay.svelte';
+	import ConfirmDelete from '../../lib/components/Form/ConfirmDelete.svelte';
 	import { onMount } from 'svelte';
 	import { StorageToStore } from '$lib/utils/StorageToStore';
 	import type { Character } from '$lib/types/types';
@@ -102,21 +102,3 @@
 		{/if}
 	</div>
 </div>
-
-<style>
-	.scroll-container {
-		max-height: 700px;
-		overflow: auto;
-	}
-	.scroll-container::-webkit-scrollbar {
-		width: 8px;
-		--tw-bg-opacity: 1;
-		background-color: rgb(30 41 59 / var(--tw-bg-opacity));
-	}
-
-	.scroll-container::-webkit-scrollbar-thumb {
-		--tw-bg-opacity: 1;
-		background-color: rgb(100 116 139 / var(--tw-bg-opacity));
-		border-radius: 5px;
-	}
-</style>
