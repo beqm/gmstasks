@@ -6,8 +6,7 @@
  <!-- - Character image -->
  <!-- - Edit Character -->
  <!-- - Create object of all events to track per character -->
-
-- Drag and drop to rearrange characters order
+ <!-- - Drag and drop to rearrange characters order -->
 
 # Tracking Page
 

@@ -1,18 +1,34 @@
 <script lang="ts">
 	import DataStore from '$lib/stores/DataStore';
 	import ActiveStore from '$lib/stores/ActiveStore';
-	import Form from '../../lib/components/Form/Form.svelte';
-	import ActiveDisplay from '../../lib/components/Form/ActiveDisplay.svelte';
-	import ConfirmDelete from '../../lib/components/Form/ConfirmDelete.svelte';
+	import Form from '$lib/components/Form/Form.svelte';
+	import ActiveDisplay from '$lib/components/Form/ActiveDisplay.svelte';
+	import ConfirmDelete from '$lib/components/Form/ConfirmDelete.svelte';
 	import { onMount } from 'svelte';
 	import { StorageToStore } from '$lib/utils/StorageToStore';
 	import type { Character } from '$lib/types/types';
+	import { flip } from 'svelte/animate';
+	import { dndzone } from 'svelte-dnd-action';
+
+	const flipDurationMs = 100;
+	let items: Character[];
+	let delModalInfo: Character;
+	let isOverlayActive = false;
+	let dropTargetStyle = {
+		b: 'green'
+	};
 
 	type FormType = Form;
 	let FormComponentInstance: FormType;
 
-	let isOverlayActive = false;
-	let delModalInfo: Character;
+	const handleConsider = (e: CustomEvent<DndEvent<Character>>) => {
+		$DataStore = e.detail.items;
+	};
+
+	const handleFinalize = (e: CustomEvent<DndEvent<Character>>) => {
+		$DataStore = e.detail.items;
+		localStorage.setItem('local_chars', JSON.stringify($DataStore));
+	};
 
 	let toggleOverlay = () => {
 		isOverlayActive = !isOverlayActive;
@@ -38,6 +54,7 @@
 	onMount(() => {
 		StorageToStore(DataStore, 'local_chars', '[]');
 		StorageToStore(ActiveStore, 'active_char', '[]');
+		console.log($DataStore);
 	});
 </script>
 
@@ -45,31 +62,39 @@
 
 <div class="flex flex-col w-full items-center mt-10">
 	<Form bind:this={FormComponentInstance} />
-
 	<div class="flex flex-col w-9/12 bg-theme-soft rounded-lg drop-shadow-lg scroll-container">
-		<table class="w-full table-fixed rounded-lg drop-shadow-lg">
-			<tr class="font-bold text-lg w-full">
-				<td class="w-1/5 text-center align-middle p-2 uppercase">image</td>
-				<td class="w-1/5 text-center align-middle p-2 uppercase">name</td>
-				<td class="w-1/5 text-center align-middle p-2 uppercase">job</td>
-				<td class="w-1/5 text-center align-middle p-2 uppercase">level</td>
-				<td class="w-[10%] text-center align-middle p-2" />
-			</tr>
-			{#if $DataStore.length > 0}
+		<!-- Columns -->
+		<div class="flex text-center justify-evenly text-lg font-bold w-full">
+			<div class="w-1/5 align-middle p-2 uppercase">image</div>
+			<div class="w-1/5 align-middle p-2 uppercase">name</div>
+			<div class="w-1/5 align-middle p-2 uppercase">job</div>
+			<div class="w-1/5 align-middle p-2 uppercase">level</div>
+			<div class="w-[10%] align-middle p-2" />
+		</div>
+		{#if $DataStore.length > 0}
+			<div
+				use:dndzone={{ items: $DataStore, flipDurationMs: flipDurationMs, dropTargetStyle }}
+				on:consider={handleConsider}
+				on:finalize={handleFinalize}
+			>
+				<!-- Rows -->
 				{#each $DataStore as character (character.id)}
-					<tr
-						id={character.name}
-						class="cursor-pointer border-b border-theme-base"
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
+					<div
+						class="flex justify-evenly w-full cursor-pointer border-b border-theme-base"
+						animate:flip={{ duration: flipDurationMs }}
 						on:click={() => activateCharacter(character.id)}
 					>
-						<td class="w-full align-middle flex justify-center">
+						<div class="w-1/5 align-middle flex justify-center">
 							<ActiveDisplay currentCharIteration={character} />
-							<img src={character.img} alt="Character" class="flex w-[33%] mr-auto" />
-						</td>
-						<td class="text-center align-middle p-2">{character.name}</td>
-						<td class="text-center align-middle p-2">{character.job}</td>
-						<td class="text-center align-middle p-2">{character.level}</td>
-						<td class="text-center">
+							<img src={character.img} alt="Character" class="flex mr-auto" />
+						</div>
+
+						<div class="w-1/5 flex justify-center items-center">{character.name}</div>
+						<div class="w-1/5 flex justify-center items-center">{character.job}</div>
+						<div class="w-1/5 flex justify-center items-center">{character.level}</div>
+						<div class="flex w-[10%] align-middle p-2">
 							<button
 								on:click={() => editCharacter(character.id)}
 								id="add-char-btn"
@@ -92,12 +117,11 @@
 									/></svg
 								>
 							</button>
-						</td>
-					</tr>
+						</div>
+					</div>
 				{/each}
-			{/if}
-		</table>
-		{#if $DataStore.length == 0}
+			</div>
+		{:else if $DataStore.length == 0}
 			<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
 		{/if}
 	</div>

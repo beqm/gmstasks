@@ -6,7 +6,7 @@
 
 {#if $ActiveStore.length > 0}
 	{#if $ActiveStore[0].id == currentCharIteration.id}
-		<div class="flex w-[33%] justify-center border-l-2 border-theme-decorated">
+		<div class="flex w-[33%] justify-center">
 			<svg
 				class="w-[2rem] text-theme-decorated"
 				xmlns="http://www.w3.org/2000/svg"

@@ -69,6 +69,10 @@
 		character_lvl = charObj.level;
 		arcSymbols = charObj.events.arcanes;
 		sacSymbols = charObj.events.sacreds;
+		dailyEvents = charObj.events.dailyEvents;
+		weeklyEvents = charObj.events.weeklyEvents;
+		dailyBosses = charObj.events.dailyBosses;
+		weeklyBosses = charObj.events.weeklyBosses;
 
 		showForm();
 		formController = 'edit';
@@ -88,6 +92,7 @@
 					localStorage.setItem('local_chars', JSON.stringify($DataStore));
 				}
 			});
+			resetDrop = true;
 			closeForm();
 		}
 

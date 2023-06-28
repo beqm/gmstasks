@@ -1,12 +1,18 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-declare global {
-	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface Platform {}
-	}
+// and what to do when importing types
+declare namespace App {
+	// interface Locals {}
+	// interface PageData {}
+	// interface Error {}
+	// interface Platform {}
 }
 
-export {};
+declare type Item = import('svelte-dnd-action').Item;
+declare type DndEvent<ItemType = Item> = import('svelte-dnd-action').DndEvent<ItemType>;
+declare namespace svelte.JSX {
+	interface HTMLAttributes<T> {
+		onconsider?: (event: any & { target: any }) => void;
+		onfinalize?: (event: any & { target: any }) => void;
+	}
+}
