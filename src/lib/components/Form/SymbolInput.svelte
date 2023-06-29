@@ -2,11 +2,12 @@
 	import type { MSymbol } from '$lib/types/types';
 	export let value: MSymbol;
 	export let char_lvl: number;
+	import { fade } from 'svelte/transition';
 </script>
 
 {#if value}
 	{#if char_lvl >= value.reqLevel}
-		<div class="flex flex-col justify-center bg-theme-soft p-2 text-center mt-4">
+		<div transition:fade class="flex flex-col justify-center bg-theme-soft p-2 text-center mt-4">
 			<div class="block font-bold text-lg">{value.name}</div>
 			<div class="flex">
 				<div class="flex flex-col w-2/4 mr-1">

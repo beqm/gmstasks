@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import DataStore from '$lib/stores/DataStore';
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import default_img from '$lib/assets/default_img.png';
@@ -39,6 +40,8 @@
 	let character_job: string;
 	let character_lvl: number;
 	let resetDrop = false;
+	let showForm = false;
+	let isNameEmpty = true;
 	initializeInputs();
 
 	const createCharacter = (): Character => {
@@ -74,7 +77,7 @@
 		dailyBosses = charObj.events.dailyBosses;
 		weeklyBosses = charObj.events.weeklyBosses;
 
-		showForm();
+		toggleForm();
 		formController = 'edit';
 		return charObj;
 	}
@@ -93,7 +96,7 @@
 				}
 			});
 			resetDrop = true;
-			closeForm();
+			toggleForm();
 		}
 
 		if (formController == 'create') {
@@ -119,31 +122,24 @@
 			initializeInputs();
 			resetDrop = true;
 			console.log($DataStore);
-			closeForm();
+			toggleForm();
 		}
 		formController = 'create';
 	};
-	// lvl = Math.min(Math.max(parseInt(levelInput.value), 1), 300);
 
 	const handleImageValidation = (img_url: string) => {
 		return img_url.endsWith('.jpg') || img_url.endsWith('.png') ? character_img : default_img;
 	};
 
-	const showForm = () => {
-		let addCharModal = document?.querySelector('#add-char-modal') as HTMLDialogElement;
-		addCharModal.showModal();
-	};
-
-	const closeForm = () => {
-		let addCharModal = document?.querySelector('#add-char-modal') as HTMLDialogElement;
-		addCharModal.close();
+	const toggleForm = () => {
+		showForm = !showForm;
 	};
 </script>
 
 <div class="flex w-9/12">
 	<button
 		id="add-char-btn"
-		on:click={showForm}
+		on:click={toggleForm}
 		class="bg-green-300 m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 flex text-theme-base"
 	>
 		<svg class="w-8 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"
@@ -155,67 +151,86 @@
 	</button>
 </div>
 
-<dialog id="add-char-modal" class="bg-theme-base text-theme-dark relative rounded-lg">
-	<form class="h-[90%] overflow-y-auto" on:submit|preventDefault={handleSubmit}>
-		<div class="w-full text-center font-bold text-lg mb-2">Add new Character</div>
-		<div class="flex w-full">
-			<!-- Left Side -->
-			<div class="w-2/4 flex flex-col items-center border-r border-theme-decorated">
-				<!-- Character Section -->
-				<div>
-					<div class="w-full text-center font-bold text-xl mb-2">Character</div>
-					<Input bind:value={character_img} inputLabel="Image" />
-					<Input bind:value={character_name} inputLabel="Name" />
-					<Input bind:value={character_job} inputLabel="Job" />
-					<Input bind:value={character_lvl} inputLabel="Level" />
-				</div>
-				<!-- Symbol Section -->
-				<div class="w-3/4">
-					<div class="w-full text-center font-bold text-xl mb-2">Symbols</div>
-					{#if character_lvl < 200}
-						<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
-					{/if}
-					<SymbolInput bind:value={arcSymbols[0]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={arcSymbols[1]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={arcSymbols[2]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={arcSymbols[3]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={arcSymbols[4]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={arcSymbols[5]} char_lvl={character_lvl} />
+{#if showForm}
+	<div id="form-backdrop" class="backdrop flex justify-center items-center z-10">
+		<div
+			transition:fly={{ y: 200, duration: 250 }}
+			id="add-char-modal"
+			class="bg-theme-base text-theme-dark relative rounded-lg z-10"
+		>
+			<form class="h-[90%] overflow-y-auto" on:submit|preventDefault={handleSubmit}>
+				<div class="w-full text-center font-bold text-2xl mb-2">Add new Character</div>
+				<div class="flex w-full">
+					<!-- Left Side -->
+					<div class="w-2/4 flex flex-col items-center border-r border-theme-decorated">
+						<!-- Character Section -->
+						<div>
+							<div class="w-full text-center font-bold text-xl mb-2">Character</div>
+							<Input bind:value={character_img} inputLabel="Image" />
+							<Input bind:value={character_name} inputLabel="Name" />
+							<Input bind:value={character_job} inputLabel="Job" />
+							<Input bind:value={character_lvl} inputLabel="Level" />
+						</div>
+						<!-- Symbol Section -->
+						<div class="w-3/4">
+							<div class="w-full text-center font-bold text-xl mb-2">Symbols</div>
+							{#if character_lvl < 200}
+								<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
+							{/if}
+							<SymbolInput bind:value={arcSymbols[0]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={arcSymbols[1]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={arcSymbols[2]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={arcSymbols[3]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={arcSymbols[4]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={arcSymbols[5]} char_lvl={character_lvl} />
 
-					<SymbolInput bind:value={sacSymbols[0]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={sacSymbols[1]} char_lvl={character_lvl} />
-					<SymbolInput bind:value={sacSymbols[2]} char_lvl={character_lvl} />
-				</div>
-			</div>
+							<SymbolInput bind:value={sacSymbols[0]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={sacSymbols[1]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={sacSymbols[2]} char_lvl={character_lvl} />
+						</div>
+					</div>
 
-			<!-- Right Side -->
-			<div class="w-2/4 flex flex-col items-center border-l border-theme-decorated">
-				<!-- Events Section -->
-				<div class="w-3/4">
-					<div class="w-full text-center font-bold text-xl mb-2">Events</div>
-					<EventSelect resetBoolean={resetDrop} inputLabel="Daily_Events" bind:selectData={dailyEvents} />
-					<EventSelect resetBoolean={resetDrop} inputLabel="Weekly_Events" bind:selectData={weeklyEvents} />
-					<BossSelect resetBoolean={resetDrop} inputLabel="Daily_Bosses" bind:selectData={dailyBosses} />
-					<BossSelect resetBoolean={resetDrop} inputLabel="Weekly_Bosses" bind:selectData={weeklyBosses} />
-				</div>
-			</div>
+					<!-- Right Side -->
+					<div class="w-2/4 flex flex-col items-center border-l border-theme-decorated">
+						<!-- Events Section -->
+						<div class="w-3/4">
+							<div class="w-full text-center font-bold text-xl mb-2">Events</div>
+							<EventSelect inputLabel="Daily_Events" bind:selectData={dailyEvents} />
+							<EventSelect inputLabel="Weekly_Events" bind:selectData={weeklyEvents} />
+							<BossSelect inputLabel="Daily_Bosses" bind:selectData={dailyBosses} />
+							<BossSelect inputLabel="Weekly_Bosses" bind:selectData={weeklyBosses} />
+						</div>
+					</div>
 
-			<!-- Buttons -->
-			<div class="flex h-[10%] font-bold right-0 bottom-0 absolute m-2">
-				<button
-					on:click|preventDefault={closeForm}
-					class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
-				>
-					Cancel
-				</button>
-				<button
-					type="submit"
-					id="create-char-btn"
-					class="bg-green-300 p-2 ml-2 mt-auto rounded-lg text-theme-base hover:bg-green-500 duration-200 active:scale-90"
-				>
-					Confirm
-				</button>
-			</div>
+					<!-- Buttons -->
+					<div class="flex h-[10%] font-bold right-0 bottom-0 absolute m-2">
+						<button
+							on:click|preventDefault={toggleForm}
+							class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
+						>
+							Cancel
+						</button>
+						<button
+							type="submit"
+							id="create-char-btn"
+							class="bg-green-300 p-2 ml-2 mt-auto rounded-lg text-theme-base hover:bg-green-500 duration-200 active:scale-90"
+						>
+							Confirm
+						</button>
+					</div>
+				</div>
+			</form>
 		</div>
-	</form>
-</dialog>
+	</div>
+{/if}
+
+<style>
+	.backdrop {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		background: rgba(0, 0, 0, 0.5);
+	}
+</style>

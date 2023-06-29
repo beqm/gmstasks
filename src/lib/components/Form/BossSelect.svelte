@@ -1,27 +1,22 @@
 <script lang="ts">
 	import type { MBoss } from '$lib/types/types';
-	import { afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
 	export let inputLabel: string;
-	export let resetBoolean: boolean;
 	export let selectData: MBoss[];
+	let showSelect = false;
 
-	const showEventSelect = () => {
-		const EventItems = document.querySelector(`#${inputLabel}`);
-		EventItems?.classList.toggle('invisible');
-		EventItems?.classList.toggle('h-2');
+	const toggleEventSelect = () => {
+		showSelect = !showSelect;
 	};
 
 	const closeEventSelect = () => {
-		const EventItems = document.querySelector(`#${inputLabel}`);
-		EventItems?.classList.add('invisible');
-		EventItems?.classList.add('h-2');
+		showSelect = false;
 	};
 
-	afterUpdate(() => {
-		if (resetBoolean) {
-			closeEventSelect();
-		}
+	onMount(() => {
+		closeEventSelect();
 	});
 </script>
 
@@ -30,7 +25,7 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		class="flex items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated cursor-pointer"
-		on:click={showEventSelect}
+		on:click={toggleEventSelect}
 	>
 		<span class="p-2">{inputLabel.replace('_', ' ')}</span>
 		<svg
@@ -44,16 +39,18 @@
 			/></svg
 		>
 	</div>
-
-	<ul
-		id={inputLabel}
-		class="invisible flex flex-col items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated max-h-[200px] h-2 mb-2 overflow-y-auto"
-	>
-		{#each selectData as item}
-			<li class="flex text-left w-full">
-				<label class="p-2" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
-				<input type="checkbox" id={item.name} class="ml-auto mr-2" bind:checked={item.active} />
-			</li>
-		{/each}
-	</ul>
+	{#if showSelect}
+		<ul
+			transition:slide
+			id={inputLabel}
+			class=" flex flex-col items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated max-h-[220px] mb-2 overflow-y-auto"
+		>
+			{#each selectData as item}
+				<li class="flex text-left w-full">
+					<label class="p-2" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
+					<input type="checkbox" id={item.name} class="ml-auto mr-2" bind:checked={item.active} />
+				</li>
+			{/each}
+		</ul>
+	{/if}
 </div>

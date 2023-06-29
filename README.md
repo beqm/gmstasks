@@ -7,6 +7,7 @@
  <!-- - Edit Character -->
  <!-- - Create object of all events to track per character -->
  <!-- - Drag and drop to rearrange characters order -->
+ <!-- - UX transitions -->
 
 # Tracking Page
 

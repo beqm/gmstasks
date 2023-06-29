@@ -9,6 +9,7 @@
 	import type { Character } from '$lib/types/types';
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';
+	import { fly } from 'svelte/transition';
 
 	const flipDurationMs = 100;
 	let items: Character[];
@@ -60,7 +61,7 @@
 
 <ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
 
-<div class="flex flex-col w-full items-center mt-10">
+<div in:fly={{ x: -200, duration: 250 }} class="flex flex-col w-full items-center mt-10">
 	<Form bind:this={FormComponentInstance} />
 	<div class="flex flex-col w-9/12 bg-theme-soft rounded-lg drop-shadow-lg scroll-container">
 		<!-- Columns -->
