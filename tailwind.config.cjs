@@ -24,9 +24,10 @@ const config = {
 		},
 		borderColor: {
 		  theme: {
-			base: 'var(--color-secondary-strong)',
+			base: 'var(--color-secondary-soft)',
 			focus: 'var(--color-font-dark)',
 			decorated: 'var(--color-primary)',
+			soft: 'var(--color-secondary-softer)'
 		  }
 		}
 	  },

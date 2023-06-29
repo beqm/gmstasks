@@ -63,7 +63,7 @@
 
 <div in:fly={{ x: -200, duration: 250 }} class="flex flex-col w-full items-center mt-10">
 	<Form bind:this={FormComponentInstance} />
-	<div class="flex flex-col w-9/12 bg-theme-soft rounded-lg drop-shadow-lg scroll-container">
+	<div class="flex flex-col w-9/12 bg-theme-base rounded-lg drop-shadow-lg scroll-container">
 		<!-- Columns -->
 		<div class="flex text-center justify-evenly text-lg font-bold w-full">
 			<div class="w-1/5 align-middle p-2 uppercase">image</div>

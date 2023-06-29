@@ -2,8 +2,29 @@
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import { onMount } from 'svelte';
 	import { StorageToStore } from '../../lib/utils/StorageToStore';
-	import ToggleEvent from './ToggleEvent.svelte';
+	import { fly } from 'svelte/transition';
 
+	let currentPage = 'events';
+
+	const changePage = (path: string) => {
+		let trackEventsBtn = document.querySelector('#track-events-btn') as HTMLButtonElement;
+		let trackBossesBtn = document.querySelector('#track-bosses-btn') as HTMLButtonElement;
+		currentPage = path;
+
+		if (path == 'events') {
+			trackEventsBtn.classList.add('bg-theme-decorated');
+			trackEventsBtn.classList.remove('hover:bg-theme-softdecorated');
+
+			trackBossesBtn.classList.remove('bg-theme-decorated');
+			trackBossesBtn.classList.add('hover:bg-theme-softdecorated');
+		} else {
+			trackBossesBtn.classList.add('bg-theme-decorated');
+			trackBossesBtn.classList.remove('hover:bg-theme-softdecorated');
+
+			trackEventsBtn.classList.remove('bg-theme-decorated');
+			trackEventsBtn.classList.add('hover:bg-theme-softdecorated');
+		}
+	};
 	onMount(() => {
 		StorageToStore(ActiveStore, 'active_char', '[]');
 	});
@@ -11,44 +32,60 @@
 
 <main class="flex w-full justify-center">
 	{#if $ActiveStore.length !== 0}
-		<div class="flex w-9/12 bg-slate-600 rounded-lg mt-10 drop-shadow-lg text-slate-300 bg-[#43089471]">
-			<div class="w-[20%]">
-				<img src={$ActiveStore[0].img} alt="current active character" class="w-full border border-slate-500" />
-				<div class="w-full mt-auto h-8 text-center font-bold text-slate-300 text-lg">
-					<div class="max-h-[50px] overflow-hidden border border-slate-500">
-						{$ActiveStore[0].name}
-					</div>
+		<div in:fly={{ x: -200, duration: 250 }} class="flex w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base">
+			<!-- Navbar -->
+			<div class="w-[20%] border-r border-theme-base">
+				<img src={$ActiveStore[0].img} alt="current active character" class="w-full" />
+				<div class="max-h-[50px] overflow-hidden text-center font-bold text-2xl">
+					{$ActiveStore[0].name}
+				</div>
+				<div class="flex flex-col w-full mt-6 text-center font-bold">
+					<button
+						on:click={() => changePage('events')}
+						id="track-events-btn"
+						class="border-b border-t border-theme-base p-4 bg-theme-decorated">Events</button
+					>
+					<button
+						on:click={() => changePage('bosses')}
+						id="track-bosses-btn"
+						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Bosses</button
+					>
 				</div>
 			</div>
-
-			<div class=" w-[80%]">
-				<div class="w-full font-bold text-3xl text-slate-300 justify-center flex">Track Events</div>
-				<div class="w-full mt-10 flex">
-					<div class="w-[25%] flex flex-col items-center">
-						<ToggleEvent eventInfo={{ name: 'Ursus', complete: false, active: false, amount: 3 }} />
-						<ToggleEvent eventInfo={{ name: 'Yu Garden', complete: false, active: false, amount: 1 }} />
-						<ToggleEvent eventInfo={{ name: 'Weekly Bosses', complete: false, active: false, amount: 3 }} />
+			<!-- Right Side -->
+			<div class="w-[80%]">
+				{#if currentPage == 'events'}
+					<div class="text-center font-bold text-3xl mt-4">Events</div>
+					<div class="w-full flex text-center mt-10 font-bold text-lg justify-evenly">
+						<div class="w-[45%] flex flex-col">
+							<div>Todo</div>
+							<div class="flex w-full border border-theme-base">
+								<div class="w-1/4">img</div>
+								<div class="w-1/4">name</div>
+								<div class="w-1/4">time left</div>
+								<button class="w-1/4">*complete*</button>
+							</div>
+						</div>
+						<div class="w-[45%] flex flex-col">
+							<div>Complete</div>
+							<div class="flex w-full border border-theme-base">
+								<div class="w-1/3">img</div>
+								<div class="w-1/3">name</div>
+								<button class="w-1/3">*complete*</button>
+							</div>
+						</div>
 					</div>
-					<div class="w-[25%] flex flex-col items-center">
-						<ToggleEvent eventInfo={{ name: 'Monster Park', complete: false, active: false, amount: 3 }} />
-						<ToggleEvent eventInfo={{ name: 'Arcane Dailies', complete: false, active: false, amount: 3 }} />
+				{:else if currentPage == 'bosses'}
+					<div class="text-center font-bold text-3xl mt-4">Bosses</div>
+					<div class="w-full flex text-center mt-10 font-bold text-lg">
+						<div class="w-2/4">
+							<div>Todo</div>
+						</div>
+						<div class="w-2/4">
+							<div>Complete</div>
+						</div>
 					</div>
-					<div class="w-[25%] flex flex-col items-center">
-						<ToggleEvent eventInfo={{ name: 'MNN BroadCast', complete: false, active: false, amount: 3 }} />
-						<ToggleEvent eventInfo={{ name: 'Sacred Dailies', complete: false, active: false, amount: 3 }} />
-					</div>
-					<div class="w-[25%] flex flex-col items-center">
-						<ToggleEvent eventInfo={{ name: 'Daily Gift', complete: false, active: false, amount: 1 }} />
-						<ToggleEvent eventInfo={{ name: 'Daily Bosses', complete: false, active: false, amount: 3 }} />
-					</div>
-				</div>
-				<div class="flex mt-auto">
-					<button
-						class="bg-green-300 m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 text-black"
-					>
-						Update
-					</button>
-				</div>
+				{/if}
 			</div>
 		</div>
 	{/if}

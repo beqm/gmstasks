@@ -16,6 +16,7 @@
 - Show in progress/completed tracked events
 - button to complete each event
 - button to easily lvl up character
+- button to send current character to dashboard
 - show when completed events reset ( e.g weekly bosses reset on thursday)
 - when symbols dailies are completed, automatically calculate exp
 
@@ -23,6 +24,7 @@
 
 - add/remove characters to allow multiple tracking
 - notifier will notify every todo event of each character, showing their name and event
+- turn on/off notifier events of specific character
 
 # Navbar
 
@@ -33,7 +35,7 @@
 
 # Export/Import Button
 
-- Exporting all the data to a gmstracker.json
+- Exporting all the data to a characters.json file
   file, just for backup and easy access.
 
 # Simulation Page (EXTRA)

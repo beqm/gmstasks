@@ -159,7 +159,7 @@
 			class="bg-theme-base text-theme-dark relative rounded-lg z-10"
 		>
 			<form class="h-[90%] overflow-y-auto" on:submit|preventDefault={handleSubmit}>
-				<div class="w-full text-center font-bold text-2xl mb-2">Add new Character</div>
+				<div class="w-full text-center font-bold text-2xl mb-2 mt-2">Add new Character</div>
 				<div class="flex w-full">
 					<!-- Left Side -->
 					<div class="w-2/4 flex flex-col items-center border-r border-theme-decorated">
