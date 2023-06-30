@@ -1,6 +1,7 @@
 export type MSymbol = {
 	name: string;
 	level: number;
+	img_url: string;
 	reqLevel: number;
 	exp: number;
 	gain: number;
@@ -9,6 +10,7 @@ export type MSymbol = {
 
 export type MBoss = {
 	name: string;
+	img_url: string;
 	difficulty: string;
 	active: boolean;
 	complete: boolean;
@@ -17,6 +19,7 @@ export type MBoss = {
 
 export type MEvent = {
 	name: string;
+	img_url: string;
 	complete: boolean;
 	difficulty?: string;
 	active: boolean;
@@ -25,8 +28,8 @@ export type MEvent = {
 };
 
 export type MEvents = {
-	arcanes: MSymbol[];
-	sacreds: MSymbol[];
+	arcaneSymbols: MSymbol[];
+	sacredSymbols: MSymbol[];
 	dailyEvents: MEvent[];
 	weeklyEvents: MEvent[];
 	dailyBosses: MBoss[];
@@ -39,5 +42,5 @@ export type Character = {
 	name: string;
 	job: string;
 	level: number;
-	events: MEvents;
+	track: MEvents;
 };

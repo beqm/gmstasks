@@ -7,53 +7,55 @@
 	import Input from '$lib/components/Form/Input.svelte';
 	import EventSelect from '$lib/components/Form/EventSelect.svelte';
 	import BossSelect from '$lib/components/Form/BossSelect.svelte';
-	import type { Character, MEvent, MSymbol, MBoss } from '$lib/types/types';
-	import { ARCSYMBOLS, DAILYBOSSES, DAILYEVENTS, SACSYMBOLS, WEEKLYBOSSES, WEEKLYEVENTS } from '$lib/utils/defaults';
+	import type { Character, MEvent, MSymbol, MBoss, MEvents } from '$lib/types/types';
+	import data from '$lib/utils/default.json';
 
+	let inputs: MEvents = data;
 	const initializeInputs = (): void => {
-		arcSymbols = JSON.parse(JSON.stringify(SACSYMBOLS));
-		sacSymbols = JSON.parse(JSON.stringify(ARCSYMBOLS));
-		dailyBosses = JSON.parse(JSON.stringify(DAILYBOSSES));
-		weeklyBosses = JSON.parse(JSON.stringify(WEEKLYBOSSES));
-		dailyEvents = JSON.parse(JSON.stringify(DAILYEVENTS));
-		weeklyEvents = JSON.parse(JSON.stringify(WEEKLYEVENTS));
+		arcaneSymbols = JSON.parse(JSON.stringify(inputs.arcaneSymbols));
+		sacredSymbols = JSON.parse(JSON.stringify(inputs.sacredSymbols));
+		dailyBosses = JSON.parse(JSON.stringify(inputs.dailyBosses));
+		weeklyBosses = JSON.parse(JSON.stringify(inputs.weeklyBosses));
+		dailyEvents = JSON.parse(JSON.stringify(inputs.dailyEvents));
+		weeklyEvents = JSON.parse(JSON.stringify(inputs.weeklyEvents));
 
-		character_id = '';
-		character_img = '';
-		character_name = '';
-		character_job = '';
-		character_lvl = 1;
+		charImg = '';
+		charName = '';
+		charJob = '';
+		charLvl = 1;
+
 		resetDrop = false;
 	};
 
-	let arcSymbols: MSymbol[];
-	let sacSymbols: MSymbol[];
+	let arcaneSymbols: MSymbol[];
+	let sacredSymbols: MSymbol[];
 
 	let dailyBosses: MBoss[];
 	let weeklyBosses: MBoss[];
 	let dailyEvents: MEvent[];
 	let weeklyEvents: MEvent[];
 
-	let character_id: string;
-	let character_img: string;
-	let character_name: string;
-	let character_job: string;
-	let character_lvl: number;
+	let charId: string;
+	let charImg: string;
+	let charName: string;
+	let charJob: string;
+	let charLvl: number;
+
 	let resetDrop = false;
 	let showForm = false;
-	let isNameEmpty = true;
+
 	initializeInputs();
 
 	const createCharacter = (): Character => {
 		return {
-			id: character_id,
-			img: handleImageValidation(character_img),
-			name: character_name,
-			job: character_job,
-			level: character_lvl,
-			events: {
-				arcanes: arcSymbols,
-				sacreds: sacSymbols,
+			id: crypto.randomUUID(),
+			img: handleImageValidation(charImg),
+			name: charName,
+			job: charJob,
+			level: charLvl,
+			track: {
+				arcaneSymbols,
+				sacredSymbols,
 				dailyEvents,
 				weeklyEvents,
 				dailyBosses,
@@ -65,33 +67,34 @@
 	let formController = 'create';
 
 	export function showEditForm(charObj: Character): Character {
-		character_id = charObj.id;
-		character_img = charObj.img;
-		character_name = charObj.name;
-		character_job = charObj.job;
-		character_lvl = charObj.level;
-		arcSymbols = charObj.events.arcanes;
-		sacSymbols = charObj.events.sacreds;
-		dailyEvents = charObj.events.dailyEvents;
-		weeklyEvents = charObj.events.weeklyEvents;
-		dailyBosses = charObj.events.dailyBosses;
-		weeklyBosses = charObj.events.weeklyBosses;
+		formController = 'edit';
+
+		charId = charObj.id;
+		charImg = charObj.img;
+		charName = charObj.name;
+		charJob = charObj.job;
+		charLvl = charObj.level;
+		arcaneSymbols = charObj.track.arcaneSymbols;
+		sacredSymbols = charObj.track.sacredSymbols;
+		dailyEvents = charObj.track.dailyEvents;
+		weeklyEvents = charObj.track.weeklyEvents;
+		dailyBosses = charObj.track.dailyBosses;
+		weeklyBosses = charObj.track.weeklyBosses;
 
 		toggleForm();
-		formController = 'edit';
 		return charObj;
 	}
 
 	const handleSubmit = () => {
 		if (formController == 'edit') {
 			$DataStore.map((char, index) => {
-				if (char.id === character_id) {
-					let newCharacterObj = createCharacter();
+				if (char.id === charId) {
+					let editedCharObj = createCharacter();
 					if (char.id === $ActiveStore[0].id) {
-						$ActiveStore = [newCharacterObj];
-						localStorage.setItem('active_char', JSON.stringify(newCharacterObj));
+						$ActiveStore = [editedCharObj];
+						localStorage.setItem('active_char', JSON.stringify(editedCharObj));
 					}
-					$DataStore[index] = newCharacterObj;
+					$DataStore[index] = editedCharObj;
 					localStorage.setItem('local_chars', JSON.stringify($DataStore));
 				}
 			});
@@ -100,21 +103,19 @@
 		}
 
 		if (formController == 'create') {
-			character_lvl = Math.min(Math.max(character_lvl, 1), 300);
+			charLvl = Math.min(Math.max(charLvl, 1), 300);
+			const charObj = createCharacter();
 
-			arcSymbols.forEach((arcane) => {
-				arcane.active = character_lvl >= arcane.reqLevel ? true : false;
+			arcaneSymbols.forEach((arcane) => {
+				arcane.active = charLvl >= arcane.reqLevel ? true : false;
 			});
 
-			sacSymbols.forEach((sacred) => {
-				sacred.active = character_lvl >= sacred.reqLevel ? true : false;
+			sacredSymbols.forEach((sacred) => {
+				sacred.active = charLvl >= sacred.reqLevel ? true : false;
 			});
-
-			const obj = createCharacter();
-			obj.id = crypto.randomUUID();
 
 			DataStore.update((data) => {
-				let updatedData = [...data, obj];
+				let updatedData = [...data, charObj];
 				localStorage.setItem('local_chars', JSON.stringify(updatedData));
 				return updatedData;
 			});
@@ -128,7 +129,7 @@
 	};
 
 	const handleImageValidation = (img_url: string) => {
-		return img_url.endsWith('.jpg') || img_url.endsWith('.png') ? character_img : default_img;
+		return img_url.endsWith('.jpg') || img_url.endsWith('.png') ? charImg : default_img;
 	};
 
 	const toggleForm = () => {
@@ -166,27 +167,27 @@
 						<!-- Character Section -->
 						<div>
 							<div class="w-full text-center font-bold text-xl mb-2">Character</div>
-							<Input bind:value={character_img} inputLabel="Image" />
-							<Input bind:value={character_name} inputLabel="Name" />
-							<Input bind:value={character_job} inputLabel="Job" />
-							<Input bind:value={character_lvl} inputLabel="Level" />
+							<Input bind:value={charImg} inputLabel="Image" />
+							<Input bind:value={charName} inputLabel="Name" />
+							<Input bind:value={charJob} inputLabel="Job" />
+							<Input bind:value={charLvl} inputLabel="Level" />
 						</div>
 						<!-- Symbol Section -->
 						<div class="w-3/4">
 							<div class="w-full text-center font-bold text-xl mb-2">Symbols</div>
-							{#if character_lvl < 200}
+							{#if charLvl < 200}
 								<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
 							{/if}
-							<SymbolInput bind:value={arcSymbols[0]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={arcSymbols[1]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={arcSymbols[2]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={arcSymbols[3]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={arcSymbols[4]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={arcSymbols[5]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={arcaneSymbols[0]} char_lvl={charLvl} />
+							<SymbolInput bind:value={arcaneSymbols[1]} char_lvl={charLvl} />
+							<SymbolInput bind:value={arcaneSymbols[2]} char_lvl={charLvl} />
+							<SymbolInput bind:value={arcaneSymbols[3]} char_lvl={charLvl} />
+							<SymbolInput bind:value={arcaneSymbols[4]} char_lvl={charLvl} />
+							<SymbolInput bind:value={arcaneSymbols[5]} char_lvl={charLvl} />
 
-							<SymbolInput bind:value={sacSymbols[0]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={sacSymbols[1]} char_lvl={character_lvl} />
-							<SymbolInput bind:value={sacSymbols[2]} char_lvl={character_lvl} />
+							<SymbolInput bind:value={sacredSymbols[0]} char_lvl={charLvl} />
+							<SymbolInput bind:value={sacredSymbols[1]} char_lvl={charLvl} />
+							<SymbolInput bind:value={sacredSymbols[2]} char_lvl={charLvl} />
 						</div>
 					</div>
 
