@@ -34,7 +34,7 @@
 				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">simulate</li>
 			</a>
 
-			{#if $ActiveStore.length > 0}
+			{#if $ActiveStore}
 				<a href="track">
 					<li class="flex p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">
 						<svg
@@ -48,7 +48,7 @@
 						>
 					</li>
 				</a>
-			{:else if $ActiveStore.length == 0}
+			{:else if !$ActiveStore}
 				<a href="track" class="track-disabled">
 					<li class="flex p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">
 						<svg

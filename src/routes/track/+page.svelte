@@ -47,20 +47,22 @@
 	};
 	onMount(() => {
 		StorageToStore(ActiveStore, 'active_char', '[]');
-		currentChar = $ActiveStore[0];
-		todoDailyBosses = $ActiveStore[0].track.dailyBosses;
-		console.log(currentChar);
+		if ($ActiveStore) {
+			currentChar = $ActiveStore;
+			todoDailyBosses = $ActiveStore.track.dailyBosses;
+			console.log(currentChar);
+		}
 	});
 </script>
 
 <main class="flex w-full justify-center h-[850px]">
-	{#if $ActiveStore.length !== 0}
+	{#if $ActiveStore}
 		<div in:fly={{ x: -200, duration: 250 }} class="flex w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base">
 			<!-- Navbar -->
 			<div class="w-[20%] border-r border-theme-base">
-				<img src={$ActiveStore[0].img} alt="current active character" class="w-full" />
+				<img src={$ActiveStore.img} alt="current active character" class="w-full" />
 				<div class="max-h-[50px] overflow-hidden text-center font-bold text-2xl">
-					{$ActiveStore[0].name}
+					{$ActiveStore.name}
 				</div>
 
 				<div class="flex flex-col w-full mt-6 text-center font-bold">
@@ -83,17 +85,17 @@
 					<BossNavbar on:pagechange={changeEventSubPage} />
 
 					{#if currentEventSubPage == 'daily'}
-						<EventTrack events={$ActiveStore[0].track.dailyEvents} />
+						<EventTrack events={$ActiveStore.track.dailyEvents} />
 					{:else if currentEventSubPage == 'weekly'}
-						<EventTrack events={$ActiveStore[0].track.weeklyEvents} />
+						<EventTrack events={$ActiveStore.track.weeklyEvents} />
 					{/if}
 				{:else if currentPage == 'bosses'}
 					<div class="text-center font-bold text-3xl mt-4">Bosses</div>
 					<BossNavbar on:pagechange={changeBossSubPage} />
 					{#if currentBossSubPage == 'daily'}
-						<BossTrack bosses={$ActiveStore[0].track.dailyBosses} />
+						<BossTrack bosses={$ActiveStore.track.dailyBosses} />
 					{:else if currentBossSubPage == 'weekly'}
-						<BossTrack bosses={$ActiveStore[0].track.weeklyBosses} />
+						<BossTrack bosses={$ActiveStore.track.weeklyBosses} />
 					{/if}
 				{/if}
 			</div>

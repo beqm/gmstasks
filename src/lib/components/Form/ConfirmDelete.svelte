@@ -29,10 +29,11 @@
 			localStorage.setItem('local_chars', JSON.stringify(updatedData));
 			return updatedData;
 		});
-
-		if ($ActiveStore[0].id == id) {
-			$ActiveStore = [];
-			localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+		if ($ActiveStore) {
+			if ($ActiveStore.id == id) {
+				ActiveStore.set(null);
+				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+			}
 		}
 		closeModal();
 	};

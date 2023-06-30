@@ -12,7 +12,6 @@
 	import { fly } from 'svelte/transition';
 
 	const flipDurationMs = 100;
-	let items: Character[];
 	let delModalInfo: Character;
 	let isOverlayActive = false;
 	let dropTargetStyle = {
@@ -43,7 +42,7 @@
 	};
 
 	const activateCharacter = (id: string) => {
-		let charObj = $DataStore.filter((char) => char.id === id);
+		let [charObj] = $DataStore.filter((char) => char.id === id);
 		$ActiveStore = charObj;
 		localStorage.setItem('active_char', JSON.stringify(charObj));
 	};

@@ -90,12 +90,14 @@
 			$DataStore.map((char, index) => {
 				if (char.id === charId) {
 					let editedCharObj = createCharacter();
-					if (char.id === $ActiveStore[0].id) {
-						$ActiveStore = [editedCharObj];
-						localStorage.setItem('active_char', JSON.stringify(editedCharObj));
+					if ($ActiveStore) {
+						if (char.id === $ActiveStore.id) {
+							$ActiveStore = editedCharObj;
+							localStorage.setItem('active_char', JSON.stringify(editedCharObj));
+						}
+						$DataStore[index] = editedCharObj;
+						localStorage.setItem('local_chars', JSON.stringify($DataStore));
 					}
-					$DataStore[index] = editedCharObj;
-					localStorage.setItem('local_chars', JSON.stringify($DataStore));
 				}
 			});
 			resetDrop = true;

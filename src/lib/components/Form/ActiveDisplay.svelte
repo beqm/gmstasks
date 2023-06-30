@@ -4,8 +4,8 @@
 	export let currentCharIteration: Character;
 </script>
 
-{#if $ActiveStore.length > 0}
-	{#if $ActiveStore[0].id == currentCharIteration.id}
+{#if $ActiveStore}
+	{#if $ActiveStore.id == currentCharIteration.id}
 		<div class="flex w-[33%] justify-center">
 			<svg
 				class="w-[2rem] text-theme-decorated"
