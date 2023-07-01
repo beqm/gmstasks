@@ -22,21 +22,6 @@
 		currentEventSubPage = e.detail;
 	};
 
-	// const toggleToDashboard = (status: boolean) => {
-	// 	$DataStore.map((char, index) => {
-	// 		if ($ActiveStore) {
-	// 			if (char.id === $ActiveStore.id) {
-	// 				$ActiveStore.isTracked = status;
-	// 				$DataStore[index] = $ActiveStore;
-
-	// 				$ActiveStore = $ActiveStore;
-	// 				$DataStore = $DataStore;
-	// 				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-	// 				localStorage.setItem('local_chars', JSON.stringify($DataStore));
-	// 			}
-	// 		}
-	// 	});
-	// };
 	const toggleToDashboard = (status: boolean) => {
 		if (!$ActiveStore?.isTracked) {
 			DashStore.update((data) => {

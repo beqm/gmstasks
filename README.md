@@ -9,22 +9,28 @@
  <!-- - Drag and drop to rearrange characters order -->
  <!-- - UX transitions -->
 
+- export button (will download data.json file with everything relevant)
+- import button (upload json file)
+
 # Tracking Page
 
  <!-- - Show the current active character -->
+ <!-- - Show in progress/completed tracked events -->
+ <!-- - button to complete each event -->
+ <!-- - button to send current character to dashboard -->
+ <!-- - show when completed events reset ( e.g weekly bosses reset on thursday) -->
 
-- Show in progress/completed tracked events
-- button to complete each event
-- button to easily lvl up character
-- button to send current character to dashboard
-- show when completed events reset ( e.g weekly bosses reset on thursday)
 - when symbols dailies are completed, automatically calculate exp
 
 # DashBoard Page
 
-- add/remove characters to allow multiple tracking
-- notifier will notify every todo event of each character, showing their name and event
-- turn on/off notifier events of specific character
+ <!-- - add/remove characters to allow multiple tracking -->
+ <!-- - progress bar -->
+ <!-- - show every todo event -->
+
+- make progressbar reactive
+- add btn complete relative to char event
+- make sure when reset or complete localstorage is in sync
 
 # Navbar
 
@@ -32,14 +38,4 @@
  <!-- - Improve Reset timer -->
 
 - Add notifiers
-
-# Export/Import Button
-
-- Exporting all the data to a characters.json file
-  file, just for backup and easy access.
-
-# Simulation Page (EXTRA)
-
-- Starforce simulation
-- Cube simulation
-- Oz Box simulation
+- notifier will be a icon on navbar with a number showing how many events are due
