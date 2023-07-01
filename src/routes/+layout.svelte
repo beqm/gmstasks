@@ -1,10 +1,10 @@
 <script>
 	import '../app.postcss';
 	import '$lib/styles/navbar.css';
-	import DailyReset from '$lib/components/DailyReset.svelte';
+	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import { onMount } from 'svelte';
-	import { StorageToStore } from '$lib/utils/StorageToStore';
+	import { StorageToStore } from '$lib/utils';
 
 	onMount(() => {
 		StorageToStore(ActiveStore, 'active_char', '[]');
@@ -17,7 +17,7 @@
 
 		<div class="flex">
 			<div class="flex flex-col pl-5 pr-5 rounded-lg justify-center font-bold uppercase text-sm bg-theme-decorated">
-				Reset <DailyReset />
+				Reset <DayTimer />
 			</div>
 		</div>
 

@@ -5,7 +5,7 @@
 	import ActiveDisplay from '$lib/components/Form/ActiveDisplay.svelte';
 	import ConfirmDelete from '$lib/components/Form/ConfirmDelete.svelte';
 	import { onMount } from 'svelte';
-	import { StorageToStore } from '$lib/utils/StorageToStore';
+	import { StorageToStore } from '$lib/utils';
 	import type { Character } from '$lib/types/types';
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';

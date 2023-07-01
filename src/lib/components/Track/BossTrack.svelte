@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { MBoss } from '$lib/types/types';
 	import ActiveStore from '$lib/stores/ActiveStore';
+	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
+	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 
 	export let bosses: MBoss[];
 
@@ -23,9 +25,8 @@
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.difficulty.replace('_', ' ')}</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.name.replace('_', ' ')}</div>
-						<div class="w-1/4">time left</div>
 
-						<button on:click={() => handleComplete(boss)}>
+						<button class="w-1/4 flex justify-center" on:click={() => handleComplete(boss)}>
 							<svg
 								class="text-theme-strongdecorated hover:text-theme-decorated"
 								xmlns="http://www.w3.org/2000/svg"
@@ -53,9 +54,8 @@
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.difficulty.replace('_', ' ')}</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.name.replace('_', ' ')}</div>
-						<div class="w-1/4" />
 
-						<button class="disabled" disabled>
+						<button class="w-1/4 flex justify-center" disabled>
 							<svg
 								class=" text-green-500 justify-center items-center"
 								xmlns="http://www.w3.org/2000/svg"

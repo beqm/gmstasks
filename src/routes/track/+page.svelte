@@ -1,12 +1,14 @@
 <script lang="ts">
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import { onMount } from 'svelte';
-	import { StorageToStore } from '../../lib/utils/StorageToStore';
+	import { StorageToStore } from '$lib/utils';
 	import { fly } from 'svelte/transition';
 	import type { Character, MBoss } from '$lib/types/types';
 	import BossTrack from '$lib/components/Track/BossTrack.svelte';
 	import EventTrack from '$lib/components/Track/EventTrack.svelte';
 	import BossNavbar from '$lib/components/Track/BossNavbar.svelte';
+	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
+	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
 
 	let currentChar: Character;
 	let currentPage = 'events';
@@ -83,6 +85,15 @@
 				{#if currentPage == 'events'}
 					<div class="text-center font-bold text-3xl mt-4">Events</div>
 					<BossNavbar on:pagechange={changeEventSubPage} />
+					{#if currentEventSubPage == 'daily'}
+						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+							<DayTimer />
+						</div>
+					{:else if currentEventSubPage == 'weekly'}
+						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+							<WeekTimer weekDayTarget={1} />
+						</div>
+					{/if}
 
 					{#if currentEventSubPage == 'daily'}
 						<EventTrack events={$ActiveStore.track.dailyEvents} />
@@ -92,6 +103,15 @@
 				{:else if currentPage == 'bosses'}
 					<div class="text-center font-bold text-3xl mt-4">Bosses</div>
 					<BossNavbar on:pagechange={changeBossSubPage} />
+					{#if currentBossSubPage == 'daily'}
+						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+							<DayTimer />
+						</div>
+					{:else if currentBossSubPage == 'weekly'}
+						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+							<WeekTimer weekDayTarget={4} />
+						</div>
+					{/if}
 					{#if currentBossSubPage == 'daily'}
 						<BossTrack bosses={$ActiveStore.track.dailyBosses} />
 					{:else if currentBossSubPage == 'weekly'}

@@ -22,9 +22,8 @@
 							<img src={event.img_url} alt="akarium" class="w-1/2" />
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{event.name.replace('_', ' ')}</div>
-						<div class="w-1/4">time left</div>
 
-						<button on:click={() => handleComplete(event)}>
+						<button class="w-1/4 flex justify-center" on:click={() => handleComplete(event)}>
 							<svg
 								class="text-theme-strongdecorated hover:text-theme-decorated"
 								xmlns="http://www.w3.org/2000/svg"
@@ -51,9 +50,8 @@
 							<img src={event.img_url} alt="akarium" class="w-1/2" />
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{event.name.replace('_', ' ')}</div>
-						<div class="w-1/4" />
 
-						<button class="disabled" disabled>
+						<button class="w-1/4 flex justify-center" disabled>
 							<svg
 								class=" text-green-500 justify-center items-center"
 								xmlns="http://www.w3.org/2000/svg"
