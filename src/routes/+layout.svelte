@@ -3,13 +3,19 @@
 	import '$lib/styles/navbar.css';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import ActiveStore from '$lib/stores/ActiveStore';
+	import DataStore from '$lib/stores/DataStore';
 	import { onMount } from 'svelte';
 	import { StorageToStore } from '$lib/utils';
 
 	onMount(() => {
 		StorageToStore(ActiveStore, 'active_char', '[]');
+		StorageToStore(DataStore, 'local_chars', '[]');
 	});
 </script>
+
+<svelte:head>
+	<title>GMSTRACKER</title>
+</svelte:head>
 
 <nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-dark">
 	<div class="flex w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
@@ -28,10 +34,6 @@
 
 			<a href="characters">
 				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">characters</li>
-			</a>
-
-			<a href="simulate">
-				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">simulate</li>
 			</a>
 
 			{#if $ActiveStore}

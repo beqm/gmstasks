@@ -5,7 +5,6 @@
 	const changeEventSubPage = (path: string) => {
 		let dailyBtn = document.querySelector('#event-daily') as HTMLButtonElement;
 		let weeklyBtn = document.querySelector('#event-weekly') as HTMLButtonElement;
-		let monthlyBtn = document.querySelector('#event-monthly') as HTMLButtonElement;
 
 		if (path == 'daily') {
 			dailyBtn.classList.add('bg-theme-decorated');
@@ -13,18 +12,12 @@
 
 			weeklyBtn.classList.remove('bg-theme-decorated');
 			weeklyBtn.classList.add('hover:bg-theme-softdecorated');
-
-			monthlyBtn.classList.remove('bg-theme-decorated');
-			monthlyBtn.classList.add('hover:bg-theme-softdecorated');
 		} else if (path == 'weekly') {
 			weeklyBtn.classList.add('bg-theme-decorated');
 			weeklyBtn.classList.remove('hover:bg-theme-softdecorated');
 
 			dailyBtn.classList.remove('bg-theme-decorated');
 			dailyBtn.classList.add('hover:bg-theme-softdecorated');
-
-			monthlyBtn.classList.remove('bg-theme-decorated');
-			monthlyBtn.classList.add('hover:bg-theme-softdecorated');
 		}
 		dispatch('pagechange', path);
 	};

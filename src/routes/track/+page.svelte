@@ -1,20 +1,15 @@
 <script lang="ts">
 	import ActiveStore from '$lib/stores/ActiveStore';
-	import { onMount } from 'svelte';
-	import { StorageToStore } from '$lib/utils';
 	import { fly } from 'svelte/transition';
-	import type { Character, MBoss } from '$lib/types/types';
 	import BossTrack from '$lib/components/Track/BossTrack.svelte';
 	import EventTrack from '$lib/components/Track/EventTrack.svelte';
 	import BossNavbar from '$lib/components/Track/BossNavbar.svelte';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
 
-	let currentChar: Character;
 	let currentPage = 'events';
 	let currentBossSubPage = 'daily';
 	let currentEventSubPage = 'daily';
-	let todoDailyBosses: MBoss[];
 
 	const changeBossSubPage = (e: CustomEvent<string>) => {
 		currentBossSubPage = e.detail;
@@ -47,14 +42,6 @@
 			}
 		}
 	};
-	onMount(() => {
-		StorageToStore(ActiveStore, 'active_char', '[]');
-		if ($ActiveStore) {
-			currentChar = $ActiveStore;
-			todoDailyBosses = $ActiveStore.track.dailyBosses;
-			console.log(currentChar);
-		}
-	});
 </script>
 
 <main class="flex w-full justify-center h-[850px]">

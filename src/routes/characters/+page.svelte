@@ -50,12 +50,6 @@
 	const showDelModal = (char: Character) => {
 		delModalInfo = char;
 	};
-
-	onMount(() => {
-		StorageToStore(DataStore, 'local_chars', '[]');
-		StorageToStore(ActiveStore, 'active_char', '[]');
-		console.log($DataStore);
-	});
 </script>
 
 <ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />

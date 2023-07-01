@@ -6,22 +6,52 @@ export function StorageToStore(store: Writable<Character | Character[] | null>, 
 	store.set(localStorageValue);
 }
 
-export function resetCompletedTracks(local_chars: Character[]) {
-	local_chars.forEach((char) => {
-		char.track.dailyEvents.forEach((event) => {
+export function resetWBossTracks(localChars: Character[], activeChar: Character | null) {
+	localChars.forEach((char) => {
+		char.track.weeklyBosses.forEach((boss) => {
+			boss.complete = false;
+		});
+	});
+
+	if (activeChar !== null) {
+		activeChar.track.weeklyBosses.forEach((boss) => {
+			boss.complete = false;
+		});
+	}
+}
+
+export function resetWEventTracks(localChars: Character[], activeChar: Character | null) {
+	localChars.forEach((char) => {
+		char.track.weeklyEvents.forEach((event) => {
 			event.complete = false;
 		});
-		char.track.weeklyEvents.forEach((event) => {
+	});
+
+	if (activeChar !== null) {
+		activeChar.track.weeklyEvents.forEach((event) => {
+			event.complete = false;
+		});
+	}
+}
+
+export function resetDailyTracks(localChars: Character[], activeChar: Character | null) {
+	localChars.forEach((char) => {
+		char.track.dailyEvents.forEach((event) => {
 			event.complete = false;
 		});
 		char.track.dailyBosses.forEach((boss) => {
 			boss.complete = false;
 		});
-		char.track.weeklyEvents.forEach((boss) => {
-			boss.complete = false;
-		});
 	});
-	return local_chars;
+
+	if (activeChar !== null) {
+		activeChar.track.dailyEvents.forEach((event) => {
+			event.complete = false;
+		});
+		activeChar.track.dailyBosses.forEach((event) => {
+			event.complete = false;
+		});
+	}
 }
 
 export function formatMillisecond(ms: number) {

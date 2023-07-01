@@ -1,22 +1,30 @@
 <script lang="ts">
 	import type { MBoss } from '$lib/types/types';
 	import ActiveStore from '$lib/stores/ActiveStore';
-	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
-	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
+	import DataStore from '$lib/stores/DataStore';
 
 	export let bosses: MBoss[];
 
 	const handleComplete = (currTrack: MBoss) => {
 		currTrack.complete = true;
 		$ActiveStore = $ActiveStore;
-		localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+
+		$DataStore.map((char, index) => {
+			if ($ActiveStore) {
+				if (char.id === $ActiveStore.id) {
+					$DataStore[index] = $ActiveStore;
+					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+					localStorage.setItem('local_chars', JSON.stringify($DataStore));
+				}
+			}
+		});
 	};
 </script>
 
 <div class="w-full flex text-center mt-4 font-bold text-lg justify-evenly">
 	<div class="flex flex-col w-[45%] justify-center">
 		<div class="text-2xl m-2">Todo</div>
-		<div class="w-full h-full flex flex-col max-h-[560px] overflow-y-auto">
+		<div class="w-full h-full flex flex-col max-h-[540px] overflow-y-auto border-t border-theme-decorated">
 			{#each bosses as boss}
 				{#if boss.active && !boss.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
@@ -45,7 +53,7 @@
 	</div>
 	<div class="flex flex-col w-[45%] justify-center">
 		<div class="text-2xl m-2">Complete</div>
-		<div class="w-full h-full flex flex-col max-h-[560px] overflow-y-auto">
+		<div class="w-full h-full flex flex-col max-h-[540px] overflow-y-auto border-t border-theme-decorated">
 			{#each bosses as boss}
 				{#if boss.active && boss.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">

@@ -122,6 +122,11 @@
 				return updatedData;
 			});
 
+			if ($DataStore.length == 1) {
+				$ActiveStore = $DataStore[0];
+				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+			}
+
 			initializeInputs();
 			resetDrop = true;
 			console.log($DataStore);
