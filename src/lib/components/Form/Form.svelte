@@ -9,6 +9,8 @@
 	import BossSelect from '$lib/components/Form/BossSelect.svelte';
 	import type { Character, MEvent, MSymbol, MBoss, MEvents } from '$lib/types/types';
 	import data from '$lib/utils/default.json';
+	import { createDashBoardArray } from '$lib/utils';
+	import DashStore from '$lib/stores/DashStore';
 
 	let inputs: MEvents = data;
 	const initializeInputs = (): void => {
@@ -23,6 +25,7 @@
 		charName = '';
 		charJob = '';
 		charLvl = 1;
+		charIsTracked = false;
 
 		resetDrop = false;
 	};
@@ -40,6 +43,7 @@
 	let charName: string;
 	let charJob: string;
 	let charLvl: number;
+	let charIsTracked = false;
 
 	let resetDrop = false;
 	let showForm = false;
@@ -48,11 +52,12 @@
 
 	const createCharacter = (): Character => {
 		return {
-			id: crypto.randomUUID(),
+			id: charId,
 			img: handleImageValidation(charImg),
 			name: charName,
 			job: charJob,
 			level: charLvl,
+			isTracked: charIsTracked,
 			track: {
 				arcaneSymbols,
 				sacredSymbols,
@@ -74,6 +79,7 @@
 		charName = charObj.name;
 		charJob = charObj.job;
 		charLvl = charObj.level;
+		charIsTracked = charObj.isTracked;
 		arcaneSymbols = charObj.track.arcaneSymbols;
 		sacredSymbols = charObj.track.sacredSymbols;
 		dailyEvents = charObj.track.dailyEvents;
@@ -97,6 +103,17 @@
 						}
 						$DataStore[index] = editedCharObj;
 						localStorage.setItem('local_chars', JSON.stringify($DataStore));
+						if (char.isTracked) {
+							console.log('POST EDIT');
+							let dashArray = createDashBoardArray(char);
+							console.log('DASHARRAY: ', dashArray);
+							$DashStore = $DashStore.filter((dashitem) => dashitem.charId !== char.id);
+							console.log('DASHTORE FILTER: ', $DashStore);
+
+							$DashStore = $DashStore.concat(dashArray);
+							console.log('DASHTORE: ', $DashStore);
+							localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+						}
 					}
 				}
 			});
@@ -107,6 +124,7 @@
 		if (formController == 'create') {
 			charLvl = Math.min(Math.max(charLvl, 1), 300);
 			const charObj = createCharacter();
+			charObj.id = crypto.randomUUID();
 
 			arcaneSymbols.forEach((arcane) => {
 				arcane.active = charLvl >= arcane.reqLevel ? true : false;

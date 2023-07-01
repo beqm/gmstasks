@@ -2,6 +2,7 @@
 	import type { MBoss } from '$lib/types/types';
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import DataStore from '$lib/stores/DataStore';
+	import DashStore from '$lib/stores/DashStore';
 
 	export let bosses: MBoss[];
 
@@ -18,6 +19,18 @@
 				}
 			}
 		});
+
+		$DashStore.map((item) => {
+			if ($ActiveStore) {
+				if (item.charId === $ActiveStore.id) {
+					if (currTrack.name == item.trackName) {
+						item.status = true;
+						$DashStore = $DashStore;
+						localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+					}
+				}
+			}
+		});
 	};
 </script>
 
@@ -29,7 +42,7 @@
 				{#if boss.active && !boss.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
 						<div class="w-1/4 flex justify-center">
-							<img src={boss.img_url} alt="akarium" class="w-1/2" />
+							<img src={boss.img_url} alt="boss_img" class="w-1/2" />
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.difficulty.replace('_', ' ')}</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.name.replace('_', ' ')}</div>
@@ -58,7 +71,7 @@
 				{#if boss.active && boss.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
 						<div class="w-1/4 flex justify-center">
-							<img src={boss.img_url} alt="akarium" class="w-1/2" />
+							<img src={boss.img_url} alt="boss_img" class="w-1/2" />
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.difficulty.replace('_', ' ')}</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.name.replace('_', ' ')}</div>

@@ -6,6 +6,9 @@
 	import BossNavbar from '$lib/components/Track/BossNavbar.svelte';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
+	import DataStore from '$lib/stores/DataStore';
+	import DashStore from '$lib/stores/DashStore';
+	import { createDashBoardArray } from '$lib/utils';
 
 	let currentPage = 'events';
 	let currentBossSubPage = 'daily';
@@ -17,6 +20,54 @@
 
 	const changeEventSubPage = (e: CustomEvent<string>) => {
 		currentEventSubPage = e.detail;
+	};
+
+	// const toggleToDashboard = (status: boolean) => {
+	// 	$DataStore.map((char, index) => {
+	// 		if ($ActiveStore) {
+	// 			if (char.id === $ActiveStore.id) {
+	// 				$ActiveStore.isTracked = status;
+	// 				$DataStore[index] = $ActiveStore;
+
+	// 				$ActiveStore = $ActiveStore;
+	// 				$DataStore = $DataStore;
+	// 				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+	// 				localStorage.setItem('local_chars', JSON.stringify($DataStore));
+	// 			}
+	// 		}
+	// 	});
+	// };
+	const toggleToDashboard = (status: boolean) => {
+		if (!$ActiveStore?.isTracked) {
+			DashStore.update((data) => {
+				let updatedData = [...data];
+				if ($ActiveStore) {
+					let dashObjs = createDashBoardArray($ActiveStore);
+					updatedData = updatedData.concat(dashObjs);
+					localStorage.setItem('dashboard_items', JSON.stringify(updatedData));
+				}
+				return updatedData;
+			});
+		} else {
+			if ($ActiveStore) {
+				$DashStore = $DashStore.filter((item) => item.charId !== $ActiveStore?.id);
+				localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+			}
+		}
+
+		$DataStore.map((char, index) => {
+			if ($ActiveStore) {
+				if (char.id === $ActiveStore.id) {
+					$ActiveStore.isTracked = status;
+					$DataStore[index] = $ActiveStore;
+
+					$ActiveStore = $ActiveStore;
+					$DataStore = $DataStore;
+					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+					localStorage.setItem('local_chars', JSON.stringify($DataStore));
+				}
+			}
+		});
 	};
 
 	const changePage = (path: string) => {
@@ -44,7 +95,7 @@
 	};
 </script>
 
-<main class="flex w-full justify-center h-[850px]">
+<div class="flex w-full justify-center h-[850px]">
 	{#if $ActiveStore}
 		<div in:fly={{ x: -200, duration: 250 }} class="flex w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base">
 			<!-- Navbar -->
@@ -65,6 +116,19 @@
 						id="track-bosses-btn"
 						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Bosses</button
 					>
+					{#if !$ActiveStore.isTracked}
+						<button
+							on:click={() => toggleToDashboard(true)}
+							id="track-bosses-btn"
+							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Add to Dashboard</button
+						>
+					{:else}
+						<button
+							on:click={() => toggleToDashboard(false)}
+							id="track-bosses-btn"
+							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Remove from Dashboard</button
+						>
+					{/if}
 				</div>
 			</div>
 			<!-- Right Side -->
@@ -108,4 +172,4 @@
 			</div>
 		</div>
 	{/if}
-</main>
+</div>

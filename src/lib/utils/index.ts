@@ -1,9 +1,80 @@
 import type { Writable } from 'svelte/store';
-import type { Character } from '$lib/types/types';
+import type { Character, DashItem, MBoss, MEvent } from '$lib/types/types';
 
-export function StorageToStore(store: Writable<Character | Character[] | null>, key: string, initial: string): void {
-	let localStorageValue: Character | Character[] = JSON.parse(localStorage.getItem(key) || initial);
+type StoreObjects = Character | Character[] | DashItem[];
+
+export function StorageToStore(store: Writable<StoreObjects | null>, key: string, initial: string): void {
+	let localStorageValue: StoreObjects = JSON.parse(localStorage.getItem(key) || initial);
 	store.set(localStorageValue);
+}
+
+export function createDashBoardArray(char: Character) {
+	let dashObjs: DashItem[] = [];
+	char.track.dailyBosses.forEach((boss: MBoss) => {
+		if (boss.active) {
+			let dashObj: DashItem = {
+				charId: char.id,
+				charImgUrl: char.img,
+				charName: char.name,
+				trackImgUrl: boss.img_url,
+				trackInfo: boss.difficulty,
+				trackName: boss.name,
+				status: boss.complete,
+				trackType: 'Boss',
+				period: 'Daily'
+			};
+			dashObjs.push(dashObj);
+		}
+	});
+
+	char.track.weeklyBosses.forEach((boss: MBoss) => {
+		if (boss.active) {
+			let dashObj: DashItem = {
+				charId: char.id,
+				charImgUrl: char.img,
+				charName: char.name,
+				trackImgUrl: boss.img_url,
+				trackInfo: boss.difficulty,
+				trackName: boss.name,
+				status: boss.complete,
+				trackType: 'Boss',
+				period: 'Weekly'
+			};
+			dashObjs.push(dashObj);
+		}
+	});
+	char.track.dailyEvents.forEach((event: MEvent) => {
+		if (event.active) {
+			let dashObj: DashItem = {
+				charId: char.id,
+				charImgUrl: char.img,
+				charName: char.name,
+				trackImgUrl: event.img_url,
+				trackName: event.name,
+				status: event.complete,
+				trackType: 'Event',
+				period: 'Daily'
+			};
+			dashObjs.push(dashObj);
+		}
+	});
+
+	char.track.weeklyEvents.forEach((event: MEvent) => {
+		if (event.active) {
+			let dashObj: DashItem = {
+				charId: char.id,
+				charImgUrl: char.img,
+				charName: char.name,
+				trackImgUrl: event.img_url,
+				trackName: event.name,
+				status: event.complete,
+				trackType: 'Event',
+				period: 'Weekly'
+			};
+			dashObjs.push(dashObj);
+		}
+	});
+	return dashObjs;
 }
 
 export function resetWBossTracks(localChars: Character[], activeChar: Character | null) {

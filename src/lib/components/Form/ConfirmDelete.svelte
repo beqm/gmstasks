@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DataStore from '$lib/stores/DataStore';
 	import ActiveStore from '$lib/stores/ActiveStore';
+	import DashStore from '$lib/stores/DashStore';
 	import type { Character } from '$lib/types/types';
 
 	export let currentCharIteration: Character;
@@ -34,6 +35,11 @@
 				ActiveStore.set(null);
 				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
 			}
+			DashStore.update((data) => {
+				let updatedData = data.filter((item) => item.charId !== id);
+				localStorage.setItem('dashboard_items', JSON.stringify(updatedData));
+				return updatedData;
+			});
 		}
 		closeModal();
 	};

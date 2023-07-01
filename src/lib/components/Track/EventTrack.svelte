@@ -2,6 +2,7 @@
 	import type { MEvent } from '$lib/types/types';
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import DataStore from '$lib/stores/DataStore';
+	import DashStore from '$lib/stores/DashStore';
 
 	export let events: MEvent[];
 
@@ -18,6 +19,18 @@
 				}
 			}
 		});
+
+		$DashStore.map((item) => {
+			if ($ActiveStore) {
+				if (item.charId === $ActiveStore.id) {
+					if (currTrack.name == item.trackName) {
+						item.status = true;
+						$DashStore = $DashStore;
+						localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+					}
+				}
+			}
+		});
 	};
 </script>
 
@@ -29,7 +42,7 @@
 				{#if event.active && !event.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
 						<div class="w-1/4 flex justify-center">
-							<img src={event.img_url} alt="akarium" class="w-1/2" />
+							<img src={event.img_url} alt="event_img" class="w-1/2" />
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{event.name.replace('_', ' ')}</div>
 
@@ -57,7 +70,7 @@
 				{#if event.active && event.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
 						<div class="w-1/4 flex justify-center">
-							<img src={event.img_url} alt="akarium" class="w-1/2" />
+							<img src={event.img_url} alt="event_img" class="w-1/2" />
 						</div>
 						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{event.name.replace('_', ' ')}</div>
 

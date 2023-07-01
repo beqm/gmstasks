@@ -43,4 +43,17 @@ export type Character = {
 	job: string;
 	level: number;
 	track: MEvents;
+	isTracked: boolean;
+};
+
+export type DashItem = {
+	charId: string;
+	charImgUrl: string;
+	charName: string;
+	trackImgUrl: string;
+	trackInfo?: string;
+	trackType: string;
+	trackName: string;
+	status: boolean;
+	period: string;
 };
