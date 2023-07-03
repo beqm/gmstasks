@@ -4,6 +4,7 @@
 	import Form from '$lib/components/Form/Form.svelte';
 	import ActiveDisplay from '$lib/components/Form/ActiveDisplay.svelte';
 	import ConfirmDelete from '$lib/components/Form/ConfirmDelete.svelte';
+	import ImportModal from '$lib/components/Form/ImportModal.svelte';
 	import { onMount } from 'svelte';
 	import { StorageToStore } from '$lib/utils';
 	import type { Character } from '$lib/types/types';
@@ -16,6 +17,40 @@
 	let isOverlayActive = false;
 	let dropTargetStyle = {
 		b: 'green'
+	};
+
+	let exportData = () => {
+		let localChars = localStorage.getItem('local_chars');
+		let ActiveChar = localStorage.getItem('active_char');
+		let DashBoardItems = localStorage.getItem('dashboard_items');
+
+		let data = {
+			local_chars: localChars,
+			active_char: ActiveChar,
+			dashboard_items: DashBoardItems
+		};
+		const a = document.createElement('a');
+		const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+		const url = window.URL.createObjectURL(blob);
+		a.href = url;
+		a.download = 'data.json';
+		a.click();
+	};
+
+	let importData = () => {
+		let localChars = localStorage.getItem('local_chars');
+		let ActiveChar = localStorage.getItem('active_char');
+		let DashBoardItems = localStorage.getItem('dashboard_items');
+
+		let data = {
+			local_chars: localChars,
+			active_char: ActiveChar,
+			dashboard_items: DashBoardItems
+		};
+		const a = document.createElement('a');
+		a.href = `data:application/json;charset=utf-8,${JSON.stringify(data)}`;
+		a.download = 'data.json';
+		a.click();
 	};
 
 	type FormType = Form;
@@ -55,7 +90,20 @@
 <ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
 
 <div in:fly={{ x: -200, duration: 250 }} class="flex flex-col w-full items-center mt-10">
-	<Form bind:this={FormComponentInstance} />
+	<div class="flex w-9/12 justify-end">
+		<ImportModal />
+		<button
+			on:click={exportData}
+			class="flex justify-items-center bg-green-300 m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 text-theme-base"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" height="1.5rem" viewBox="0 0 512 512" fill="currentColor"
+				><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
+					d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"
+				/></svg
+			>
+		</button>
+		<Form bind:this={FormComponentInstance} />
+	</div>
 	<div class="flex flex-col w-9/12 bg-theme-base rounded-lg drop-shadow-lg scroll-container">
 		<!-- Columns -->
 		<div class="flex text-center justify-evenly text-lg font-bold w-full">
@@ -76,7 +124,7 @@
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<!-- svelte-ignore a11y-no-static-element-interactions -->
 					<div
-						class="flex justify-evenly w-full cursor-pointer border-b border-theme-base"
+						class="flex justify-evenly w-full cursor-pointer border bg-theme-soft border-theme-soft"
 						animate:flip={{ duration: flipDurationMs }}
 						on:click={() => activateCharacter(character.id)}
 					>

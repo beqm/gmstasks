@@ -8,9 +8,8 @@
  <!-- - Create object of all events to track per character -->
  <!-- - Drag and drop to rearrange characters order -->
  <!-- - UX transitions -->
-
-- export button (will download data.json file with everything relevant)
-- import button (upload json file)
+ <!-- - export button (will download data.json file with everything relevant) -->
+ <!-- - import button (upload json file) -->
 
 # Tracking Page
 
