@@ -3,7 +3,10 @@
 	import ProgressBar from '$lib/components/Dashboard/ProgressBar.svelte';
 	import { StorageToStore } from '$lib/utils';
 	import DashStore from '$lib/stores/DashStore';
+	import DataStore from '$lib/stores/DataStore';
+	import ActiveStore from '$lib/stores/ActiveStore';
 	import { onMount } from 'svelte/internal';
+	import type { DashItem } from '$lib/types/types';
 
 	let dailyBossesControl: number = 0;
 	let weeklyBossesControl: number = 0;
@@ -28,6 +31,57 @@
 		} else {
 			return 0;
 		}
+	};
+
+	const handleComplete = (currTrack: DashItem) => {
+		currTrack.status = true;
+
+		$DataStore.map((char) => {
+			if ($ActiveStore) {
+				if (char.id === currTrack.charId) {
+					char.track.dailyBosses.forEach((track) => {
+						if (track.name == currTrack.trackName && track.difficulty == currTrack.trackInfo) {
+							track.complete = true;
+						}
+					});
+
+					char.track.weeklyBosses.forEach((track) => {
+						if (track.name == currTrack.trackName && track.difficulty == currTrack.trackInfo) {
+							track.complete = true;
+						}
+					});
+
+					char.track.dailyEvents.forEach((track) => {
+						if (track.name == currTrack.trackName) {
+							track.complete = true;
+						}
+					});
+
+					char.track.weeklyEvents.forEach((track) => {
+						if (track.name == currTrack.trackName) {
+							track.complete = true;
+						}
+					});
+
+					if (char.id == $ActiveStore.id) {
+						$ActiveStore = char;
+					}
+
+					$ActiveStore = $ActiveStore;
+					$DataStore = $DataStore;
+					$DashStore = $DashStore;
+
+					dailyBossesControl = progressControl('Boss', 'Daily');
+					weeklyBossesControl = progressControl('Boss', 'Weekly');
+					dailyEventControl = progressControl('Event', 'Daily');
+					weeklyEventControl = progressControl('Event', 'Weekly');
+
+					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+					localStorage.setItem('local_chars', JSON.stringify($DataStore));
+					localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+				}
+			}
+		});
 	};
 
 	onMount(async () => {
@@ -91,6 +145,18 @@
 							</div>
 
 							<div class="w-1/6 flex justify-center items-center">Incomplete</div>
+							<button class="flex justify-center items-center" on:click={() => handleComplete(dashItem)}>
+								<svg
+									class="text-theme-strongdecorated hover:text-theme-decorated"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="currentColor"
+									height="1.5em"
+									viewBox="0 0 448 512"
+									><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
+										d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+									/></svg
+								>
+							</button>
 						</div>
 					{/if}
 				{/each}

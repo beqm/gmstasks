@@ -7,10 +7,11 @@
 
 	$: color =
 		control <= 20 ? 'bg-red-700' : control <= 60 ? 'bg-orange-500' : control <= 99 ? 'bg-blue-400' : 'bg-green-600';
-	$: progress = tweened(control, {
+	$: progress = tweened(0, {
 		duration: 1000,
 		easing: cubicOut
 	});
+	$: progress.set(control);
 </script>
 
 <div class="w-full flex flex-col items-center">
