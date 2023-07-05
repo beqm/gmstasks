@@ -200,7 +200,7 @@
 <button
 	id="add-char-btn"
 	on:click={() => toggleForm()}
-	class="bg-green-300 m-2 p-1 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 flex text-center justify-items-center text-theme-base"
+	class="bg-green-300 m-2 p-1 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 flex text-center justify-center items-center text-theme-base"
 >
 	<svg class="h-[1.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"
 		><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
