@@ -25,7 +25,7 @@
 
 <svelte:head>
 	{#if count != 0}
-		<title>GMSTRACKER ({count})</title>
+		<title>({count}) GMSTRACKER</title>
 	{:else}
 		<title>GMSTRACKER</title>
 	{/if}

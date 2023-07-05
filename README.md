@@ -23,8 +23,10 @@
 
  <!-- - Show all symbols -->
  <!-- - correctly change symbols when editing char lvl -->
+ <!-- - when symbols dailies/weeklies are completed, automatically calculate exp -->
 
-- when symbols dailies/weeklies are completed, automatically calculate exp
+- Fix gain amount depending on symbol
+<!-- - check if editing symbol on edit form is correctly validated -->
 
 # DashBoard Page
 

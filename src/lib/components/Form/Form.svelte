@@ -11,6 +11,7 @@
 	import data from '$lib/utils/default.json';
 	import { createDashBoardArray } from '$lib/utils';
 	import DashStore from '$lib/stores/DashStore';
+	import { ExpReqArcane, ExpReqSacred } from '$lib/utils';
 
 	let inputs: MEvents = data;
 	const initializeInputs = (): void => {
@@ -132,10 +133,14 @@
 
 			arcaneSymbols.forEach((arcane) => {
 				arcane.active = charLvl >= arcane.reqLevel ? true : false;
+				arcane.level = Math.min(Math.max(arcane.level, 1), 20);
+				arcane.exp = Math.min(Math.max(arcane.exp, 0), ExpReqArcane[arcane.level - 1]);
 			});
 
 			sacredSymbols.forEach((sacred) => {
 				sacred.active = charLvl >= sacred.reqLevel ? true : false;
+				sacred.level = Math.min(Math.max(sacred.level, 1), 11);
+				sacred.exp = Math.min(Math.max(sacred.exp, 0), ExpReqSacred[sacred.level - 1]);
 			});
 
 			DataStore.update((data) => {
