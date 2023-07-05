@@ -8,16 +8,10 @@
 	import { onMount } from 'svelte/internal';
 	import type { DashItem } from '$lib/types/types';
 
-	let dailyBossesControl: number = 0;
-	let weeklyBossesControl: number = 0;
-
-	let dailyEventControl: number = 0;
-	let weeklyEventControl: number = 0;
-
-	const progressControl = (type: string, period: string) => {
+	const progressControl = (array: DashItem[], type: string, period: string) => {
 		let counter: number = 0;
 		let totalCounter: number = 0;
-		for (let item of $DashStore) {
+		for (let item of array) {
 			if (item.period == period && item.trackType == type) {
 				totalCounter += 1;
 				if (item.status) {
@@ -32,6 +26,11 @@
 			return 0;
 		}
 	};
+
+	$: dailyBossesControl = progressControl($DashStore, 'Boss', 'Daily');
+	$: weeklyBossesControl = progressControl($DashStore, 'Boss', 'Weekly');
+	$: dailyEventControl = progressControl($DashStore, 'Event', 'Daily');
+	$: weeklyEventControl = progressControl($DashStore, 'Event', 'Weekly');
 
 	const handleComplete = (currTrack: DashItem) => {
 		currTrack.status = true;
@@ -71,11 +70,6 @@
 					$DataStore = $DataStore;
 					$DashStore = $DashStore;
 
-					dailyBossesControl = progressControl('Boss', 'Daily');
-					weeklyBossesControl = progressControl('Boss', 'Weekly');
-					dailyEventControl = progressControl('Event', 'Daily');
-					weeklyEventControl = progressControl('Event', 'Weekly');
-
 					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
 					localStorage.setItem('local_chars', JSON.stringify($DataStore));
 					localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
@@ -86,10 +80,10 @@
 
 	onMount(async () => {
 		StorageToStore(DashStore, 'dashboard_items', '[]');
-		dailyBossesControl = progressControl('Boss', 'Daily');
-		weeklyBossesControl = progressControl('Boss', 'Weekly');
-		dailyEventControl = progressControl('Event', 'Daily');
-		weeklyEventControl = progressControl('Event', 'Weekly');
+		dailyBossesControl = progressControl($DashStore, 'Boss', 'Daily');
+		weeklyBossesControl = progressControl($DashStore, 'Boss', 'Weekly');
+		dailyEventControl = progressControl($DashStore, 'Event', 'Daily');
+		weeklyEventControl = progressControl($DashStore, 'Event', 'Weekly');
 	});
 </script>
 

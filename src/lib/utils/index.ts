@@ -125,6 +125,14 @@ export function resetDailyTracks(localChars: Character[], activeChar: Character 
 	}
 }
 
+export function resetDashboardTracks(dashBoardItems: DashItem[], period: 'Weekly' | 'Daily') {
+	dashBoardItems.forEach((item) => {
+		if (period == item.period) {
+			item.status = false;
+		}
+	});
+}
+
 export function formatMillisecond(ms: number) {
 	const SECOND = 1000;
 	const MINUTE = SECOND * 60;

@@ -75,24 +75,24 @@
         { "name": "MNN", "img_url":"src/lib/assets/event_icons/mnn_icon.webp", "complete": false, "active": false, "amount": 2, "unique": true }
     ],
     "weeklyEvents": [
-        { "name": "Erda_Spectrum", "img_url":"src/lib/assets/symbol_icon/vanishing_icon.webp", "complete": false, "active": false, "amount": 1 },
-        { "name": "Hungry_Muto", "img_url":"src/lib/assets/symbol_icon/chuchu_icon.webp", "complete": false, "active": false, "amount": 1 },
-        { "name": "Dream_Defender", "img_url":"src/lib/assets/symbol_icon/lachelein_icon.webp", "complete": false, "active": false, "amount": 1 },
-        { "name": "Spirit_Savior", "img_url":"src/lib/assets/symbol_icon/arcana_icon.webp", "complete": false, "active": false, "amount": 1 },
-        { "name": "Ranheim_Defense", "img_url":"src/lib/assets/symbol_icon/morass_icon.webp", "complete": false, "active": false, "amount": 1 },
-        { "name": "Esfera_Guardian", "img_url":"src/lib/assets/symbol_icon/esfera_icon.webp", "complete": false, "active": false, "amount": 1 }
+        { "name": "Erda_Spectrum", "img_url":"src/lib/assets/symbol_icons/vanishing_icon.webp", "complete": false, "active": false, "amount": 1 },
+        { "name": "Hungry_Muto", "img_url":"src/lib/assets/symbol_icons/chuchu_icon.webp", "complete": false, "active": false, "amount": 1 },
+        { "name": "Dream_Defender", "img_url":"src/lib/assets/symbol_icons/lachelein_icon.webp", "complete": false, "active": false, "amount": 1 },
+        { "name": "Spirit_Savior", "img_url":"src/lib/assets/symbol_icons/arcana_icon.webp", "complete": false, "active": false, "amount": 1 },
+        { "name": "Ranheim_Defense", "img_url":"src/lib/assets/symbol_icons/morass_icon.webp", "complete": false, "active": false, "amount": 1 },
+        { "name": "Esfera_Guardian", "img_url":"src/lib/assets/symbol_icons/esfera_icon.webp", "complete": false, "active": false, "amount": 1 }
     ],
     "arcaneSymbols": [
-        { "name": "VanishingJourney", "img_url":"src/lib/assets/symbol_icon/vanishing_icon.webp", "level": 1, "reqLevel": 200, "exp": 1, "gain": 8, "active": false },
-        { "name": "ChuChu", "img_url":"src/lib/assets/symbol_icon/chuchu_icon.webp", "level": 1, "exp": 1, "reqLevel": 210, "gain": 8, "active": false },
-        { "name": "Lachelein", "img_url":"src/lib/assets/symbol_icon/lachelein_icon.webp", "level": 1, "reqLevel": 220, "exp": 1, "gain": 8, "active": false },
-        { "name": "Arcana", "img_url":"src/lib/assets/symbol_icon/arcana_icon.webp", "level": 1, "reqLevel": 225, "exp": 1, "gain": 8, "active": false },
-        { "name": "Morass", "img_url":"src/lib/assets/symbol_icon/morass_icon.webp", "level": 1, "reqLevel": 230, "exp": 1, "gain": 8, "active": false },
-        { "name": "Esfera", "img_url":"src/lib/assets/symbol_icon/esfera_icon.webp", "level": 1, "reqLevel": 235, "exp": 1, "gain": 8, "active": false }
+        { "name": "VanishingJourney", "img_url":"src/lib/assets/symbol_icons/vanishing_icon.webp", "level": 1, "reqLevel": 200, "exp": 1, "gain": 8, "active": false },
+        { "name": "ChuChu", "img_url":"src/lib/assets/symbol_icons/chuchu_icon.webp", "level": 1, "exp": 1, "reqLevel": 210, "gain": 8, "active": false },
+        { "name": "Lachelein", "img_url":"src/lib/assets/symbol_icons/lachelein_icon.webp", "level": 1, "reqLevel": 220, "exp": 1, "gain": 8, "active": false },
+        { "name": "Arcana", "img_url":"src/lib/assets/symbol_icons/arcana_icon.webp", "level": 1, "reqLevel": 225, "exp": 1, "gain": 8, "active": false },
+        { "name": "Morass", "img_url":"src/lib/assets/symbol_icons/morass_icon.webp", "level": 1, "reqLevel": 230, "exp": 1, "gain": 8, "active": false },
+        { "name": "Esfera", "img_url":"src/lib/assets/symbol_icons/esfera_icon.webp", "level": 1, "reqLevel": 235, "exp": 1, "gain": 8, "active": false }
     ],
     "sacredSymbols": [
-        { "name": "Cernium", "img_url":"src/lib/assets/symbol_icon/cernium_icon.webp", "level": 1, "reqLevel": 260, "exp": 1, "gain": 8, "active": false },
-        { "name": "Arcus", "img_url":"src/lib/assets/symbol_icon/arcus_icon.webp", "level": 1, "reqLevel": 270, "exp": 1, "gain": 8, "active": false },
-        { "name": "Odium", "img_url":"src/lib/assets/symbol_icon/odium_icon.webp", "level": 1, "reqLevel": 275, "exp": 1, "gain": 8, "active": false }
+        { "name": "Cernium", "img_url":"src/lib/assets/symbol_icons/cernium_icon.webp", "level": 1, "reqLevel": 260, "exp": 1, "gain": 8, "active": false },
+        { "name": "Arcus", "img_url":"src/lib/assets/symbol_icons/arcus_icon.webp", "level": 1, "reqLevel": 270, "exp": 1, "gain": 8, "active": false },
+        { "name": "Odium", "img_url":"src/lib/assets/symbol_icons/odium_icon.webp", "level": 1, "reqLevel": 275, "exp": 1, "gain": 8, "active": false }
     ]
 }

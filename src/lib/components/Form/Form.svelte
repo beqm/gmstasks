@@ -104,14 +104,9 @@
 						$DataStore[index] = editedCharObj;
 						localStorage.setItem('local_chars', JSON.stringify($DataStore));
 						if (char.isTracked) {
-							console.log('POST EDIT');
 							let dashArray = createDashBoardArray(char);
-							console.log('DASHARRAY: ', dashArray);
 							$DashStore = $DashStore.filter((dashitem) => dashitem.charId !== char.id);
-							console.log('DASHTORE FILTER: ', $DashStore);
-
 							$DashStore = $DashStore.concat(dashArray);
-							console.log('DASHTORE: ', $DashStore);
 							localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
 						}
 					}
