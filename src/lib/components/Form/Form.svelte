@@ -27,7 +27,6 @@
 		charJob = '';
 		charLvl = 1;
 		charIsTracked = false;
-
 		resetDrop = false;
 	};
 
@@ -48,6 +47,7 @@
 
 	let resetDrop = false;
 	let showForm = false;
+	let formTitle: string;
 
 	initializeInputs();
 
@@ -88,19 +88,33 @@
 		dailyBosses = charObj.track.dailyBosses;
 		weeklyBosses = charObj.track.weeklyBosses;
 
-		toggleForm();
+		toggleForm(false);
+		formTitle = 'Edit Character';
 		return charObj;
 	}
 
 	const handleSubmit = () => {
 		if (formController == 'edit') {
 			charLvl = Math.min(Math.max(charLvl, 1), 300);
+
+			if (charLvl >= 205) {
+				arcaneSymbols[0].gain *= 2;
+			}
+
+			if (charLvl >= 215) {
+				arcaneSymbols[1].gain *= 2;
+			}
+
 			arcaneSymbols.forEach((arcane) => {
 				arcane.active = charLvl >= arcane.reqLevel ? true : false;
+				arcane.level = Math.min(Math.max(arcane.level, 1), 20);
+				arcane.exp = Math.min(Math.max(arcane.exp, 0), ExpReqArcane[arcane.level - 1]);
 			});
 
 			sacredSymbols.forEach((sacred) => {
 				sacred.active = charLvl >= sacred.reqLevel ? true : false;
+				sacred.level = Math.min(Math.max(sacred.level, 1), 11);
+				sacred.exp = Math.min(Math.max(sacred.exp, 0), ExpReqSacred[sacred.level - 1]);
 			});
 
 			$DataStore.map((char, index) => {
@@ -123,13 +137,21 @@
 				}
 			});
 			resetDrop = true;
-			toggleForm();
+			toggleForm(true);
 		}
 
 		if (formController == 'create') {
 			charLvl = Math.min(Math.max(charLvl, 1), 300);
 			const charObj = createCharacter();
 			charObj.id = crypto.randomUUID();
+
+			if (charLvl >= 205) {
+				arcaneSymbols[0].gain *= 2;
+			}
+
+			if (charLvl >= 215) {
+				arcaneSymbols[1].gain *= 2;
+			}
 
 			arcaneSymbols.forEach((arcane) => {
 				arcane.active = charLvl >= arcane.reqLevel ? true : false;
@@ -157,7 +179,7 @@
 			initializeInputs();
 			resetDrop = true;
 			console.log($DataStore);
-			toggleForm();
+			toggleForm(true);
 		}
 		formController = 'create';
 	};
@@ -166,14 +188,18 @@
 		return img_url.endsWith('.jpg') || img_url.endsWith('.png') ? charImg : default_img;
 	};
 
-	const toggleForm = () => {
+	const toggleForm = (clear: boolean = true) => {
+		formTitle = 'Add new Character';
+		if (clear) {
+			initializeInputs();
+		}
 		showForm = !showForm;
 	};
 </script>
 
 <button
 	id="add-char-btn"
-	on:click={toggleForm}
+	on:click={() => toggleForm()}
 	class="bg-green-300 m-2 p-1 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 flex text-center justify-items-center text-theme-base"
 >
 	<svg class="h-[1.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"
@@ -192,7 +218,7 @@
 			class="bg-theme-base text-theme-dark relative rounded-lg z-10"
 		>
 			<form class="h-[90%] overflow-y-auto" on:submit|preventDefault={handleSubmit}>
-				<div class="w-full text-center font-bold text-2xl mb-2 mt-2">Add new Character</div>
+				<div class="w-full text-center font-bold text-2xl mb-2 mt-2">{formTitle}</div>
 				<div class="flex w-full">
 					<!-- Left Side -->
 					<div class="w-2/4 flex flex-col items-center border-r border-theme-decorated">
@@ -238,7 +264,7 @@
 					<!-- Buttons -->
 					<div class="flex h-[10%] font-bold right-0 bottom-0 absolute m-2">
 						<button
-							on:click|preventDefault={toggleForm}
+							on:click|preventDefault={() => toggleForm(true)}
 							class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
 						>
 							Cancel
