@@ -93,6 +93,15 @@
 
 	const handleSubmit = () => {
 		if (formController == 'edit') {
+			charLvl = Math.min(Math.max(charLvl, 1), 300);
+			arcaneSymbols.forEach((arcane) => {
+				arcane.active = charLvl >= arcane.reqLevel ? true : false;
+			});
+
+			sacredSymbols.forEach((sacred) => {
+				sacred.active = charLvl >= sacred.reqLevel ? true : false;
+			});
+
 			$DataStore.map((char, index) => {
 				if (char.id === charId) {
 					let editedCharObj = createCharacter();

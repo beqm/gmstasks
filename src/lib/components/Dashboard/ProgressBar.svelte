@@ -16,7 +16,7 @@
 
 <div class="w-full flex flex-col items-center">
 	<div class="text-xl">{label}</div>
-	<div class="h-[2.6rem] w-[80%] bg-theme-strong border border-theme-soft relative mb-4">
+	<div class="h-[2.6rem] w-[80%] bg-theme-soft border border-theme-soft relative mb-4">
 		<div class="absolute bottom-[.4rem] left-0 text-xl right-0 font-bold">{control}%</div>
 		<div class="h-10 {color} justify-center items-center" style="width: {$progress}%" />
 	</div>

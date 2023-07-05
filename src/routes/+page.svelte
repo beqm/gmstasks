@@ -7,6 +7,7 @@
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import { onMount } from 'svelte/internal';
 	import type { DashItem } from '$lib/types/types';
+	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils';
 
 	const progressControl = (array: DashItem[], type: string, period: string) => {
 		let counter: number = 0;
@@ -53,12 +54,27 @@
 					char.track.dailyEvents.forEach((track) => {
 						if (track.name == currTrack.trackName) {
 							track.complete = true;
+							if ($ActiveStore) {
+								if (ArcaneDaily.includes(currTrack.trackName)) {
+									let symbol = $ActiveStore.track.arcaneSymbols[ArcaneDaily.indexOf(currTrack.trackName)];
+									calculateSymbol(symbol, symbol.gain);
+								} else if (SacredDaily.includes(currTrack.trackName)) {
+									let symbol = $ActiveStore.track.sacredSymbols[SacredDaily.indexOf(currTrack.trackName)];
+									calculateSymbol(symbol, symbol.gain);
+								}
+							}
 						}
 					});
 
 					char.track.weeklyEvents.forEach((track) => {
 						if (track.name == currTrack.trackName) {
 							track.complete = true;
+							if ($ActiveStore) {
+								if (ArcaneWeekly.includes(currTrack.trackName)) {
+									let symbol = $ActiveStore.track.arcaneSymbols[ArcaneWeekly.indexOf(currTrack.trackName)];
+									calculateSymbol(symbol, 45);
+								}
+							}
 						}
 					});
 
@@ -94,14 +110,14 @@
 	>
 		<div class="w-full text-center font-bold text-3xl mt-4">Dashboard</div>
 		<div class="justify-evenly w-[90%] mt-10 flex">
-			<div class="w-[40%] bg-theme-soft text-center rounded-lg">
+			<div class="w-[40%] text-center rounded-lg">
 				<div class="text-2xl font-bold">Bosses</div>
 				<div class="flex flex-col items-center p-4">
 					<ProgressBar label="Dailies" control={dailyBossesControl} />
 					<ProgressBar label="Weeklies" control={weeklyBossesControl} />
 				</div>
 			</div>
-			<div class="w-[40%] bg-theme-soft text-center rounded-lg">
+			<div class="w-[40%] text-center rounded-lg">
 				<div class="text-2xl font-bold">Events</div>
 				<div class="flex flex-col items-center p-4">
 					<ProgressBar label="Dailies" control={dailyEventControl} />
@@ -109,9 +125,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="items-center w-[90%] mt-10 flex flex-col bg-theme-soft rounded-lg h-[400px]">
+		<div class="items-center w-[90%] mt-10 flex flex-col rounded-lg h-[400px]">
 			<div class="text-2xl font-bold">Todo</div>
-			<div class="flex flex-col w-[90%] bg-theme-strong m-4 max-h-[540px] overflow-y-auto">
+			<div class="flex flex-col w-[90%] bg-theme-soft m-4 max-h-[540px] overflow-y-auto">
 				{#if !$DashStore}
 					<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
 				{/if}

@@ -3,6 +3,7 @@
 	import ActiveStore from '$lib/stores/ActiveStore';
 	import DataStore from '$lib/stores/DataStore';
 	import DashStore from '$lib/stores/DashStore';
+	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils';
 
 	export let events: MEvent[];
 
@@ -13,6 +14,16 @@
 		$DataStore.map((char, index) => {
 			if ($ActiveStore) {
 				if (char.id === $ActiveStore.id) {
+					if (ArcaneDaily.includes(currTrack.name)) {
+						let symbol = $ActiveStore.track.arcaneSymbols[ArcaneDaily.indexOf(currTrack.name)];
+						calculateSymbol(symbol, symbol.gain);
+					} else if (ArcaneWeekly.includes(currTrack.name)) {
+						let symbol = $ActiveStore.track.arcaneSymbols[ArcaneWeekly.indexOf(currTrack.name)];
+						calculateSymbol(symbol, 45);
+					} else if (SacredDaily.includes(currTrack.name)) {
+						let symbol = $ActiveStore.track.sacredSymbols[SacredDaily.indexOf(currTrack.name)];
+						calculateSymbol(symbol, symbol.gain);
+					}
 					$DataStore[index] = $ActiveStore;
 					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
 					localStorage.setItem('local_chars', JSON.stringify($DataStore));

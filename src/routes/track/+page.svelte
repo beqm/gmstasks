@@ -9,10 +9,14 @@
 	import DataStore from '$lib/stores/DataStore';
 	import DashStore from '$lib/stores/DashStore';
 	import { createDashBoardArray } from '$lib/utils';
+	import SymbolNavbar from '$lib/components/Track/SymbolNavbar.svelte';
+	import ArcaneTrack from '$lib/components/Track/ArcaneTrack.svelte';
+	import SacredTrack from '$lib/components/Track/SacredTrack.svelte';
 
 	let currentPage = 'events';
 	let currentBossSubPage = 'daily';
 	let currentEventSubPage = 'daily';
+	let currentSymbolSubPage = 'arcane';
 
 	const changeBossSubPage = (e: CustomEvent<string>) => {
 		currentBossSubPage = e.detail;
@@ -20,6 +24,10 @@
 
 	const changeEventSubPage = (e: CustomEvent<string>) => {
 		currentEventSubPage = e.detail;
+	};
+
+	const changeSymbolSubPage = (e: CustomEvent<string>) => {
+		currentSymbolSubPage = e.detail;
 	};
 
 	const toggleToDashboard = (status: boolean) => {
@@ -58,10 +66,12 @@
 	const changePage = (path: string) => {
 		let trackEventsBtn = document.querySelector('#track-events-btn') as HTMLButtonElement;
 		let trackBossesBtn = document.querySelector('#track-bosses-btn') as HTMLButtonElement;
+		let trackSymbolsBtn = document.querySelector('#track-symbols-btn') as HTMLButtonElement;
 		if (currentPage !== path) {
 			currentPage = path;
 			currentBossSubPage = 'daily';
 			currentEventSubPage = 'daily';
+			currentSymbolSubPage = 'arcane';
 
 			if (path == 'events') {
 				trackEventsBtn.classList.add('bg-theme-decorated');
@@ -69,12 +79,27 @@
 
 				trackBossesBtn.classList.remove('bg-theme-decorated');
 				trackBossesBtn.classList.add('hover:bg-theme-softdecorated');
-			} else {
+
+				trackSymbolsBtn.classList.remove('bg-theme-decorated');
+				trackSymbolsBtn.classList.add('hover:bg-theme-softdecorated');
+			} else if (path == 'bosses') {
 				trackBossesBtn.classList.add('bg-theme-decorated');
 				trackBossesBtn.classList.remove('hover:bg-theme-softdecorated');
 
 				trackEventsBtn.classList.remove('bg-theme-decorated');
 				trackEventsBtn.classList.add('hover:bg-theme-softdecorated');
+
+				trackSymbolsBtn.classList.remove('bg-theme-decorated');
+				trackSymbolsBtn.classList.add('hover:bg-theme-softdecorated');
+			} else {
+				trackSymbolsBtn.classList.add('bg-theme-decorated');
+				trackSymbolsBtn.classList.remove('hover:bg-theme-softdecorated');
+
+				trackEventsBtn.classList.remove('bg-theme-decorated');
+				trackEventsBtn.classList.add('hover:bg-theme-softdecorated');
+
+				trackBossesBtn.classList.remove('bg-theme-decorated');
+				trackBossesBtn.classList.add('hover:bg-theme-softdecorated');
 			}
 		}
 	};
@@ -101,16 +126,19 @@
 						id="track-bosses-btn"
 						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Bosses</button
 					>
+					<button
+						on:click={() => changePage('symbols')}
+						id="track-symbols-btn"
+						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Symbols</button
+					>
 					{#if !$ActiveStore.isTracked}
 						<button
 							on:click={() => toggleToDashboard(true)}
-							id="track-bosses-btn"
 							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Add to Dashboard</button
 						>
 					{:else}
 						<button
 							on:click={() => toggleToDashboard(false)}
-							id="track-bosses-btn"
 							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Remove from Dashboard</button
 						>
 					{/if}
@@ -152,6 +180,14 @@
 						<BossTrack bosses={$ActiveStore.track.dailyBosses} />
 					{:else if currentBossSubPage == 'weekly'}
 						<BossTrack bosses={$ActiveStore.track.weeklyBosses} />
+					{/if}
+				{:else if currentPage == 'symbols'}
+					<div class="text-center font-bold text-3xl mt-4">Symbols</div>
+					<SymbolNavbar on:pagechange={changeSymbolSubPage} />
+					{#if currentSymbolSubPage == 'arcane'}
+						<ArcaneTrack />
+					{:else if currentSymbolSubPage == 'sacred'}
+						<SacredTrack />
 					{/if}
 				{/if}
 			</div>

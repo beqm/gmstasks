@@ -83,16 +83,16 @@
         { "name": "Esfera_Guardian", "img_url":"src/lib/assets/symbol_icons/esfera_icon.webp", "complete": false, "active": false, "amount": 1 }
     ],
     "arcaneSymbols": [
-        { "name": "VanishingJourney", "img_url":"src/lib/assets/symbol_icons/vanishing_icon.webp", "level": 1, "reqLevel": 200, "exp": 1, "gain": 8, "active": false },
-        { "name": "ChuChu", "img_url":"src/lib/assets/symbol_icons/chuchu_icon.webp", "level": 1, "exp": 1, "reqLevel": 210, "gain": 8, "active": false },
-        { "name": "Lachelein", "img_url":"src/lib/assets/symbol_icons/lachelein_icon.webp", "level": 1, "reqLevel": 220, "exp": 1, "gain": 8, "active": false },
-        { "name": "Arcana", "img_url":"src/lib/assets/symbol_icons/arcana_icon.webp", "level": 1, "reqLevel": 225, "exp": 1, "gain": 8, "active": false },
-        { "name": "Morass", "img_url":"src/lib/assets/symbol_icons/morass_icon.webp", "level": 1, "reqLevel": 230, "exp": 1, "gain": 8, "active": false },
-        { "name": "Esfera", "img_url":"src/lib/assets/symbol_icons/esfera_icon.webp", "level": 1, "reqLevel": 235, "exp": 1, "gain": 8, "active": false }
+        { "name": "VanishingJourney", "img_url":"src/lib/assets/symbol_icons/vanishing_icon.webp", "level": 1, "reqLevel": 200, "exp": 1, "gain": 8, "active": false, "type": "arcane"},
+        { "name": "ChuChu", "img_url":"src/lib/assets/symbol_icons/chuchu_icon.webp", "level": 1, "exp": 1, "reqLevel": 210, "gain": 8, "active": false, "type": "arcane" },
+        { "name": "Lachelein", "img_url":"src/lib/assets/symbol_icons/lachelein_icon.webp", "level": 1, "reqLevel": 220, "exp": 1, "gain": 8, "active": false, "type": "arcane" },
+        { "name": "Arcana", "img_url":"src/lib/assets/symbol_icons/arcana_icon.webp", "level": 1, "reqLevel": 225, "exp": 1, "gain": 8, "active": false, "type": "arcane" },
+        { "name": "Morass", "img_url":"src/lib/assets/symbol_icons/morass_icon.webp", "level": 1, "reqLevel": 230, "exp": 1, "gain": 8, "active": false, "type": "arcane" },
+        { "name": "Esfera", "img_url":"src/lib/assets/symbol_icons/esfera_icon.webp", "level": 1, "reqLevel": 235, "exp": 1, "gain": 8, "active": false, "type": "arcane" }
     ],
     "sacredSymbols": [
-        { "name": "Cernium", "img_url":"src/lib/assets/symbol_icons/cernium_icon.webp", "level": 1, "reqLevel": 260, "exp": 1, "gain": 8, "active": false },
-        { "name": "Arcus", "img_url":"src/lib/assets/symbol_icons/arcus_icon.webp", "level": 1, "reqLevel": 270, "exp": 1, "gain": 8, "active": false },
-        { "name": "Odium", "img_url":"src/lib/assets/symbol_icons/odium_icon.webp", "level": 1, "reqLevel": 275, "exp": 1, "gain": 8, "active": false }
+        { "name": "Cernium", "img_url":"src/lib/assets/symbol_icons/cernium_icon.webp", "level": 1, "reqLevel": 260, "exp": 1, "gain": 8, "active": false, "type": "sacred" },
+        { "name": "Arcus", "img_url":"src/lib/assets/symbol_icons/arcus_icon.webp", "level": 1, "reqLevel": 270, "exp": 1, "gain": 8, "active": false, "type": "sacred" },
+        { "name": "Odium", "img_url":"src/lib/assets/symbol_icons/odium_icon.webp", "level": 1, "reqLevel": 275, "exp": 1, "gain": 8, "active": false, "type": "sacred" }
     ]
 }

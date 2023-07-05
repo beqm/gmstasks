@@ -19,7 +19,12 @@
  <!-- - button to send current character to dashboard -->
  <!-- - show when completed events reset ( e.g weekly bosses reset on thursday) -->
 
-- when symbols dailies are completed, automatically calculate exp
+# Symbols subpage
+
+ <!-- - Show all symbols -->
+ <!-- - correctly change symbols when editing char lvl -->
+
+- when symbols dailies/weeklies are completed, automatically calculate exp
 
 # DashBoard Page
 

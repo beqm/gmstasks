@@ -24,7 +24,11 @@
 </script>
 
 <svelte:head>
-	<title>GMSTRACKER</title>
+	{#if count != 0}
+		<title>GMSTRACKER ({count})</title>
+	{:else}
+		<title>GMSTRACKER</title>
+	{/if}
 </svelte:head>
 
 <nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-dark">

@@ -6,6 +6,7 @@ export type MSymbol = {
 	exp: number;
 	gain: number;
 	active: boolean;
+	type: string;
 };
 
 export type MBoss = {
