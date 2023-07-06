@@ -25,15 +25,15 @@
 
 <svelte:head>
 	{#if count != 0}
-		<title>({count}) GMSTRACKER</title>
+		<title>({count}) GMSTASKS</title>
 	{:else}
-		<title>GMSTRACKER</title>
+		<title>GMSTASKS</title>
 	{/if}
 </svelte:head>
 
 <nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-dark">
 	<div class="flex w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
-		<div class="p-3 uppercase rounded-lg text-lg">gmstracker</div>
+		<div class="p-3 uppercase rounded-lg text-lg">GMSTASKS</div>
 
 		<div class="flex">
 			<div class="flex flex-col pl-5 pr-5 rounded-lg justify-center font-bold uppercase text-sm bg-theme-decorated">
