@@ -105,6 +105,10 @@
 				arcaneSymbols[1].gain *= 2;
 			}
 
+			if (charLvl >= 265) {
+				sacredSymbols[0].gain += 5;
+			}
+
 			arcaneSymbols.forEach((arcane) => {
 				arcane.active = charLvl >= arcane.reqLevel ? true : false;
 				arcane.level = Math.min(Math.max(arcane.level, 1), 20);
@@ -151,6 +155,10 @@
 
 			if (charLvl >= 215) {
 				arcaneSymbols[1].gain *= 2;
+			}
+
+			if (charLvl >= 265) {
+				sacredSymbols[0].gain += 5;
 			}
 
 			arcaneSymbols.forEach((arcane) => {
