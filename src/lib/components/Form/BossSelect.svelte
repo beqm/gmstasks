@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { MBoss } from '$lib/types/types';
+	import type { MBosses } from '$lib/types/types';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
 	export let inputLabel: string;
-	export let selectData: MBoss[];
-	let showSelect = false;
+	export let selectData: MBosses;
+	let showSelect: boolean = false;
 
 	const toggleEventSelect = () => {
 		showSelect = !showSelect;
@@ -21,10 +21,9 @@
 </script>
 
 <div>
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div
+	<button
 		class="flex items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated cursor-pointer"
+		type="button"
 		on:click={toggleEventSelect}
 	>
 		<span class="p-2">{inputLabel.replace('_', ' ')}</span>
@@ -38,14 +37,14 @@
 				d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
 			/></svg
 		>
-	</div>
+	</button>
 	{#if showSelect}
 		<ul
 			transition:slide
 			id={inputLabel}
 			class=" flex flex-col items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated max-h-[220px] mb-2 overflow-y-auto"
 		>
-			{#each selectData as item}
+			{#each [...selectData.values()] as item}
 				<li class="flex text-left w-full">
 					<label class="p-2" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
 					<input type="checkbox" id={item.name} class="ml-auto mr-2" bind:checked={item.active} />

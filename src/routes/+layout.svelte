@@ -2,24 +2,23 @@
 	import '../app.postcss';
 	import '$lib/styles/navbar.css';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import DataStore from '$lib/stores/DataStore';
-	import DashStore from '$lib/stores/DashStore';
+	import MainStore from '$lib/stores/MainStore';
 	import { onMount } from 'svelte';
-	import { StorageToStore } from '$lib/utils';
+	import { localStoragetoStore } from '$lib/utils/storage';
 
-	$: count = $DashStore.reduce((acc, obj) => {
-		if (obj.status === false) {
-			return acc + 1;
-		} else {
-			return acc;
-		}
-	}, 0);
+	let notifierCounter = 0;
+	let notifierCount = () => {
+		$MainStore.dashboard.forEach((value) => {
+			if (value.status) {
+				notifierCounter += 1;
+			}
+		});
+	};
+
+	$: count = notifierCounter;
 
 	onMount(() => {
-		StorageToStore(ActiveStore, 'active_char', '[]');
-		StorageToStore(DataStore, 'local_chars', '[]');
-		StorageToStore(DashStore, 'dashboard_items', '[]');
+		localStoragetoStore(MainStore);
 	});
 </script>
 
@@ -50,7 +49,7 @@
 				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">characters</li>
 			</a>
 
-			{#if $ActiveStore}
+			{#if $MainStore.active}
 				<a href="track">
 					<li class="flex p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">
 						<svg
@@ -64,7 +63,7 @@
 						>
 					</li>
 				</a>
-			{:else if !$ActiveStore}
+			{:else if !$MainStore.active}
 				<a href="track" class="track-disabled">
 					<li class="flex p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">
 						<svg

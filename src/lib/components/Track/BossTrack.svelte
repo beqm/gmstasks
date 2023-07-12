@@ -1,36 +1,27 @@
 <script lang="ts">
 	import type { MBoss } from '$lib/types/types';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import DataStore from '$lib/stores/DataStore';
-	import DashStore from '$lib/stores/DashStore';
+	import MainStore from '$lib/stores/MainStore';
+	import { tasksMapToObj, saveMapToLocalStorage } from '$lib/utils/storage';
 
 	export let bosses: MBoss[];
 
 	const handleComplete = (currTrack: MBoss) => {
 		currTrack.complete = true;
-		$ActiveStore = $ActiveStore;
+		if ($MainStore.active) {
+			$MainStore.active = $MainStore.active;
+			$MainStore.characters.set($MainStore.active.id, $MainStore.active);
 
-		$DataStore.map((char, index) => {
-			if ($ActiveStore) {
-				if (char.id === $ActiveStore.id) {
-					$DataStore[index] = $ActiveStore;
-					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-					localStorage.setItem('local_chars', JSON.stringify($DataStore));
-				}
-			}
-		});
+			let char = tasksMapToObj($MainStore.active);
+			localStorage.setItem('active', JSON.stringify(char));
+			saveMapToLocalStorage($MainStore.characters, 'characters');
 
-		$DashStore.map((item) => {
-			if ($ActiveStore) {
-				if (item.charId === $ActiveStore.id) {
-					if (currTrack.name == item.trackName) {
-						item.status = true;
-						$DashStore = $DashStore;
-						localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
-					}
-				}
+			let dashItem = $MainStore.dashboard.get(`${$MainStore.active.id}|${currTrack.name}|${currTrack.difficulty}`);
+			if (dashItem) {
+				dashItem.status = true;
+				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
-		});
+			$MainStore = $MainStore;
+		}
 	};
 </script>
 

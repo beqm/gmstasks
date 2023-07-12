@@ -1,11 +1,11 @@
 <script lang="ts">
-	import ActiveStore from '$lib/stores/ActiveStore';
+	import MainStore from '$lib/stores/MainStore';
 	import type { Character } from '$lib/types/types';
 	export let currentCharIteration: Character;
 </script>
 
-{#if $ActiveStore}
-	{#if $ActiveStore.id == currentCharIteration.id}
+{#if $MainStore.active}
+	{#if $MainStore.active.id == currentCharIteration.id}
 		<div class="flex w-[33%] justify-center">
 			<svg
 				class="w-[2rem] text-theme-decorated"

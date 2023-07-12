@@ -1,17 +1,16 @@
 <script lang="ts">
-	import ActiveStore from '$lib/stores/ActiveStore';
 	import { fly } from 'svelte/transition';
 	import BossTrack from '$lib/components/Track/BossTrack.svelte';
 	import EventTrack from '$lib/components/Track/EventTrack.svelte';
 	import BossNavbar from '$lib/components/Track/BossNavbar.svelte';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
-	import DataStore from '$lib/stores/DataStore';
-	import DashStore from '$lib/stores/DashStore';
-	import { createDashBoardArray } from '$lib/utils';
 	import SymbolNavbar from '$lib/components/Track/SymbolNavbar.svelte';
 	import ArcaneTrack from '$lib/components/Track/ArcaneTrack.svelte';
 	import SacredTrack from '$lib/components/Track/SacredTrack.svelte';
+	import MainStore from '$lib/stores/MainStore';
+	import { createDashBoardMap, localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { onMount } from 'svelte';
 
 	let currentPage = 'events';
 	let currentBossSubPage = 'daily';
@@ -31,36 +30,30 @@
 	};
 
 	const toggleToDashboard = (status: boolean) => {
-		if (!$ActiveStore?.isTracked) {
-			DashStore.update((data) => {
-				let updatedData = [...data];
-				if ($ActiveStore) {
-					let dashObjs = createDashBoardArray($ActiveStore);
-					updatedData = updatedData.concat(dashObjs);
-					localStorage.setItem('dashboard_items', JSON.stringify(updatedData));
-				}
-				return updatedData;
-			});
-		} else {
-			if ($ActiveStore) {
-				$DashStore = $DashStore.filter((item) => item.charId !== $ActiveStore?.id);
-				localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+		if ($MainStore.active) {
+			$MainStore.active.isTracked = status;
+
+			let localChar = $MainStore.characters.get($MainStore.active.id);
+			if (localChar) {
+				$MainStore.characters.set(localChar.id, localChar);
 			}
+
+			if (status) {
+				let dashMap = createDashBoardMap($MainStore.active);
+				$MainStore.dashboard = new Map([...$MainStore.dashboard, ...dashMap]);
+			} else {
+				$MainStore.dashboard.forEach((value, key) => {
+					if (value.charId == $MainStore.active?.id) {
+						$MainStore.dashboard.delete(key);
+					}
+				});
+			}
+			let char = tasksMapToObj($MainStore.active);
+			localStorage.setItem('active', JSON.stringify(char));
+			saveMapToLocalStorage($MainStore.characters, 'characters');
+			saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+			$MainStore = $MainStore;
 		}
-
-		$DataStore.map((char, index) => {
-			if ($ActiveStore) {
-				if (char.id === $ActiveStore.id) {
-					$ActiveStore.isTracked = status;
-					$DataStore[index] = $ActiveStore;
-
-					$ActiveStore = $ActiveStore;
-					$DataStore = $DataStore;
-					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-					localStorage.setItem('local_chars', JSON.stringify($DataStore));
-				}
-			}
-		});
 	};
 
 	const changePage = (path: string) => {
@@ -106,13 +99,13 @@
 </script>
 
 <div class="flex w-full justify-center h-[850px]">
-	{#if $ActiveStore}
+	{#if $MainStore.active}
 		<div in:fly={{ x: -200, duration: 250 }} class="flex w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base">
 			<!-- Navbar -->
 			<div class="w-[20%] border-r border-theme-base">
-				<img src={$ActiveStore.img} alt="current active character" class="w-full" />
+				<img src={$MainStore.active.img} alt="current active character" class="w-full" />
 				<div class="max-h-[50px] overflow-hidden text-center font-bold text-2xl">
-					{$ActiveStore.name}
+					{$MainStore.active.name}
 				</div>
 
 				<div class="flex flex-col w-full mt-6 text-center font-bold">
@@ -131,7 +124,7 @@
 						id="track-symbols-btn"
 						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Symbols</button
 					>
-					{#if !$ActiveStore.isTracked}
+					{#if !$MainStore.active.isTracked}
 						<button
 							on:click={() => toggleToDashboard(true)}
 							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Add to Dashboard</button
@@ -160,9 +153,9 @@
 					{/if}
 
 					{#if currentEventSubPage == 'daily'}
-						<EventTrack events={$ActiveStore.track.dailyEvents} />
+						<EventTrack events={[...$MainStore.active.track.dailyEvents.values()]} />
 					{:else if currentEventSubPage == 'weekly'}
-						<EventTrack events={$ActiveStore.track.weeklyEvents} />
+						<EventTrack events={[...$MainStore.active.track.weeklyEvents.values()]} />
 					{/if}
 				{:else if currentPage == 'bosses'}
 					<div class="text-center font-bold text-3xl mt-4">Bosses</div>
@@ -177,9 +170,9 @@
 						</div>
 					{/if}
 					{#if currentBossSubPage == 'daily'}
-						<BossTrack bosses={$ActiveStore.track.dailyBosses} />
+						<BossTrack bosses={[...$MainStore.active.track.dailyBosses.values()]} />
 					{:else if currentBossSubPage == 'weekly'}
-						<BossTrack bosses={$ActiveStore.track.weeklyBosses} />
+						<BossTrack bosses={[...$MainStore.active.track.weeklyBosses.values()]} />
 					{/if}
 				{:else if currentPage == 'symbols'}
 					<div class="text-center font-bold text-3xl mt-4">Symbols</div>

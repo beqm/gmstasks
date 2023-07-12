@@ -24,9 +24,8 @@
  <!-- - Show all symbols -->
  <!-- - correctly change symbols when editing char lvl -->
  <!-- - when symbols dailies/weeklies are completed, automatically calculate exp -->
-
-- Fix gain amount depending on symbol
-<!-- - check if editing symbol on edit form is correctly validated -->
+ <!-- - Fix gain amount depending on symbol -->
+ <!-- - check if editing symbol on edit form is correctly validated -->
 
 # DashBoard Page
 
@@ -42,3 +41,11 @@
  <!-- - Daily Reset Countdown -->
  <!-- - Improve Reset timer -->
  <!-- - notifiers -->
+
+# things to fix
+
+- Responsive layout
+- Check if when day/week reset, correspondent events reset also reset
+  <!-- - Drop and drag zone fix -->
+  <!-- - Symbols are not leveling up when completing dailies/weeklies -->
+  <!-- - fix import/export -->

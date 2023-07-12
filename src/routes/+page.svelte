@@ -1,105 +1,74 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import ProgressBar from '$lib/components/Dashboard/ProgressBar.svelte';
-	import { StorageToStore } from '$lib/utils';
-	import DashStore from '$lib/stores/DashStore';
-	import DataStore from '$lib/stores/DataStore';
-	import ActiveStore from '$lib/stores/ActiveStore';
+	import MainStore from '$lib/stores/MainStore';
 	import { onMount } from 'svelte/internal';
-	import type { DashItem } from '$lib/types/types';
-	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils';
+	import type { DashItem, MBoss, MEvent, MSymbol } from '$lib/types/types';
+	import { progressControl } from '$lib/utils/tasks';
+	import { localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { ArcaneWeekly, SacredDaily, ArcaneDaily, calculateSymbol } from '$lib/utils/validation';
 
-	const progressControl = (array: DashItem[], type: string, period: string) => {
-		let counter: number = 0;
-		let totalCounter: number = 0;
-		for (let item of array) {
-			if (item.period == period && item.trackType == type) {
-				totalCounter += 1;
-				if (item.status) {
-					counter += 1;
-				}
-			}
-		}
-		let result = (counter / totalCounter) * 100;
-		if (result) {
-			return Math.floor(result);
-		} else {
-			return 0;
-		}
-	};
-
-	$: dailyBossesControl = progressControl($DashStore, 'Boss', 'Daily');
-	$: weeklyBossesControl = progressControl($DashStore, 'Boss', 'Weekly');
-	$: dailyEventControl = progressControl($DashStore, 'Event', 'Daily');
-	$: weeklyEventControl = progressControl($DashStore, 'Event', 'Weekly');
+	$: dailyBossesControl = progressControl($MainStore.dashboard, 'Boss', 'Daily');
+	$: weeklyBossesControl = progressControl($MainStore.dashboard, 'Boss', 'Weekly');
+	$: dailyEventControl = progressControl($MainStore.dashboard, 'Event', 'Daily');
+	$: weeklyEventControl = progressControl($MainStore.dashboard, 'Event', 'Weekly');
 
 	const handleComplete = (currTrack: DashItem) => {
 		currTrack.status = true;
-
-		$DataStore.map((char) => {
-			if ($ActiveStore) {
-				if (char.id === currTrack.charId) {
-					char.track.dailyBosses.forEach((track) => {
-						if (track.name == currTrack.trackName && track.difficulty == currTrack.trackInfo) {
-							track.complete = true;
-						}
-					});
-
-					char.track.weeklyBosses.forEach((track) => {
-						if (track.name == currTrack.trackName && track.difficulty == currTrack.trackInfo) {
-							track.complete = true;
-						}
-					});
-
-					char.track.dailyEvents.forEach((track) => {
-						if (track.name == currTrack.trackName) {
-							track.complete = true;
-							if ($ActiveStore) {
-								if (ArcaneDaily.includes(currTrack.trackName)) {
-									let symbol = $ActiveStore.track.arcaneSymbols[ArcaneDaily.indexOf(currTrack.trackName)];
-									calculateSymbol(symbol, symbol.gain);
-								} else if (SacredDaily.includes(currTrack.trackName)) {
-									let symbol = $ActiveStore.track.sacredSymbols[SacredDaily.indexOf(currTrack.trackName)];
-									calculateSymbol(symbol, symbol.gain);
-								}
-							}
-						}
-					});
-
-					char.track.weeklyEvents.forEach((track) => {
-						if (track.name == currTrack.trackName) {
-							track.complete = true;
-							if ($ActiveStore) {
-								if (ArcaneWeekly.includes(currTrack.trackName)) {
-									let symbol = $ActiveStore.track.arcaneSymbols[ArcaneWeekly.indexOf(currTrack.trackName)];
-									calculateSymbol(symbol, 45);
-								}
-							}
-						}
-					});
-
-					if (char.id == $ActiveStore.id) {
-						$ActiveStore = char;
-					}
-
-					$ActiveStore = $ActiveStore;
-					$DataStore = $DataStore;
-					$DashStore = $DashStore;
-
-					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-					localStorage.setItem('local_chars', JSON.stringify($DataStore));
-					localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
-				}
+		let char = $MainStore.characters.get(currTrack.charId);
+		if (char) {
+			let item: MBoss | MEvent | undefined;
+			if (currTrack.period == 'Daily' && currTrack.trackType == 'Boss') {
+				item = char.track.dailyBosses.get(`${currTrack.trackInfo}${currTrack.trackName}`);
+			} else if (currTrack.period == 'Weekly' && currTrack.trackType == 'Boss') {
+				item = char.track.weeklyBosses.get(`${currTrack.trackInfo}${currTrack.trackName}`);
+			} else if (currTrack.period == 'Daily' && currTrack.trackType == 'Event') {
+				item = char.track.dailyEvents.get(`${currTrack.trackName}`);
+			} else if (currTrack.period == 'Weekly' && currTrack.trackType == 'Event') {
+				item = char.track.weeklyEvents.get(`${currTrack.trackName}`);
 			}
-		});
+			if (item) {
+				item.complete = true;
+
+				let symbol: MSymbol | undefined;
+				if (ArcaneDaily.includes(currTrack.trackName)) {
+					symbol = char.track.arcanes.get(currTrack.trackName.replace('_Daily', ''));
+					if (symbol) {
+						calculateSymbol(symbol, symbol.gain);
+					}
+				} else if (ArcaneWeekly.includes(currTrack.trackName)) {
+					if (currTrack.symbol) {
+						symbol = char.track.arcanes.get(currTrack.symbol);
+						if (symbol) {
+							calculateSymbol(symbol, 45);
+						}
+					}
+				} else if (SacredDaily.includes(currTrack.trackName)) {
+					symbol = char.track.sacreds.get(currTrack.trackName.replace('_Daily', ''));
+					if (symbol) {
+						calculateSymbol(symbol, symbol.gain);
+					}
+				}
+
+				$MainStore.active = char;
+				$MainStore.characters.set(char.id, char);
+				let duplicate = tasksMapToObj($MainStore.active);
+				localStorage.setItem('active', JSON.stringify(duplicate));
+
+				saveMapToLocalStorage($MainStore.characters, 'characters');
+				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+				$MainStore = $MainStore;
+			}
+		}
 	};
 
 	onMount(async () => {
-		StorageToStore(DashStore, 'dashboard_items', '[]');
-		dailyBossesControl = progressControl($DashStore, 'Boss', 'Daily');
-		weeklyBossesControl = progressControl($DashStore, 'Boss', 'Weekly');
-		dailyEventControl = progressControl($DashStore, 'Event', 'Daily');
-		weeklyEventControl = progressControl($DashStore, 'Event', 'Weekly');
+		localStoragetoStore(MainStore);
+		console.log($MainStore);
+		dailyBossesControl = progressControl($MainStore.dashboard, 'Boss', 'Daily');
+		weeklyBossesControl = progressControl($MainStore.dashboard, 'Boss', 'Weekly');
+		dailyEventControl = progressControl($MainStore.dashboard, 'Event', 'Daily');
+		weeklyEventControl = progressControl($MainStore.dashboard, 'Event', 'Weekly');
 	});
 </script>
 
@@ -128,48 +97,49 @@
 		<div class="items-center w-[90%] mt-10 flex flex-col rounded-lg h-[400px]">
 			<div class="text-2xl font-bold">Todo</div>
 			<div class="flex flex-col w-[90%] bg-theme-soft m-4 max-h-[540px] overflow-y-auto">
-				{#if !$DashStore}
+				{#if $MainStore.dashboard.size == 0}
 					<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
+				{:else}
+					{#each [...$MainStore.dashboard] as [key, item]}
+						{#if !item.status}
+							<div class="flex p-4 justify-evenly w-full border-b border-theme-base">
+								<div class="w-1/6 flex items-center justify-center">
+									<img src={item.charImgUrl} alt="char_img" class="w-10" />
+								</div>
+								<div class="w-1/6 flex justify-center items-center max-w-[5.4rem] overflow-x-clip">
+									{item.charName}
+								</div>
+								<div class="w-1/6 flex items-center justify-center">
+									<img src={item.trackImgUrl} alt="track_img" class="w-10" />
+								</div>
+
+								<div class="w-1/6 flex justify-center items-center max-w-[8rem] overflow-x-clip">
+									{#if item.trackInfo}
+										{item.trackInfo.replace('_', ' ')}
+									{/if}
+									{item.trackName.replace('_', ' ')}
+								</div>
+								<div class="w-1/6 flex justify-center items-center max-w-[5.4rem] overflow-x-clip">
+									{item.period}
+								</div>
+
+								<div class="w-1/6 flex justify-center items-center">Incomplete</div>
+								<button class="flex justify-center items-center" on:click={() => handleComplete(item)}>
+									<svg
+										class="text-theme-strongdecorated hover:text-theme-decorated"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="currentColor"
+										height="1.5em"
+										viewBox="0 0 448 512"
+										><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
+											d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+										/></svg
+									>
+								</button>
+							</div>
+						{/if}
+					{/each}
 				{/if}
-				{#each $DashStore as dashItem}
-					{#if !dashItem.status}
-						<div class="flex p-4 justify-evenly w-full border-b border-theme-base">
-							<div class="w-1/6 flex items-center justify-center">
-								<img src={dashItem.charImgUrl} alt="char_img" class="w-10" />
-							</div>
-							<div class="w-1/6 flex justify-center items-center max-w-[5.4rem] overflow-x-clip">
-								{dashItem.charName}
-							</div>
-							<div class="w-1/6 flex items-center justify-center">
-								<img src={dashItem.trackImgUrl} alt="track_img" class="w-10" />
-							</div>
-
-							<div class="w-1/6 flex justify-center items-center max-w-[8rem] overflow-x-clip">
-								{#if dashItem.trackInfo}
-									{dashItem.trackInfo.replace('_', ' ')}
-								{/if}
-								{dashItem.trackName.replace('_', ' ')}
-							</div>
-							<div class="w-1/6 flex justify-center items-center max-w-[5.4rem] overflow-x-clip">
-								{dashItem.period}
-							</div>
-
-							<div class="w-1/6 flex justify-center items-center">Incomplete</div>
-							<button class="flex justify-center items-center" on:click={() => handleComplete(dashItem)}>
-								<svg
-									class="text-theme-strongdecorated hover:text-theme-decorated"
-									xmlns="http://www.w3.org/2000/svg"
-									fill="currentColor"
-									height="1.5em"
-									viewBox="0 0 448 512"
-									><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
-										d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
-									/></svg
-								>
-							</button>
-						</div>
-					{/if}
-				{/each}
 			</div>
 		</div>
 	</div>

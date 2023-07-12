@@ -1,12 +1,22 @@
 export type MSymbol = {
 	name: string;
-	level: number;
 	img_url: string;
-	reqLevel: number;
+	level: number;
 	exp: number;
 	gain: number;
+	reqLevel: number;
 	active: boolean;
 	type: string;
+};
+
+export type MSymbols = Map<string, MSymbol>;
+export type MEvents = Map<string, MEvent>;
+export type MBosses = Map<string, MBoss>;
+
+export type DStore = {
+	active: Character | null;
+	characters: Map<string, Character>;
+	dashboard: Map<string, DashItem>;
 };
 
 export type MBoss = {
@@ -16,25 +26,27 @@ export type MBoss = {
 	active: boolean;
 	complete: boolean;
 	mesos: number;
+	type: string;
 };
 
 export type MEvent = {
 	name: string;
 	img_url: string;
 	complete: boolean;
-	difficulty?: string;
 	active: boolean;
 	amount: number;
 	unique?: boolean;
+	type: string;
+	symbol?: string;
 };
 
-export type MEvents = {
-	arcaneSymbols: MSymbol[];
-	sacredSymbols: MSymbol[];
-	dailyEvents: MEvent[];
-	weeklyEvents: MEvent[];
-	dailyBosses: MBoss[];
-	weeklyBosses: MBoss[];
+export type MTasks = {
+	arcanes: Map<string, MSymbol>;
+	sacreds: Map<string, MSymbol>;
+	dailyEvents: Map<string, MEvent>;
+	weeklyEvents: Map<string, MEvent>;
+	dailyBosses: Map<string, MBoss>;
+	weeklyBosses: Map<string, MBoss>;
 };
 
 export type Character = {
@@ -43,7 +55,7 @@ export type Character = {
 	name: string;
 	job: string;
 	level: number;
-	track: MEvents;
+	track: MTasks;
 	isTracked: boolean;
 };
 
@@ -57,4 +69,5 @@ export type DashItem = {
 	trackName: string;
 	status: boolean;
 	period: string;
+	symbol?: string;
 };

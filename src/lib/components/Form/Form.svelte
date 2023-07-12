@@ -1,213 +1,81 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-	import DataStore from '$lib/stores/DataStore';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import default_img from '$lib/assets/default_img.png';
+	import MainStore from '$lib/stores/MainStore';
 	import SymbolInput from '$lib/components/Form/SymbolInput.svelte';
 	import Input from '$lib/components/Form/Input.svelte';
 	import EventSelect from '$lib/components/Form/EventSelect.svelte';
 	import BossSelect from '$lib/components/Form/BossSelect.svelte';
-	import type { Character, MEvent, MSymbol, MBoss, MEvents } from '$lib/types/types';
-	import data from '$lib/utils/default.json';
-	import { createDashBoardArray } from '$lib/utils';
-	import DashStore from '$lib/stores/DashStore';
-	import { ExpReqArcane, ExpReqSacred } from '$lib/utils';
+	import type { Character } from '$lib/types/types';
+	import { validateImage } from '$lib/utils/validation';
+	import { initCharacter, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { validateSymbols } from '$lib/utils/validation';
 
-	let inputs: MEvents = data;
-	const initializeInputs = (): void => {
-		arcaneSymbols = JSON.parse(JSON.stringify(inputs.arcaneSymbols));
-		sacredSymbols = JSON.parse(JSON.stringify(inputs.sacredSymbols));
-		dailyBosses = JSON.parse(JSON.stringify(inputs.dailyBosses));
-		weeklyBosses = JSON.parse(JSON.stringify(inputs.weeklyBosses));
-		dailyEvents = JSON.parse(JSON.stringify(inputs.dailyEvents));
-		weeklyEvents = JSON.parse(JSON.stringify(inputs.weeklyEvents));
-
-		charImg = '';
-		charName = '';
-		charJob = '';
-		charLvl = 1;
-		charIsTracked = false;
-		resetDrop = false;
-	};
-
-	let arcaneSymbols: MSymbol[];
-	let sacredSymbols: MSymbol[];
-
-	let dailyBosses: MBoss[];
-	let weeklyBosses: MBoss[];
-	let dailyEvents: MEvent[];
-	let weeklyEvents: MEvent[];
-
-	let charId: string;
-	let charImg: string;
-	let charName: string;
-	let charJob: string;
-	let charLvl: number;
-	let charIsTracked = false;
+	let character: Character = initCharacter();
+	let arcanes = Object.fromEntries(character.track.arcanes);
+	let sacreds = Object.fromEntries(character.track.sacreds);
 
 	let resetDrop = false;
 	let showForm = false;
 	let formTitle: string;
 
-	initializeInputs();
-
-	const createCharacter = (): Character => {
-		return {
-			id: charId,
-			img: handleImageValidation(charImg),
-			name: charName,
-			job: charJob,
-			level: charLvl,
-			isTracked: charIsTracked,
-			track: {
-				arcaneSymbols,
-				sacredSymbols,
-				dailyEvents,
-				weeklyEvents,
-				dailyBosses,
-				weeklyBosses
-			}
-		};
-	};
-
 	let formController = 'create';
 
 	export function showEditForm(charObj: Character): Character {
 		formController = 'edit';
-
-		charId = charObj.id;
-		charImg = charObj.img;
-		charName = charObj.name;
-		charJob = charObj.job;
-		charLvl = charObj.level;
-		charIsTracked = charObj.isTracked;
-		arcaneSymbols = charObj.track.arcaneSymbols;
-		sacredSymbols = charObj.track.sacredSymbols;
-		dailyEvents = charObj.track.dailyEvents;
-		weeklyEvents = charObj.track.weeklyEvents;
-		dailyBosses = charObj.track.dailyBosses;
-		weeklyBosses = charObj.track.weeklyBosses;
-
-		toggleForm(false);
 		formTitle = 'Edit Character';
+		character = charObj;
+		arcanes = Object.fromEntries(charObj.track.arcanes);
+		sacreds = Object.fromEntries(charObj.track.sacreds);
+		openForm(false);
 		return charObj;
 	}
 
 	const handleSubmit = () => {
-		if (formController == 'edit') {
-			charLvl = Math.min(Math.max(charLvl, 1), 300);
-
-			if (charLvl >= 205) {
-				arcaneSymbols[0].gain *= 2;
-			}
-
-			if (charLvl >= 215) {
-				arcaneSymbols[1].gain *= 2;
-			}
-
-			if (charLvl >= 265) {
-				sacredSymbols[0].gain += 5;
-			}
-
-			arcaneSymbols.forEach((arcane) => {
-				arcane.active = charLvl >= arcane.reqLevel ? true : false;
-				arcane.level = Math.min(Math.max(arcane.level, 1), 20);
-				arcane.exp = Math.min(Math.max(arcane.exp, 0), ExpReqArcane[arcane.level - 1]);
-			});
-
-			sacredSymbols.forEach((sacred) => {
-				sacred.active = charLvl >= sacred.reqLevel ? true : false;
-				sacred.level = Math.min(Math.max(sacred.level, 1), 11);
-				sacred.exp = Math.min(Math.max(sacred.exp, 0), ExpReqSacred[sacred.level - 1]);
-			});
-
-			$DataStore.map((char, index) => {
-				if (char.id === charId) {
-					let editedCharObj = createCharacter();
-					if ($ActiveStore) {
-						if (char.id === $ActiveStore.id) {
-							$ActiveStore = editedCharObj;
-							localStorage.setItem('active_char', JSON.stringify(editedCharObj));
-						}
-						$DataStore[index] = editedCharObj;
-						localStorage.setItem('local_chars', JSON.stringify($DataStore));
-						if (char.isTracked) {
-							let dashArray = createDashBoardArray(char);
-							$DashStore = $DashStore.filter((dashitem) => dashitem.charId !== char.id);
-							$DashStore = $DashStore.concat(dashArray);
-							localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
-						}
-					}
-				}
-			});
-			resetDrop = true;
-			toggleForm(true);
-		}
-
 		if (formController == 'create') {
-			charLvl = Math.min(Math.max(charLvl, 1), 300);
-			const charObj = createCharacter();
-			charObj.id = crypto.randomUUID();
-
-			if (charLvl >= 205) {
-				arcaneSymbols[0].gain *= 2;
-			}
-
-			if (charLvl >= 215) {
-				arcaneSymbols[1].gain *= 2;
-			}
-
-			if (charLvl >= 265) {
-				sacredSymbols[0].gain += 5;
-			}
-
-			arcaneSymbols.forEach((arcane) => {
-				arcane.active = charLvl >= arcane.reqLevel ? true : false;
-				arcane.level = Math.min(Math.max(arcane.level, 1), 20);
-				arcane.exp = Math.min(Math.max(arcane.exp, 0), ExpReqArcane[arcane.level - 1]);
-			});
-
-			sacredSymbols.forEach((sacred) => {
-				sacred.active = charLvl >= sacred.reqLevel ? true : false;
-				sacred.level = Math.min(Math.max(sacred.level, 1), 11);
-				sacred.exp = Math.min(Math.max(sacred.exp, 0), ExpReqSacred[sacred.level - 1]);
-			});
-
-			DataStore.update((data) => {
-				let updatedData = [...data, charObj];
-				localStorage.setItem('local_chars', JSON.stringify(updatedData));
-				return updatedData;
-			});
-
-			if ($DataStore.length == 1) {
-				$ActiveStore = $DataStore[0];
-				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-			}
-
-			initializeInputs();
-			resetDrop = true;
-			console.log($DataStore);
-			toggleForm(true);
+			character.id = crypto.randomUUID();
 		}
-		formController = 'create';
+		character.level = Math.min(Math.max(character.level, 1), 300);
+		character.img = validateImage(character);
+
+		character.track.arcanes = new Map(Object.entries(arcanes));
+		character.track.sacreds = new Map(Object.entries(sacreds));
+		validateSymbols(character.track.arcanes, character.level);
+		validateSymbols(character.track.sacreds, character.level);
+
+		MainStore.update((data) => {
+			data.active = character;
+			data.characters.set(character.id, character);
+			return data;
+		});
+
+		character = tasksMapToObj(character);
+		console.log(character);
+		localStorage.setItem('active', JSON.stringify(character));
+		saveMapToLocalStorage($MainStore.characters, 'characters');
+		$MainStore = $MainStore;
+
+		resetDrop = true;
+		closeForm();
 	};
 
-	const handleImageValidation = (img_url: string) => {
-		return img_url.endsWith('.jpg') || img_url.endsWith('.png') ? charImg : default_img;
-	};
-
-	const toggleForm = (clear: boolean = true) => {
-		formTitle = 'Add new Character';
+	const openForm = (clear: boolean = true) => {
 		if (clear) {
-			initializeInputs();
+			formController = 'create';
+			character = initCharacter();
 		}
-		showForm = !showForm;
+		formTitle = 'Add new Character';
+		showForm = true;
+	};
+	const closeForm = () => {
+		character = initCharacter();
+		formTitle = 'Add new Character';
+		showForm = false;
 	};
 </script>
 
 <button
 	id="add-char-btn"
-	on:click={() => toggleForm()}
+	on:click={() => openForm()}
 	class="bg-green-300 m-2 p-1 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 flex text-center justify-center items-center text-theme-base"
 >
 	<svg class="h-[1.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"
@@ -233,27 +101,27 @@
 						<!-- Character Section -->
 						<div>
 							<div class="w-full text-center font-bold text-xl mb-2">Character</div>
-							<Input bind:value={charImg} inputLabel="Image" />
-							<Input bind:value={charName} inputLabel="Name" />
-							<Input bind:value={charJob} inputLabel="Job" />
-							<Input bind:value={charLvl} inputLabel="Level" />
+							<Input bind:value={character.img} inputLabel="Image" />
+							<Input bind:value={character.name} inputLabel="Name" />
+							<Input bind:value={character.job} inputLabel="Job" />
+							<Input bind:value={character.level} inputLabel="Level" />
 						</div>
 						<!-- Symbol Section -->
 						<div class="w-3/4">
 							<div class="w-full text-center font-bold text-xl mb-2">Symbols</div>
-							{#if charLvl < 200}
+							{#if character.level < 200}
 								<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
 							{/if}
-							<SymbolInput bind:value={arcaneSymbols[0]} char_lvl={charLvl} />
-							<SymbolInput bind:value={arcaneSymbols[1]} char_lvl={charLvl} />
-							<SymbolInput bind:value={arcaneSymbols[2]} char_lvl={charLvl} />
-							<SymbolInput bind:value={arcaneSymbols[3]} char_lvl={charLvl} />
-							<SymbolInput bind:value={arcaneSymbols[4]} char_lvl={charLvl} />
-							<SymbolInput bind:value={arcaneSymbols[5]} char_lvl={charLvl} />
+							<SymbolInput bind:value={arcanes.Vanishing} char_lvl={character.level} />
+							<SymbolInput bind:value={arcanes.ChuChu} char_lvl={character.level} />
+							<SymbolInput bind:value={arcanes.Lachelein} char_lvl={character.level} />
+							<SymbolInput bind:value={arcanes.Arcana} char_lvl={character.level} />
+							<SymbolInput bind:value={arcanes.Morass} char_lvl={character.level} />
+							<SymbolInput bind:value={arcanes.Esfera} char_lvl={character.level} />
 
-							<SymbolInput bind:value={sacredSymbols[0]} char_lvl={charLvl} />
-							<SymbolInput bind:value={sacredSymbols[1]} char_lvl={charLvl} />
-							<SymbolInput bind:value={sacredSymbols[2]} char_lvl={charLvl} />
+							<SymbolInput bind:value={sacreds.Cernium} char_lvl={character.level} />
+							<SymbolInput bind:value={sacreds.Arcus} char_lvl={character.level} />
+							<SymbolInput bind:value={sacreds.Odium} char_lvl={character.level} />
 						</div>
 					</div>
 
@@ -262,17 +130,18 @@
 						<!-- Events Section -->
 						<div class="w-3/4">
 							<div class="w-full text-center font-bold text-xl mb-2">Events</div>
-							<EventSelect inputLabel="Daily_Events" bind:selectData={dailyEvents} />
-							<EventSelect inputLabel="Weekly_Events" bind:selectData={weeklyEvents} />
-							<BossSelect inputLabel="Daily_Bosses" bind:selectData={dailyBosses} />
-							<BossSelect inputLabel="Weekly_Bosses" bind:selectData={weeklyBosses} />
+							<EventSelect inputLabel="Daily_Events" bind:selectData={character.track.dailyEvents} />
+							<EventSelect inputLabel="Weekly_Events" bind:selectData={character.track.weeklyEvents} />
+							<BossSelect inputLabel="Daily_Bosses" bind:selectData={character.track.dailyBosses} />
+							<BossSelect inputLabel="Weekly_Bosses" bind:selectData={character.track.weeklyBosses} />
 						</div>
 					</div>
 
 					<!-- Buttons -->
 					<div class="flex h-[10%] font-bold right-0 bottom-0 absolute m-2">
 						<button
-							on:click|preventDefault={() => toggleForm(true)}
+							on:click|preventDefault={closeForm}
+							type="button"
 							class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
 						>
 							Cancel

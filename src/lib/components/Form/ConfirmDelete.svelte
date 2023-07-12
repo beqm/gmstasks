@@ -1,12 +1,9 @@
 <script lang="ts">
-	import DataStore from '$lib/stores/DataStore';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import DashStore from '$lib/stores/DashStore';
 	import type { Character } from '$lib/types/types';
+	import MainStore from '$lib/stores/MainStore';
 
 	export let currentCharIteration: Character;
 	export let toggleOverlayFunction: any;
-
 	let name: string;
 
 	$: {
@@ -25,22 +22,23 @@
 			delModal.className = 'hidden';
 		}
 
-		DataStore.update((data) => {
-			let updatedData = data.filter((char) => char.id !== id);
-			localStorage.setItem('local_chars', JSON.stringify(updatedData));
-			return updatedData;
-		});
-		if ($ActiveStore) {
-			if ($ActiveStore.id == id) {
-				ActiveStore.set(null);
-				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
+		MainStore.update((data) => {
+			data.characters.delete(id);
+			if (data.active?.id == id) {
+				data.active = null;
+				localStorage.setItem('active', JSON.stringify($MainStore.active));
 			}
-			DashStore.update((data) => {
-				let updatedData = data.filter((item) => item.charId !== id);
-				localStorage.setItem('dashboard_items', JSON.stringify(updatedData));
-				return updatedData;
+			data.dashboard.forEach((value) => {
+				if (value.charId == id) {
+					data.dashboard.delete(id);
+				}
 			});
-		}
+			localStorage.setItem('characters', JSON.stringify(Object.fromEntries($MainStore.characters)));
+			localStorage.setItem('dashboard', JSON.stringify(Object.fromEntries($MainStore.characters)));
+			return data;
+		});
+
+		$MainStore = $MainStore;
 		closeModal();
 	};
 

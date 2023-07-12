@@ -1,47 +1,47 @@
 <script lang="ts">
 	import type { MEvent } from '$lib/types/types';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import DataStore from '$lib/stores/DataStore';
-	import DashStore from '$lib/stores/DashStore';
-	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils';
+	import MainStore from '$lib/stores/MainStore';
+	import { tasksMapToObj, saveMapToLocalStorage } from '$lib/utils/storage';
+	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils/validation';
 
 	export let events: MEvent[];
 
 	const handleComplete = (currTrack: MEvent) => {
 		currTrack.complete = true;
-		$ActiveStore = $ActiveStore;
-
-		$DataStore.map((char, index) => {
-			if ($ActiveStore) {
-				if (char.id === $ActiveStore.id) {
-					if (ArcaneDaily.includes(currTrack.name)) {
-						let symbol = $ActiveStore.track.arcaneSymbols[ArcaneDaily.indexOf(currTrack.name)];
-						calculateSymbol(symbol, symbol.gain);
-					} else if (ArcaneWeekly.includes(currTrack.name)) {
-						let symbol = $ActiveStore.track.arcaneSymbols[ArcaneWeekly.indexOf(currTrack.name)];
+		if ($MainStore.active) {
+			$MainStore.active = $MainStore.active;
+			$MainStore.characters.set($MainStore.active.id, $MainStore.active);
+			if (ArcaneDaily.includes(currTrack.name)) {
+				let symbol = $MainStore.active.track.arcanes.get(currTrack.name.replace('_Daily', ''));
+				if (symbol) {
+					calculateSymbol(symbol, symbol.gain);
+				}
+			} else if (ArcaneWeekly.includes(currTrack.name)) {
+				if (currTrack.symbol) {
+					let symbol = $MainStore.active.track.arcanes.get(currTrack.symbol);
+					if (symbol) {
 						calculateSymbol(symbol, 45);
-					} else if (SacredDaily.includes(currTrack.name)) {
-						let symbol = $ActiveStore.track.sacredSymbols[SacredDaily.indexOf(currTrack.name)];
-						calculateSymbol(symbol, symbol.gain);
 					}
-					$DataStore[index] = $ActiveStore;
-					localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-					localStorage.setItem('local_chars', JSON.stringify($DataStore));
+				}
+			} else if (SacredDaily.includes(currTrack.name)) {
+				let symbol = $MainStore.active.track.sacreds.get(currTrack.name.replace('_Daily', ''));
+				if (symbol) {
+					calculateSymbol(symbol, symbol.gain);
 				}
 			}
-		});
 
-		$DashStore.map((item) => {
-			if ($ActiveStore) {
-				if (item.charId === $ActiveStore.id) {
-					if (currTrack.name == item.trackName) {
-						item.status = true;
-						$DashStore = $DashStore;
-						localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
-					}
-				}
+			let char = tasksMapToObj($MainStore.active);
+			localStorage.setItem('active', JSON.stringify(char));
+			saveMapToLocalStorage($MainStore.characters, 'characters');
+
+			let dashItem = $MainStore.dashboard.get(`${$MainStore.active.id}|${currTrack.name}`);
+			if (dashItem) {
+				dashItem.status = true;
+				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
-		});
+
+			$MainStore = $MainStore;
+		}
 	};
 </script>
 

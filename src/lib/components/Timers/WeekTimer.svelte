@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { formatMillisecond } from '$lib/utils';
-	import DataStore from '$lib/stores/DataStore';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import { resetWBossTracks, resetWEventTracks } from '$lib/utils';
+	import { formatMillisecond } from '$lib/utils/validation';
 	export let weekDayTarget: number;
 
 	let now = new Date();

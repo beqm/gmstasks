@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { formatMillisecond, resetDashboardTracks } from '$lib/utils';
-	import { resetDailyTracks, resetWBossTracks, resetWEventTracks } from '$lib/utils';
-	import DataStore from '$lib/stores/DataStore';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import DashStore from '$lib/stores/DashStore';
+	import { formatMillisecond } from '$lib/utils/validation';
+	import { resetDailyTasks, resetWeeklyBossTasks, resetWeeklyEventTasks, resetDashboardTasks } from '$lib/utils/tasks';
+	import MainStore from '$lib/stores/MainStore';
 
 	let now = new Date();
 	now.setMinutes(now.getMinutes() + now.getTimezoneOffset());
@@ -24,24 +22,21 @@
 			time = formatMillisecond(ms);
 
 			if (time == '00:00:01') {
-				resetDailyTracks($DataStore, $ActiveStore);
-				resetDashboardTracks($DashStore, 'Daily');
+				resetDailyTasks($MainStore);
+				resetDashboardTasks($MainStore, 'Daily');
 
 				if (now.getDay() == 1) {
-					resetWEventTracks($DataStore, $ActiveStore);
-					resetDashboardTracks($DashStore, 'Weekly');
+					resetWeeklyEventTasks($MainStore);
+					resetDashboardTasks($MainStore, 'Weekly');
 				} else if (now.getDay() == 4) {
-					resetWBossTracks($DataStore, $ActiveStore);
-					resetDashboardTracks($DashStore, 'Weekly');
+					resetWeeklyBossTasks($MainStore);
+					resetDashboardTasks($MainStore, 'Weekly');
 				}
 
-				$DataStore = $DataStore;
-				$ActiveStore = $ActiveStore;
-				$DashStore = $DashStore;
-
-				localStorage.setItem('active_char', JSON.stringify($ActiveStore));
-				localStorage.setItem('local_chars', JSON.stringify($DataStore));
-				localStorage.setItem('dashboard_items', JSON.stringify($DashStore));
+				$MainStore = $MainStore;
+				localStorage.setItem('active', JSON.stringify($MainStore.active));
+				localStorage.setItem('characters', JSON.stringify($MainStore.characters));
+				localStorage.setItem('dashboard', JSON.stringify($MainStore.dashboard));
 			}
 		}, 1000);
 		return () => {

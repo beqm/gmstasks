@@ -1,7 +1,6 @@
 <script lang="ts">
-	import DataStore from '$lib/stores/DataStore';
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import DashStore from '$lib/stores/DashStore';
+	import MainStore from '$lib/stores/MainStore';
+	import { localStoragetoStore } from '$lib/utils/storage';
 	let isOpen: boolean = false;
 
 	let toggleModal = () => {
@@ -18,15 +17,33 @@
 				let result = JSON.stringify(reader.result).replace(/(?:\\[rn])+/g, '');
 				let obj = JSON.parse(JSON.parse(result.replace("'", '')));
 
-				if (obj.local_chars && obj.active_char && obj.dashboard_items) {
-					localStorage.setItem('local_chars', obj.local_chars);
-					localStorage.setItem('active_char', obj.active_char);
-					localStorage.setItem('dashboard_items', obj.dashboard_items);
-					$DataStore = JSON.parse(obj.local_chars);
-					$ActiveStore = JSON.parse(obj.active_char);
-					$DashStore = JSON.parse(obj.dashboard_items);
-					toggleModal();
+				if (obj.active) {
+					$MainStore.active = JSON.parse(obj.active);
+					localStorage.setItem('active', obj.active);
 				}
+
+				if (obj.characters) {
+					localStorage.setItem('characters', obj.characters);
+					$MainStore.characters = JSON.parse(obj.characters, (key, value) => {
+						if (value && typeof value === 'object') {
+							return new Map(Object.entries(value));
+						}
+						return value;
+					});
+				}
+
+				if (obj.dashboard) {
+					localStorage.setItem('dashboard', obj.dashboard);
+					$MainStore.characters = JSON.parse(obj.characters, (key, value) => {
+						if (value && typeof value === 'object') {
+							return new Map(Object.entries(value));
+						}
+						return value;
+					});
+				}
+				$MainStore = $MainStore;
+				localStoragetoStore(MainStore);
+				toggleModal();
 			});
 
 			if (data) {

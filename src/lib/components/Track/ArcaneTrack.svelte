@@ -1,13 +1,16 @@
 <script lang="ts">
-	import ActiveStore from '$lib/stores/ActiveStore';
-	import { ExpReqArcane } from '$lib/utils';
+	import MainStore from '$lib/stores/MainStore';
+	import { ExpReqArcane } from '$lib/utils/validation';
 </script>
 
-{#if $ActiveStore}
+{#if $MainStore.active}
 	<div class="w-full flex text-center mt-4 font-bold text-lg items-center justify-center">
 		<div class="flex flex-col w-[90%] justify-center">
 			<div class="w-full h-full flex border-t border-theme-decorated flex-wrap items-center justify-center">
-				{#each $ActiveStore.track.arcaneSymbols as symbol}
+				{#if $MainStore.active.level < 200}
+					<div class="mt-10">Level has not met minimum requirements</div>
+				{/if}
+				{#each [...$MainStore.active.track.arcanes.values()] as symbol}
 					{#if symbol.active}
 						<div class="flex flex-col w-1/3 m-5 bg-theme-soft border border-theme-base p-2 justify-center items-center">
 							<div class="flex justify-center items-center">
