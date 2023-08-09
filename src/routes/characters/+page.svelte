@@ -1,6 +1,5 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
-	import type { Character } from '$lib/types/types';
 
 	import Form from '$lib/components/Form/Form.svelte';
 	import ActiveDisplay from '$lib/components/Form/ActiveDisplay.svelte';

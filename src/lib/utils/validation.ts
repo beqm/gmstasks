@@ -1,6 +1,3 @@
-import type { Character, MSymbol } from '$lib/types/types';
-import defaultImg from '$lib/assets/default_img.png';
-
 export const ExpReqArcane = [12, 15, 20, 27, 36, 47, 60, 75, 92, 111, 132, 155, 180, 207, 236, 267, 300, 335, 372];
 export const ExpReqSacred = [29, 76, 141, 224, 325, 444, 581, 736, 909, 1100];
 export const ArcaneDaily = [
@@ -23,7 +20,7 @@ export const ArcaneWeekly = [
 export const SacredDaily = ['Cernium_Daily', 'Arcus_Daily', 'Odium_Daily'];
 
 export function validateImage(character: Character) {
-	return character.img.endsWith('.jpg') || character.img.endsWith('.png') ? character.img : defaultImg;
+	return character.img.endsWith('.jpg') || character.img.endsWith('.png') ? character.img : '/assets/default_img.png';
 }
 
 export function validateSymbols(symbols: Map<string, MSymbol>, charLvl: number) {

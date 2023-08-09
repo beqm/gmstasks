@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import type { DStore, Character, DashItem } from '$lib/types/types';
 
 const MainStore = writable<DStore>({
 	active: null,

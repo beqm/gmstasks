@@ -1,5 +1,4 @@
 import data from '$lib/utils/default.json';
-import type { Character, DStore, DashItem, MEvent, MBoss, MTasks } from '$lib/types/types';
 import type { Writable } from 'svelte/store';
 
 export function initCharacter(): Character {

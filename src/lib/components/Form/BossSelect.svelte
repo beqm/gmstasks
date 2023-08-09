@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { MBosses } from '$lib/types/types';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 

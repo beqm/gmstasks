@@ -5,7 +5,6 @@
 	import Input from '$lib/components/Form/Input.svelte';
 	import EventSelect from '$lib/components/Form/EventSelect.svelte';
 	import BossSelect from '$lib/components/Form/BossSelect.svelte';
-	import type { Character } from '$lib/types/types';
 	import { validateImage } from '$lib/utils/validation';
 	import { initCharacter, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { validateSymbols } from '$lib/utils/validation';

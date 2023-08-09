@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { MEvent } from '$lib/types/types';
 	import MainStore from '$lib/stores/MainStore';
 	import { tasksMapToObj, saveMapToLocalStorage } from '$lib/utils/storage';
 	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils/validation';

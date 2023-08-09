@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Character } from '$lib/types/types';
 	import MainStore from '$lib/stores/MainStore';
 
 	export let currentCharIteration: Character;

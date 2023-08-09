@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { MSymbol } from '$lib/types/types';
 	export let value: MSymbol;
 	export let char_lvl: number;
 	import { fade } from 'svelte/transition';

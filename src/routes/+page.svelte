@@ -3,7 +3,7 @@
 	import ProgressBar from '$lib/components/Dashboard/ProgressBar.svelte';
 	import MainStore from '$lib/stores/MainStore';
 	import { onMount } from 'svelte/internal';
-	import type { DashItem, MBoss, MEvent, MSymbol } from '$lib/types/types';
+
 	import { progressControl } from '$lib/utils/tasks';
 	import { localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { ArcaneWeekly, SacredDaily, ArcaneDaily, calculateSymbol } from '$lib/utils/validation';

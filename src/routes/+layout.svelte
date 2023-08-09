@@ -1,6 +1,5 @@
 <script>
 	import '../app.postcss';
-	import '$lib/styles/navbar.css';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import MainStore from '$lib/stores/MainStore';
 	import { onMount } from 'svelte';

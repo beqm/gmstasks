@@ -1,6 +1,0 @@
-@tailwind components;
-@layer components {
-	.weird-test {
-		background-color: green;
-	}
-}
