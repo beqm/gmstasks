@@ -34,8 +34,10 @@
 						<div class="w-1/4 flex justify-center">
 							<img src={boss.img_url} alt="boss_img" class="w-1/2" />
 						</div>
-						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.difficulty.replace('_', ' ')}</div>
-						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{boss.name.replace('_', ' ')}</div>
+						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip text-xs sm:text-lg">
+							{boss.difficulty.replace('_', ' ')}
+						</div>
+						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip text-xs sm:text-lg">{boss.name.replace('_', ' ')}</div>
 
 						<button class="w-1/4 flex justify-center" on:click={() => handleComplete(boss)}>
 							<svg

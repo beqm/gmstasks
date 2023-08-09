@@ -51,12 +51,12 @@
 			{#each events as event}
 				{#if event.active && !event.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
-						<div class="w-1/4 flex justify-center">
+						<div class="w-1/3 flex justify-center">
 							<img src={event.img_url} alt="event_img" class="w-1/2" />
 						</div>
-						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{event.name.replace('_', ' ')}</div>
+						<div class="w-1/3 max-w-[5.4rem] overflow-x-clip text-xs sm:text-lg">{event.name.replace('_', ' ')}</div>
 
-						<button class="w-1/4 flex justify-center" on:click={() => handleComplete(event)}>
+						<button class="w-1/3 flex justify-center" on:click={() => handleComplete(event)}>
 							<svg
 								class="text-theme-strongdecorated hover:text-theme-decorated"
 								xmlns="http://www.w3.org/2000/svg"
@@ -79,12 +79,12 @@
 			{#each events as event}
 				{#if event.active && event.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
-						<div class="w-1/4 flex justify-center">
+						<div class="w-1/3 flex justify-center">
 							<img src={event.img_url} alt="event_img" class="w-1/2" />
 						</div>
-						<div class="w-1/4 max-w-[5.4rem] overflow-x-clip">{event.name.replace('_', ' ')}</div>
+						<div class="w-1/3 max-w-[5.4rem] overflow-x-clip text-xs sm:text-lg">{event.name.replace('_', ' ')}</div>
 
-						<button class="w-1/4 flex justify-center" disabled>
+						<button class="w-1/3 flex justify-center" disabled>
 							<svg
 								class=" text-green-500 justify-center items-center"
 								xmlns="http://www.w3.org/2000/svg"

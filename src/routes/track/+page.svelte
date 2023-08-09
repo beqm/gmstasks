@@ -98,49 +98,64 @@
 	};
 </script>
 
-<div class="flex w-full justify-center h-[850px]">
+<div class="flex w-full justify-center h-full lg:h-[80vh] lg:mt-20">
 	{#if $MainStore.active}
-		<div in:fly={{ x: -200, duration: 250 }} class="flex w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base">
+		<div
+			in:fly={{ x: -200, duration: 250 }}
+			class="flex flex-col sm:flex-row w-full lg:w-9/12 rounded-lg mt-10 sm:mt-10 drop-shadow-lg bg-theme-base"
+		>
 			<!-- Navbar -->
-			<div class="w-[20%] border-r border-theme-base">
-				<img src={$MainStore.active.img} alt="current active character" class="w-full" />
-				<div class="max-h-[50px] overflow-hidden text-center font-bold text-2xl">
-					{$MainStore.active.name}
+			<div class="flex sm:flex-col sm:w-[20%] border-r border-theme-base">
+				<div class="hidden sm:block">
+					<img src={$MainStore.active.img} alt="current active character" class="w-full overflow-hidden" />
+					<div class="max-h-[50px] overflow-hidden text-center font-bold sm:text-2xl">
+						{$MainStore.active.name}
+					</div>
 				</div>
 
-				<div class="flex flex-col w-full mt-6 text-center font-bold">
+				<div class="flex sm:flex-col h-full w-full sm:mt-6 text-center font-bold">
 					<button
 						on:click={() => changePage('events')}
 						id="track-events-btn"
-						class="border-b border-t border-theme-base p-4 bg-theme-decorated">Events</button
+						class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 bg-theme-decorated">Events</button
 					>
 					<button
 						on:click={() => changePage('bosses')}
 						id="track-bosses-btn"
-						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Bosses</button
+						class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated">Bosses</button
 					>
 					<button
 						on:click={() => changePage('symbols')}
 						id="track-symbols-btn"
-						class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Symbols</button
+						class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated">Symbols</button
 					>
 					{#if !$MainStore.active.isTracked}
 						<button
 							on:click={() => toggleToDashboard(true)}
-							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Add to Dashboard</button
+							class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated"
+							>Add to Dashboard</button
 						>
 					{:else}
 						<button
 							on:click={() => toggleToDashboard(false)}
-							class="border-b border-t border-theme-base p-4 hover:bg-theme-softdecorated">Remove from Dashboard</button
+							class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated"
+							>Remove from Dashboard</button
 						>
 					{/if}
 				</div>
 			</div>
+			<div class="w-full justify-center items-center sm:hidden">
+				<div class="w-full flex justify-center">
+					<img src={$MainStore.active.img} alt="current active character" />
+				</div>
+				<div class="max-h-[50px] overflow-hidden text-center font-bold sm:text-2xl">
+					{$MainStore.active.name}
+				</div>
+			</div>
+
 			<!-- Right Side -->
-			<div class="w-[80%]">
+			<div class="w-full sm:w-[80%] h-[90%]">
 				{#if currentPage == 'events'}
-					<div class="text-center font-bold text-3xl mt-4">Events</div>
 					<BossNavbar on:pagechange={changeEventSubPage} />
 					{#if currentEventSubPage == 'daily'}
 						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
@@ -158,7 +173,6 @@
 						<EventTrack events={[...$MainStore.active.track.weeklyEvents.values()]} />
 					{/if}
 				{:else if currentPage == 'bosses'}
-					<div class="text-center font-bold text-3xl mt-4">Bosses</div>
 					<BossNavbar on:pagechange={changeBossSubPage} />
 					{#if currentBossSubPage == 'daily'}
 						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
@@ -175,7 +189,6 @@
 						<BossTrack bosses={[...$MainStore.active.track.weeklyBosses.values()]} />
 					{/if}
 				{:else if currentPage == 'symbols'}
-					<div class="text-center font-bold text-3xl mt-4">Symbols</div>
 					<SymbolNavbar on:pagechange={changeSymbolSubPage} />
 					{#if currentSymbolSubPage == 'arcane'}
 						<ArcaneTrack />

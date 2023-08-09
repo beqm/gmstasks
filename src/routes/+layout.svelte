@@ -44,7 +44,7 @@
 </svelte:head>
 
 <nav
-	class="flex z-10 relative flex-col w-full font-bold text-center capitalize items-center text-theme-dark lg:min-w-[1050px]"
+	class="flex z-10 relative flex-col w-full font-bold text-center h-[10vh] capitalize items-center text-theme-dark lg:min-w-[1050px]"
 >
 	<div class="flex w-full lg:w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
 		<div class="p-3 flex items-center uppercase rounded-lg text-lg">GMSTASKS</div>
