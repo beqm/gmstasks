@@ -43,7 +43,9 @@
 	{/if}
 </svelte:head>
 
-<nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-dark lg:min-w-[1050px]">
+<nav
+	class="flex z-10 relative flex-col w-full font-bold text-center capitalize items-center text-theme-dark lg:min-w-[1050px]"
+>
 	<div class="flex w-full lg:w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
 		<div class="p-3 flex items-center uppercase rounded-lg text-lg">GMSTASKS</div>
 
@@ -62,7 +64,7 @@
 		</button>
 
 		<ul
-			class={`${cContainer} text-lg bg-theme-strong lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row absolute w-full top-full left-1/2 transform -translate-x-1/2 flex flex-col list-none items-center mr-5`}
+			class={`${cContainer} absolute text-lg bg-theme-strong lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row w-full top-full left-1/2 transform -translate-x-1/2 flex flex-col list-none items-center`}
 		>
 			<a href="/">
 				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">dashboard</li>
@@ -101,28 +103,31 @@
 					</li>
 				</a>
 			{/if}
-			{#if count > 0}
-				<a href="/">
-					<li class="p-[0.75rem] m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90 relative">
-						<div class="absolute right-2 top-4">{count}</div>
-
-						<svg
-							class="w-[1rem] text-theme-decorated"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 448 512"
-							fill="currentColor"
-							><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
-								d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"
-							/></svg
-						>
-					</li>
-				</a>
-			{/if}
 		</ul>
+		{#if count > 0}
+			<a href="/">
+				<div
+					class="mr-2 h-full flex items-center hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90 relative"
+				>
+					<div class="absolute right-[-5px] top-4">{count}</div>
+
+					<svg
+						height="1.2em"
+						class="text-theme-decorated"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 448 512"
+						fill="currentColor"
+						><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
+							d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"
+						/></svg
+					>
+				</div>
+			</a>
+		{/if}
 	</div>
 </nav>
 
-<main class="flex w-full justify-center">
+<main class=" flex w-screen justify-center h-[90vh]">
 	<slot />
 </main>
 

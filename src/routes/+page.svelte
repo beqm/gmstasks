@@ -72,21 +72,21 @@
 	});
 </script>
 
-<div class="flex w-full justify-center h-[850px]">
+<div class="flex w-full lg:mt-20 justify-center lg:h-[80vh]">
 	<div
 		in:fly={{ x: -200, duration: 250 }}
-		class="flex flex-col items-center w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base"
+		class="flex flex-col items-center w-full lg:w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base"
 	>
 		<div class="w-full text-center font-bold text-3xl mt-4">Dashboard</div>
 		<div class="justify-evenly w-[90%] mt-10 flex">
-			<div class="w-[40%] text-center rounded-lg">
+			<div class="w-full lg:w-[40%] text-center rounded-lg">
 				<div class="text-2xl font-bold">Bosses</div>
 				<div class="flex flex-col items-center p-4">
 					<ProgressBar label="Dailies" control={dailyBossesControl} />
 					<ProgressBar label="Weeklies" control={weeklyBossesControl} />
 				</div>
 			</div>
-			<div class="w-[40%] text-center rounded-lg">
+			<div class="w-full lg:w-[40%] text-center rounded-lg">
 				<div class="text-2xl font-bold">Events</div>
 				<div class="flex flex-col items-center p-4">
 					<ProgressBar label="Dailies" control={dailyEventControl} />
@@ -94,36 +94,35 @@
 				</div>
 			</div>
 		</div>
-		<div class="items-center w-[90%] mt-10 flex flex-col rounded-lg h-[400px]">
+		<div class="items-center w-full lg:w-[90%] flex flex-col rounded-lg p-2 h-full">
 			<div class="text-2xl font-bold">Todo</div>
-			<div class="flex flex-col w-[90%] bg-theme-soft m-4 max-h-[540px] overflow-y-auto">
+			<div class="flex flex-col w-full bg-theme-soft m-4 lg:max-h-[320px] max-h-[360px] overflow-y-auto">
 				{#if $MainStore.dashboard.size == 0}
 					<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
 				{:else}
 					{#each [...$MainStore.dashboard] as [key, item]}
 						{#if !item.status}
 							<div class="flex p-4 justify-evenly w-full border-b border-theme-base">
-								<div class="w-1/6 flex items-center justify-center">
+								<div class="w-1/5 flex items-center justify-center">
 									<img src={item.charImgUrl} alt="char_img" class="w-10" />
 								</div>
-								<div class="w-1/6 flex justify-center items-center max-w-[5.4rem] overflow-x-clip">
+								<div class="w-1/5 flex justify-center text-sm lg:text-md items-center max-w-[5.4rem] overflow-x-clip">
 									{item.charName}
 								</div>
-								<div class="w-1/6 flex items-center justify-center">
+								<div class="w-1/5 items-center justify-center flex">
 									<img src={item.trackImgUrl} alt="track_img" class="w-10" />
 								</div>
 
-								<div class="w-1/6 flex justify-center items-center max-w-[8rem] overflow-x-clip">
+								<div class="w-1/5 flex justify-center items-center text-sm lg:text-md max-w-[8rem] overflow-x-clip">
 									{#if item.trackInfo}
 										{item.trackInfo.replace('_', ' ')}
 									{/if}
 									{item.trackName.replace('_', ' ')}
 								</div>
-								<div class="w-1/6 flex justify-center items-center max-w-[5.4rem] overflow-x-clip">
+								<div class="w-1/5 flex justify-center items-center text-sm lg:text-md max-w-[5.4rem] overflow-x-clip">
 									{item.period}
 								</div>
 
-								<div class="w-1/6 flex justify-center items-center">Incomplete</div>
 								<button class="flex justify-center items-center" on:click={() => handleComplete(item)}>
 									<svg
 										class="text-theme-strongdecorated hover:text-theme-decorated"
