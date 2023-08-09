@@ -1,24 +1,38 @@
-<script>
+<script lang="ts">
 	import '../app.postcss';
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import MainStore from '$lib/stores/MainStore';
 	import { onMount } from 'svelte';
 	import { localStoragetoStore } from '$lib/utils/storage';
 
-	let notifierCounter = 0;
-	let notifierCount = () => {
-		$MainStore.dashboard.forEach((value) => {
-			if (value.status) {
-				notifierCounter += 1;
+	let notifierCount = (dashboard: Map<string, DashItem>) => {
+		let counter = 0;
+		dashboard.forEach((value) => {
+			if (!value.status) {
+				counter += 1;
 			}
 		});
+		return counter;
 	};
 
-	$: count = notifierCounter;
+	$: count = notifierCount($MainStore.dashboard);
 
 	onMount(() => {
 		localStoragetoStore(MainStore);
 	});
+
+	let cNavButton = 'text-dark';
+	let cContainer = 'hidden';
+
+	const toggleMenu = () => {
+		if (cContainer == 'hidden') {
+			cNavButton = 'text-accent';
+			cContainer = '';
+		} else {
+			cNavButton = 'text-dark';
+			cContainer = 'hidden';
+		}
+	};
 </script>
 
 <svelte:head>
@@ -29,17 +43,27 @@
 	{/if}
 </svelte:head>
 
-<nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-dark">
-	<div class="flex w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
-		<div class="p-3 uppercase rounded-lg text-lg">GMSTASKS</div>
+<nav class="flex flex-col w-full font-bold text-center capitalize items-center text-theme-dark lg:min-w-[1050px]">
+	<div class="flex w-full lg:w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
+		<div class="p-3 flex items-center uppercase rounded-lg text-lg">GMSTASKS</div>
 
-		<div class="flex">
-			<div class="flex flex-col pl-5 pr-5 rounded-lg justify-center font-bold uppercase text-sm bg-theme-decorated">
+		<div class="flex items-center">
+			<div class="h-fit p-3 rounded-lg justify-center font-bold uppercase text-sm bg-theme-decorated">
 				Reset <DayTimer />
 			</div>
 		</div>
 
-		<ul class="flex ml-auto">
+		<button class={`${cNavButton} ml-auto lg:hidden duration-500 p-5`} on:click={toggleMenu}>
+			<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"
+				><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
+					d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+				/></svg
+			>
+		</button>
+
+		<ul
+			class={`${cContainer} text-lg bg-theme-strong lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row absolute w-full top-full left-1/2 transform -translate-x-1/2 flex flex-col list-none items-center mr-5`}
+		>
 			<a href="/">
 				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">dashboard</li>
 			</a>
