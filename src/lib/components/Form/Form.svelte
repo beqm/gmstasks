@@ -46,17 +46,17 @@
 			return data;
 		});
 
-		// if (character.isTracked) {
-		// 	let localChar = $MainStore.characters.get(character.id);
-		// 	if (localChar) {
-		// 		$MainStore.characters.set(localChar.id, character);
+		if (character.isTracked) {
+			let localChar = $MainStore.characters.get(character.id);
+			if (localChar) {
+				$MainStore.characters.set(localChar.id, character);
 
-		// 		let dashMap = createDashBoardMap(character);
-		// 		$MainStore.dashboard = new Map([...$MainStore.dashboard, ...dashMap]);
-		// 		// saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
-		// 	}
-		// }
-		console.log('SUBMIT FORM');
+				let dashMap = createDashBoardMap(character);
+				$MainStore.dashboard = new Map([...$MainStore.dashboard, ...dashMap]);
+				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+			}
+		}
+
 		character = tasksMapToObj(character);
 		localStorage.setItem('active', JSON.stringify(character));
 		saveMapToLocalStorage($MainStore.characters, 'characters');

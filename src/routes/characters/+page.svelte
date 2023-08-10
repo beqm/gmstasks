@@ -92,7 +92,7 @@
 
 <ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
 
-<div in:fly={{ x: -200, duration: 250 }} class="flex flex-col w-full items-center mt-10 p-4 min-w-[420px]">
+<div in:fly={{ x: -200, duration: 250 }} class="flex flex-col w-full items-center mt-10">
 	<div class="flex w-full lg:w-9/12 justify-end">
 		<ImportModal />
 		<button
@@ -107,7 +107,9 @@
 		</button>
 		<Form bind:this={FormComponentInstance} />
 	</div>
-	<div class="flex flex-col w-full lg:w-9/12 bg-theme-base rounded-lg drop-shadow-lg scroll-container">
+	<div
+		class="flex flex-col w-full lg:w-9/12 overflow-y-scroll sm:max-h-[640px] bg-theme-base rounded-lg drop-shadow-lg scroll-container"
+	>
 		<!-- Columns -->
 		<div class="flex text-center justify-evenly text-sm lg:text-lg font-bold w-full">
 			<div class="w-1/6 align-middle p-2 uppercase" />
