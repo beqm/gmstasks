@@ -89,14 +89,13 @@
 	<div id="form-backdrop" class="backdrop flex justify-center items-center z-10">
 		<div
 			transition:fly={{ y: 200, duration: 250 }}
-			id="add-char-modal"
-			class="bg-theme-base text-theme-dark relative rounded-lg z-10"
+			class="bg-theme-base w-full h-full lg:h-fit lg:w-1/2 relative text-theme-dark flex rounded-lg z-10"
 		>
-			<form class="h-[90%] overflow-y-auto" on:submit|preventDefault={handleSubmit}>
+			<form class="h-[90%] w-full overflow-y-auto" on:submit|preventDefault={handleSubmit}>
 				<div class="w-full text-center font-bold text-2xl mb-2 mt-2">{formTitle}</div>
-				<div class="flex w-full">
+				<div class="flex w-full mt-10 sm:max-h-[750px] md:max-h-[700px] overflow-y-scroll">
 					<!-- Left Side -->
-					<div class="w-2/4 flex flex-col items-center border-r border-theme-decorated">
+					<div class="w-1/2 flex flex-col items-center border-r border-theme-decorated">
 						<!-- Character Section -->
 						<div>
 							<div class="w-full text-center font-bold text-xl mb-2">Character</div>

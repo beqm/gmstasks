@@ -107,9 +107,9 @@
 		{#if count > 0}
 			<a href="/">
 				<div
-					class="mr-2 h-full flex items-center hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90 relative"
+					class="mr-2 p-2 h-full flex items-center hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90 relative"
 				>
-					<div class="absolute right-[-5px] top-4">{count}</div>
+					<div class="absolute right-[1px] top-4">{count}</div>
 
 					<svg
 						height="1.2em"

@@ -25,7 +25,7 @@
 		type="button"
 		on:click={toggleEventSelect}
 	>
-		<span class="p-2">{inputLabel.replace('_', ' ')}</span>
+		<span class="p-2 text-sm sm:text-lg">{inputLabel.replace('_', ' ')}</span>
 		<svg
 			class="ml-auto mr-2 text-theme-decorated"
 			xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@
 		>
 			{#each [...selectData.values()] as item}
 				<li class="flex text-left w-full">
-					<label class="p-2" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
+					<label class="p-2 text-sm sm:text-lg" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
 					<input type="checkbox" id={item.name} class="ml-auto mr-2" bind:checked={item.active} />
 				</li>
 			{/each}

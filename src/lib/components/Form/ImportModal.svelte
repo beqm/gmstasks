@@ -66,7 +66,9 @@
 
 {#if isOpen}
 	<div class="backdrop flex justify-center z-10">
-		<div class="w-[25%] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32 h-fit">
+		<div
+			class="w-full sm:w-[50%] xl:w-[25%] min-w-[300px] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32 h-fit"
+		>
 			<div class="flex font-bold text-2xl p-2">Import Data</div>
 
 			<div class="flex flex-col items-center m-5">

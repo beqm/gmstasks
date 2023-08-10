@@ -51,7 +51,8 @@
 		let delCharModal = document?.querySelector('#del-char-modal') as HTMLDialogElement;
 		delCharModal.showModal();
 
-		delCharModal.className = 'w-[25%] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32';
+		delCharModal.className =
+			'w-full sm:w-[50%] xl:w-[25%] min-w-[300px] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32';
 	};
 </script>
 
