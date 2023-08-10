@@ -21,22 +21,42 @@
 
 			time = formatMillisecond(ms);
 
-			if (time == '00:00:01') {
+			let last_d_reset = localStorage.getItem('daily_reset');
+			if (!last_d_reset || last_d_reset.replace('"', '') !== now.toDateString()) {
+				console.log(last_d_reset, now.toDateString());
+
+				localStorage.setItem('daily_reset', new Date().toDateString());
 				resetDailyTasks($MainStore);
 				resetDashboardTasks($MainStore, 'Daily');
-
-				if (now.getDay() == 1) {
-					resetWeeklyEventTasks($MainStore);
-					resetDashboardTasks($MainStore, 'Weekly');
-				} else if (now.getDay() == 4) {
-					resetWeeklyBossTasks($MainStore);
-					resetDashboardTasks($MainStore, 'Weekly');
-				}
-
 				$MainStore = $MainStore;
 				localStorage.setItem('active', JSON.stringify($MainStore.active));
 				localStorage.setItem('characters', JSON.stringify($MainStore.characters));
 				localStorage.setItem('dashboard', JSON.stringify($MainStore.dashboard));
+			}
+
+			let last_m_reset = localStorage.getItem('monday_reset');
+			let last_w_reset = localStorage.getItem('wednesday_reset');
+
+			if (now.getDay() == 1) {
+				if (!last_m_reset || last_m_reset !== now.toDateString()) {
+					localStorage.setItem('monday_reset', new Date().toDateString());
+					resetWeeklyEventTasks($MainStore);
+					resetDashboardTasks($MainStore, 'Weekly');
+					$MainStore = $MainStore;
+					localStorage.setItem('active', JSON.stringify($MainStore.active));
+					localStorage.setItem('characters', JSON.stringify($MainStore.characters));
+					localStorage.setItem('dashboard', JSON.stringify($MainStore.dashboard));
+				}
+			} else if (now.getDay() == 4) {
+				if (!last_w_reset || last_w_reset !== now.toDateString()) {
+					localStorage.setItem('wednesday_reset', new Date().toDateString());
+					resetWeeklyBossTasks($MainStore);
+					resetDashboardTasks($MainStore, 'Weekly');
+					$MainStore = $MainStore;
+					localStorage.setItem('active', JSON.stringify($MainStore.active));
+					localStorage.setItem('characters', JSON.stringify($MainStore.characters));
+					localStorage.setItem('dashboard', JSON.stringify($MainStore.dashboard));
+				}
 			}
 		}, 1000);
 		return () => {
