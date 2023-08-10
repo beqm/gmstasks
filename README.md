@@ -44,9 +44,9 @@
 
 # things to fix
 
-- Check if when day/week reset, correspondent events reset also reset
+  <!-- - Check if when day/week reset, correspondent events reset also reset -->
   <!-- - Responsive layout -->
   <!-- - when editing char that is already on dashboard, add items to dash -->
-    <!-- - Drop and drag zone fix -->
-    <!-- - Symbols are not leveling up when completing dailies/weeklies -->
-    <!-- - fix import/export -->
+  <!-- - Drop and drag zone fix -->
+  <!-- - Symbols are not leveling up when completing dailies/weeklies -->
+  <!-- - fix import/export -->
