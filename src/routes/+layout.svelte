@@ -17,10 +17,6 @@
 
 	$: count = notifierCount($MainStore.dashboard);
 
-	onMount(() => {
-		localStoragetoStore(MainStore);
-	});
-
 	let cNavButton = 'text-dark';
 	let cContainer = 'hidden';
 
@@ -33,6 +29,9 @@
 			cContainer = 'hidden';
 		}
 	};
+	onMount(() => {
+		localStoragetoStore(MainStore);
+	});
 </script>
 
 <svelte:head>

@@ -59,4 +59,4 @@
 - [x] add symbol img on form
 - [x] change bg of data on dashboard
 - [x] fix overflow on trackpage
-- [] fix when clicking on del btn, canceling, and going to dashboard, events are deleted
+- [] fix when opening edit form or delete char modal, localstorage events are emptied

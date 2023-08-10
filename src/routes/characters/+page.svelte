@@ -9,7 +9,7 @@
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';
 	import { fly } from 'svelte/transition';
-	import { saveMapToLocalStorage } from '$lib/utils/storage';
+	import { saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 
 	const flipDurationMs = 100;
 	let delModalInfo: Character;
@@ -80,6 +80,7 @@
 		let charObj = $MainStore.characters.get(id);
 		if (charObj) {
 			$MainStore.active = charObj;
+			charObj = tasksMapToObj(charObj);
 			localStorage.setItem('active', JSON.stringify(charObj));
 		}
 	};
