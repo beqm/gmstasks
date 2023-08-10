@@ -27,6 +27,7 @@
 			} else if (currTrack.period == 'Weekly' && currTrack.trackType == 'Event') {
 				item = char.track.weeklyEvents.get(`${currTrack.trackName}`);
 			}
+
 			if (item) {
 				item.complete = true;
 
