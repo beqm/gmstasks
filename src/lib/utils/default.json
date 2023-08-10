@@ -71,6 +71,7 @@
         "Cernium_Daily": { "name": "Cernium_Daily", "img_url":"/assets/event_icons/cernium_icon.webp", "complete": false, "active": false, "amount": 1, "type": "dailyEvent" },
         "Arcus_Daily": { "name": "Arcus_Daily", "img_url":"/assets/event_icons/arcus_icon.webp", "complete": false, "active": false, "amount": 1, "type": "dailyEvent" },
         "Odium_Daily": { "name": "Odium_Daily", "img_url":"/assets/symbol_icons/odium_icon.webp", "complete": false, "active": false, "amount": 1, "type": "dailyEvent" },
+        "Tenebris_Daily": { "name": "Tenebris_Daily", "img_url":"/assets/event_icons/tenebris_icon.webp", "complete": false, "active": false, "amount": 1, "type": "dailyEvent" },
         "Yu_Garden": { "name": "Yu_Garden", "img_url":"/assets/event_icons/yugarden_icon.webp", "complete": false, "active": false, "amount": 1, "type": "dailyEvent" },
         "Monster_Park": { "name": "Monster_Park", "img_url":"/assets/event_icons/monsterpark_icon.webp", "complete": false, "active": false, "amount": 7, "unique": true, "type": "dailyEvent" },
         "Ursus": { "name": "Ursus", "img_url":"/assets/event_icons/ursus_icon.webp", "complete": false, "active": false, "amount": 3, "unique": true, "type": "dailyEvent" },

@@ -12,7 +12,7 @@
 				{/if}
 				{#each [...$MainStore.active.track.arcanes.values()] as symbol}
 					{#if symbol.active}
-						<div class="flex flex-col w-1/3 m-5 bg-theme-soft border border-theme-base p-2 justify-center items-center">
+						<div class="flex flex-col w-1/3 m-5 border border-theme-base p-2 justify-center items-center">
 							<div class="flex justify-center items-center">
 								<div class="flex justify-center">
 									<img src={symbol.img_url} alt={symbol.name} />

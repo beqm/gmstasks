@@ -50,3 +50,13 @@
   <!-- - Drop and drag zone fix -->
   <!-- - Symbols are not leveling up when completing dailies/weeklies -->
   <!-- - fix import/export -->
+
+<!-- - [] Add Guildcastle weekly -->
+
+- [x] Add tenebris Daily
+- [x] fix events font size on track page
+- [x] change bg of symbols on track page and form
+- [x] add symbol img on form
+- [x] change bg of data on dashboard
+- [x] fix overflow on trackpage
+- [] fix when clicking on del btn, canceling, and going to dashboard, events are deleted

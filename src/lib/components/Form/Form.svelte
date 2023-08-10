@@ -13,7 +13,6 @@
 	let arcanes = Object.fromEntries(character.track.arcanes);
 	let sacreds = Object.fromEntries(character.track.sacreds);
 
-	let resetDrop = false;
 	let showForm = false;
 	let formTitle: string;
 
@@ -47,7 +46,6 @@
 			return data;
 		});
 
-		console.log(character.isTracked);
 		if (character.isTracked) {
 			let localChar = $MainStore.characters.get(character.id);
 			if (localChar) {
@@ -64,7 +62,6 @@
 		saveMapToLocalStorage($MainStore.characters, 'characters');
 		$MainStore = $MainStore;
 
-		resetDrop = true;
 		closeForm();
 	};
 
@@ -102,7 +99,7 @@
 			transition:fly={{ y: 200, duration: 250 }}
 			class="bg-theme-base w-full h-full lg:h-fit lg:w-1/2 relative text-theme-dark flex rounded-lg z-10"
 		>
-			<form class="h-[90%] w-full overflow-y-auto" on:submit|preventDefault={handleSubmit}>
+			<form class="h-[90%] w-full overflow-y-auto">
 				<div class="w-full text-center font-bold text-2xl mb-2 mt-2">{formTitle}</div>
 				<div class="flex w-full mt-10 sm:max-h-[750px] md:max-h-[700px] overflow-y-scroll">
 					<!-- Left Side -->
@@ -121,16 +118,52 @@
 							{#if character.level < 200}
 								<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
 							{/if}
-							<SymbolInput bind:value={arcanes.Vanishing} char_lvl={character.level} />
-							<SymbolInput bind:value={arcanes.ChuChu} char_lvl={character.level} />
-							<SymbolInput bind:value={arcanes.Lachelein} char_lvl={character.level} />
-							<SymbolInput bind:value={arcanes.Arcana} char_lvl={character.level} />
-							<SymbolInput bind:value={arcanes.Morass} char_lvl={character.level} />
-							<SymbolInput bind:value={arcanes.Esfera} char_lvl={character.level} />
+							<SymbolInput
+								bind:value={arcanes.Vanishing}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/vanishing_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={arcanes.ChuChu}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/chuchu_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={arcanes.Lachelein}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/lachelein_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={arcanes.Arcana}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/esfera_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={arcanes.Morass}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/morass_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={arcanes.Esfera}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/esfera_icon.webp"
+							/>
 
-							<SymbolInput bind:value={sacreds.Cernium} char_lvl={character.level} />
-							<SymbolInput bind:value={sacreds.Arcus} char_lvl={character.level} />
-							<SymbolInput bind:value={sacreds.Odium} char_lvl={character.level} />
+							<SymbolInput
+								bind:value={sacreds.Cernium}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/cernium_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={sacreds.Arcus}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/arcus_icon.webp"
+							/>
+							<SymbolInput
+								bind:value={sacreds.Odium}
+								char_lvl={character.level}
+								img="/assets/symbol_icons/odium_icon.webp"
+							/>
 						</div>
 					</div>
 
@@ -156,6 +189,7 @@
 							Cancel
 						</button>
 						<button
+							on:click={handleSubmit}
 							type="submit"
 							id="create-char-btn"
 							class="bg-green-300 p-2 ml-2 mt-auto rounded-lg text-theme-base hover:bg-green-500 duration-200 active:scale-90"

@@ -44,15 +44,15 @@
 	};
 </script>
 
-<div class="w-full flex text-center mt-4 font-bold text-lg justify-evenly">
-	<div class="flex flex-col w-[45%] justify-center">
+<div class="w-full flex h-full text-center mt-4 font-bold text-lg justify-evenly">
+	<div class="flex flex-col w-[45%]">
 		<div class="text-2xl m-2">Todo</div>
-		<div class="w-full h-full flex flex-col max-h-[540px] overflow-y-auto border-t border-theme-decorated">
+		<div class="w-full flex flex-col overflow-y-auto border-t border-theme-decorated">
 			{#each events as event}
 				{#if event.active && !event.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
 						<div class="w-1/3 flex justify-center">
-							<img src={event.img_url} alt="event_img" class="w-1/2" />
+							<img src={event.img_url} alt="event_img" class="w-1/3" />
 						</div>
 						<div class="w-1/3 max-w-[5.4rem] overflow-x-clip text-xs sm:text-lg">{event.name.replace('_', ' ')}</div>
 
@@ -73,14 +73,16 @@
 			{/each}
 		</div>
 	</div>
-	<div class="flex flex-col w-[45%] justify-center">
+	<div class="flex flex-col w-[45%]">
 		<div class="text-2xl m-2">Complete</div>
-		<div class="w-full h-full flex flex-col max-h-[540px] overflow-y-auto border-t border-theme-decorated">
+		<div
+			class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto border-t border-theme-decorated"
+		>
 			{#each events as event}
 				{#if event.active && event.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
 						<div class="w-1/3 flex justify-center">
-							<img src={event.img_url} alt="event_img" class="w-1/2" />
+							<img src={event.img_url} alt="event_img" class="w-1/3" />
 						</div>
 						<div class="w-1/3 max-w-[5.4rem] overflow-x-clip text-xs sm:text-lg">{event.name.replace('_', ' ')}</div>
 

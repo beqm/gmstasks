@@ -23,8 +23,6 @@
 
 			let last_d_reset = localStorage.getItem('daily_reset');
 			if (!last_d_reset || last_d_reset.replace('"', '') !== now.toDateString()) {
-				console.log(last_d_reset, now.toDateString());
-
 				localStorage.setItem('daily_reset', new Date().toDateString());
 				resetDailyTasks($MainStore);
 				resetDashboardTasks($MainStore, 'Daily');

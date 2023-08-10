@@ -64,7 +64,6 @@
 
 	onMount(async () => {
 		localStoragetoStore(MainStore);
-		console.log($MainStore);
 		dailyBossesControl = progressControl($MainStore.dashboard, 'Boss', 'Daily');
 		weeklyBossesControl = progressControl($MainStore.dashboard, 'Boss', 'Weekly');
 		dailyEventControl = progressControl($MainStore.dashboard, 'Event', 'Daily');
@@ -72,7 +71,7 @@
 	});
 </script>
 
-<div class="flex w-full lg:mt-20 justify-center lg:h-[80vh]">
+<div class="flex w-full justify-center lg:h-[80vh]">
 	<div
 		in:fly={{ x: -200, duration: 250 }}
 		class="flex flex-col items-center w-full lg:w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base"
@@ -96,13 +95,13 @@
 		</div>
 		<div class="items-center w-full lg:w-[90%] flex flex-col rounded-lg p-2 h-full">
 			<div class="text-2xl font-bold">Todo</div>
-			<div class="flex flex-col w-full bg-theme-soft m-4 lg:max-h-[320px] max-h-[360px] overflow-y-auto">
+			<div class="flex flex-col w-full m-4 lg:max-h-[320px] max-h-[360px] overflow-y-auto">
 				{#if $MainStore.dashboard.size == 0}
 					<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
 				{:else}
 					{#each [...$MainStore.dashboard] as [key, item]}
 						{#if !item.status}
-							<div class="flex p-4 justify-evenly w-full border-b border-theme-base">
+							<div class="flex p-4 justify-evenly w-full border border-theme-base">
 								<div class="w-1/5 flex items-center justify-center">
 									<img src={item.charImgUrl} alt="char_img" class="w-10" />
 								</div>

@@ -67,6 +67,7 @@
 	<div class="flex mt-auto">
 		<button
 			on:click={closeModal}
+			type="button"
 			class="bg-theme-soft m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-gray-500 duration-200 active:scale-90"
 		>
 			Cancel

@@ -25,9 +25,11 @@
 </script>
 
 <div class="w-full flex text-center mt-4 font-bold text-lg justify-evenly">
-	<div class="flex flex-col w-[45%] justify-center">
+	<div class="flex flex-col w-[45%]">
 		<div class="text-2xl m-2">Todo</div>
-		<div class="w-full h-full flex flex-col max-h-[540px] overflow-y-auto border-t border-theme-decorated">
+		<div
+			class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto border-t border-theme-decorated"
+		>
 			{#each bosses as boss}
 				{#if boss.active && !boss.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
@@ -56,9 +58,11 @@
 			{/each}
 		</div>
 	</div>
-	<div class="flex flex-col w-[45%] justify-center">
+	<div class="flex flex-col w-[45%]">
 		<div class="text-2xl m-2">Complete</div>
-		<div class="w-full h-full flex flex-col max-h-[540px] overflow-y-auto border-t border-theme-decorated">
+		<div
+			class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto border-t border-theme-decorated"
+		>
 			{#each bosses as boss}
 				{#if boss.active && boss.complete}
 					<div class="flex w-full border border-theme-base p-2 justify-center items-center">

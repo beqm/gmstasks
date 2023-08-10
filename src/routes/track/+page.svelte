@@ -98,7 +98,7 @@
 	};
 </script>
 
-<div class="flex w-full justify-center h-full lg:h-[80vh] lg:mt-20">
+<div class="flex w-full justify-center h-full lg:h-[80vh]">
 	{#if $MainStore.active}
 		<div
 			in:fly={{ x: -200, duration: 250 }}
@@ -168,9 +168,13 @@
 					{/if}
 
 					{#if currentEventSubPage == 'daily'}
-						<EventTrack events={[...$MainStore.active.track.dailyEvents.values()]} />
+						<div class="h-[80%]">
+							<EventTrack events={[...$MainStore.active.track.dailyEvents.values()]} />
+						</div>
 					{:else if currentEventSubPage == 'weekly'}
-						<EventTrack events={[...$MainStore.active.track.weeklyEvents.values()]} />
+						<div class="h-[80%]">
+							<EventTrack events={[...$MainStore.active.track.weeklyEvents.values()]} />
+						</div>
 					{/if}
 				{:else if currentPage == 'bosses'}
 					<BossNavbar on:pagechange={changeBossSubPage} />
@@ -184,9 +188,13 @@
 						</div>
 					{/if}
 					{#if currentBossSubPage == 'daily'}
-						<BossTrack bosses={[...$MainStore.active.track.dailyBosses.values()]} />
+						<div class="h-[80%]">
+							<BossTrack bosses={[...$MainStore.active.track.dailyBosses.values()]} />
+						</div>
 					{:else if currentBossSubPage == 'weekly'}
-						<BossTrack bosses={[...$MainStore.active.track.weeklyBosses.values()]} />
+						<div class="h-[80%]">
+							<BossTrack bosses={[...$MainStore.active.track.weeklyBosses.values()]} />
+						</div>
 					{/if}
 				{:else if currentPage == 'symbols'}
 					<SymbolNavbar on:pagechange={changeSymbolSubPage} />
