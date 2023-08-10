@@ -49,6 +49,12 @@
 		if (character.isTracked) {
 			let dashMap = createDashBoardMap(character);
 
+			$MainStore.dashboard.forEach((value, key) => {
+				if (key.split('|')[0] == character.id) {
+					$MainStore.dashboard.delete(key);
+				}
+			});
+
 			dashMap.forEach((value, key) => {
 				$MainStore.dashboard.set(key, value);
 			});
