@@ -35,7 +35,7 @@
 
 			let localChar = $MainStore.characters.get($MainStore.active.id);
 			if (localChar) {
-				$MainStore.characters.set(localChar.id, localChar);
+				$MainStore.characters.set(localChar.id, $MainStore.active);
 			}
 
 			if (status) {

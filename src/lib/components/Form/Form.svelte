@@ -6,7 +6,7 @@
 	import EventSelect from '$lib/components/Form/EventSelect.svelte';
 	import BossSelect from '$lib/components/Form/BossSelect.svelte';
 	import { validateImage } from '$lib/utils/validation';
-	import { initCharacter, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { createDashBoardMap, initCharacter, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { validateSymbols } from '$lib/utils/validation';
 
 	let character: Character = initCharacter();
@@ -47,8 +47,19 @@
 			return data;
 		});
 
+		console.log(character.isTracked);
+		if (character.isTracked) {
+			let localChar = $MainStore.characters.get(character.id);
+			if (localChar) {
+				$MainStore.characters.set(localChar.id, character);
+
+				let dashMap = createDashBoardMap(character);
+				$MainStore.dashboard = new Map([...$MainStore.dashboard, ...dashMap]);
+				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+			}
+		}
+
 		character = tasksMapToObj(character);
-		console.log(character);
 		localStorage.setItem('active', JSON.stringify(character));
 		saveMapToLocalStorage($MainStore.characters, 'characters');
 		$MainStore = $MainStore;
