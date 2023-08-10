@@ -59,4 +59,7 @@
 - [x] add symbol img on form
 - [x] change bg of data on dashboard
 - [x] fix overflow on trackpage
-- [] fix when opening edit form or delete char modal, localstorage events are emptied
+- [x] fix when opening edit form or delete char modal, localstorage events are emptied
+
+- [] sometimes when completing tasks from dashboard, it doesnt trigger
+- [] Add Search bar on
