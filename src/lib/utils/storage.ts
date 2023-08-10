@@ -130,27 +130,27 @@ export function createDashBoardMap(char: Character) {
 	char.track.dailyBosses.forEach((boss: MBoss) => {
 		if (boss.active) {
 			let item = createDashboardBoss(char, boss, 'Daily');
-			dashMap.set(`${char.id}|${item.trackName}|${item.trackInfo}`, item);
+			dashMap.set(`${item.charId}|${item.trackInfo}${item.trackName}`, item);
 		}
 	});
 
 	char.track.weeklyBosses.forEach((boss: MBoss) => {
 		if (boss.active) {
 			let item = createDashboardBoss(char, boss, 'Weekly');
-			dashMap.set(`${char.id}|${item.trackName}|${item.trackInfo}`, item);
+			dashMap.set(`${item.charId}|${item.trackInfo}${item.trackName}`, item);
 		}
 	});
 	char.track.dailyEvents.forEach((event: MEvent) => {
 		if (event.active) {
 			let item = createDashboardEvent(char, event, 'Daily');
-			dashMap.set(`${char.id}|${item.trackName}`, item);
+			dashMap.set(`${item.charId}|${item.trackName}`, item);
 		}
 	});
 
 	char.track.weeklyEvents.forEach((event: MEvent) => {
 		if (event.active) {
 			let item = createDashboardEvent(char, event, 'Weekly');
-			dashMap.set(`${char.id}|${item.trackName}`, item);
+			dashMap.set(`${item.charId}|${item.trackName}`, item);
 		}
 	});
 	return dashMap;

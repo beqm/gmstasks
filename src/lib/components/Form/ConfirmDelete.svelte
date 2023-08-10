@@ -1,5 +1,6 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
+	import { saveMapToLocalStorage } from '$lib/utils/storage';
 
 	export let currentCharIteration: Character;
 	export let toggleOverlayFunction: any;
@@ -27,17 +28,17 @@
 				data.active = null;
 				localStorage.setItem('active', JSON.stringify($MainStore.active));
 			}
-			data.dashboard.forEach((value) => {
+			data.dashboard.forEach((value, key) => {
 				if (value.charId == id) {
-					data.dashboard.delete(id);
+					data.dashboard.delete(key);
 				}
 			});
-			localStorage.setItem('characters', JSON.stringify(Object.fromEntries($MainStore.characters)));
-			localStorage.setItem('dashboard', JSON.stringify(Object.fromEntries($MainStore.characters)));
 			return data;
 		});
 
 		$MainStore = $MainStore;
+		saveMapToLocalStorage($MainStore.characters, 'characters');
+		saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 		closeModal();
 	};
 

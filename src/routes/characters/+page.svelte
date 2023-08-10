@@ -93,7 +93,7 @@
 <ConfirmDelete currentCharIteration={delModalInfo} toggleOverlayFunction={toggleOverlay} />
 
 <div in:fly={{ x: -200, duration: 250 }} class="flex flex-col w-full items-center mt-10">
-	<div class="flex w-full lg:w-9/12 justify-end">
+	<div class="flex w-full lg:w-9/12 justify-end p-2">
 		<ImportModal />
 		<button
 			on:click={exportData}

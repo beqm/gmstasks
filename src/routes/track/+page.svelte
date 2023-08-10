@@ -40,7 +40,9 @@
 
 			if (status) {
 				let dashMap = createDashBoardMap($MainStore.active);
-				$MainStore.dashboard = new Map([...$MainStore.dashboard, ...dashMap]);
+				dashMap.forEach((value, key) => {
+					$MainStore.dashboard.set(key, value);
+				});
 			} else {
 				$MainStore.dashboard.forEach((value, key) => {
 					if (value.charId == $MainStore.active?.id) {

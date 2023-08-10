@@ -32,7 +32,7 @@
 					let active = tasksMapToObj($MainStore.active);
 					localStorage.setItem('active', JSON.stringify(active));
 				}
-				saveMapToLocalStorage($MainStore.characters, 'dashboard');
+				saveMapToLocalStorage($MainStore.characters, 'characters');
 				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
 
@@ -49,7 +49,7 @@
 						let active = tasksMapToObj($MainStore.active);
 						localStorage.setItem('active', JSON.stringify(active));
 					}
-					saveMapToLocalStorage($MainStore.characters, 'dashboard');
+					saveMapToLocalStorage($MainStore.characters, 'characters');
 					saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 				}
 			} else if (now.getDay() == 4) {
@@ -63,7 +63,7 @@
 						let active = tasksMapToObj($MainStore.active);
 						localStorage.setItem('active', JSON.stringify(active));
 					}
-					saveMapToLocalStorage($MainStore.characters, 'dashboard');
+					saveMapToLocalStorage($MainStore.characters, 'characters');
 					saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 				}
 			}
