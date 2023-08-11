@@ -61,5 +61,5 @@
 - [x] fix overflow on trackpage
 - [x] fix when opening edit form or delete char modal, localstorage events are emptied
 
-- [] sometimes when completing tasks from dashboard, it doesnt trigger
-- [] Add Search bar on
+- [x] sometimes when completing tasks from dashboard, it doesnt trigger
+- [] Add Search bar on dashboard
