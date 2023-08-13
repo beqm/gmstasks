@@ -62,4 +62,4 @@
 - [x] fix when opening edit form or delete char modal, localstorage events are emptied
 
 - [x] sometimes when completing tasks from dashboard, it doesnt trigger
-- [] Add Search bar on dashboard
+- [x] Add Search bar on dashboard
