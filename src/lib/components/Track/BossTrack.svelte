@@ -27,12 +27,10 @@
 <div class="w-full flex text-center mt-4 font-bold text-lg justify-evenly">
 	<div class="flex flex-col w-[45%]">
 		<div class="text-2xl m-2">Todo</div>
-		<div
-			class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto border-t border-theme-decorated"
-		>
+		<div class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto">
 			{#each bosses as boss}
 				{#if boss.active && !boss.complete}
-					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
+					<div class="flex w-full border border-primary-100 p-2 justify-center items-center">
 						<div class="w-1/4 flex justify-center">
 							<img src={boss.img_url} alt="boss_img" class="w-1/2" />
 						</div>
@@ -43,7 +41,7 @@
 
 						<button class="w-1/4 flex justify-center" on:click={() => handleComplete(boss)}>
 							<svg
-								class="text-theme-strongdecorated hover:text-theme-decorated"
+								class="text-accent-200 hover:text-accent-100"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
 								height="1.5em"
@@ -60,12 +58,10 @@
 	</div>
 	<div class="flex flex-col w-[45%]">
 		<div class="text-2xl m-2">Complete</div>
-		<div
-			class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto border-t border-theme-decorated"
-		>
+		<div class="w-full h-full flex flex-col max-h-[370px] sm:max-h-[490px] overflow-y-auto">
 			{#each bosses as boss}
 				{#if boss.active && boss.complete}
-					<div class="flex w-full border border-theme-base p-2 justify-center items-center">
+					<div class="flex w-full border border-primary-100 p-2 justify-center items-center">
 						<div class="w-1/4 flex justify-center">
 							<img src={boss.img_url} alt="boss_img" class="w-1/2" />
 						</div>
@@ -76,7 +72,7 @@
 
 						<button class="w-1/4 flex justify-center" disabled>
 							<svg
-								class=" text-green-500 justify-center items-center"
+								class="text-green justify-center items-center"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="currentColor"
 								height="1.5em"

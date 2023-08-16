@@ -1,6 +1,8 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
+	import { clickOutside } from '$lib/utils/clickOutside';
 	import { localStoragetoStore } from '$lib/utils/storage';
+	import { fade } from 'svelte/transition';
 	let isOpen: boolean = false;
 
 	let toggleModal = () => {
@@ -54,7 +56,7 @@
 </script>
 
 <button
-	class="flex items-center bg-green-300 m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 text-theme-base"
+	class="flex items-center bg-green-100 m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-200 duration-200 active:scale-90 text-light"
 	on:click={toggleModal}
 >
 	<svg class="h-[1.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
@@ -65,9 +67,10 @@
 </button>
 
 {#if isOpen}
-	<div class="backdrop flex justify-center z-10">
+	<div in:fade class="fixed top-0 left-0 right-0 bottom-0 bg-backdrop flex justify-center z-10">
 		<div
-			class="w-full sm:w-[50%] xl:w-[25%] min-w-[300px] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32 h-fit"
+			use:clickOutside={toggleModal}
+			class="w-full sm:w-[50%] xl:w-[25%] min-w-[300px] flex flex-col bg-primary-300 rounded-lg mt-32 h-fit"
 		>
 			<div class="flex font-bold text-2xl p-2">Import Data</div>
 
@@ -79,14 +82,14 @@
 			<div class="flex mt-auto">
 				<button
 					on:click={toggleModal}
-					class="bg-theme-soft m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-gray-500 duration-200 active:scale-90"
+					class="bg-primary-200 hover:bg-secondary-300 m-2 p-2 ml-auto rounded-lg font-bold capitalize duration-200 active:scale-90"
 				>
 					Cancel
 				</button>
 				<button
 					on:click={importFile}
 					type="submit"
-					class="bg-green-300 text-theme-base m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-500 duration-200 active:scale-90"
+					class="bg-green-100 text-light m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-200 duration-200 active:scale-90"
 				>
 					Import
 				</button>
@@ -94,14 +97,3 @@
 		</div>
 	</div>
 {/if}
-
-<style>
-	.backdrop {
-		position: fixed;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
-		background: rgba(0, 0, 0, 0.5);
-	}
-</style>

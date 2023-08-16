@@ -8,7 +8,7 @@
 	<input
 		id={inputLabel}
 		type="text"
-		class=" bg-theme-softer h-6 sm:h-fit border border-theme-base text-sm sm:text-lg focus:bg-theme-softdecorated"
+		class=" bg-primary-200 h-6 sm:h-fit border border-primary-100 focus:border-secondary-300 text-sm sm:text-lg focus:bg-primary-300 outline-none"
 		bind:value
 	/>
 </div>

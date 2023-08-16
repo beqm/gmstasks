@@ -24,7 +24,8 @@
 
 			let last_d_reset = localStorage.getItem('daily_reset');
 			if (!last_d_reset || last_d_reset !== now.toDateString()) {
-				localStorage.setItem('daily_reset', new Date().toDateString());
+				console.log('hello');
+				localStorage.setItem('daily_reset', now.toDateString());
 				resetDailyTasks($MainStore);
 				resetDashboardTasks($MainStore, 'Daily');
 				$MainStore = $MainStore;
@@ -36,10 +37,8 @@
 				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
 
-			let last_m_reset = localStorage.getItem('monday_reset');
-			let last_w_reset = localStorage.getItem('wednesday_reset');
-
 			if (now.getDay() == 1) {
+				let last_m_reset = localStorage.getItem('monday_reset');
 				if (!last_m_reset || last_m_reset !== now.toDateString()) {
 					localStorage.setItem('monday_reset', new Date().toDateString());
 					resetWeeklyEventTasks($MainStore);
@@ -53,6 +52,7 @@
 					saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
 				}
 			} else if (now.getDay() == 4) {
+				let last_w_reset = localStorage.getItem('wednesday_reset');
 				if (!last_w_reset || last_w_reset !== now.toDateString()) {
 					localStorage.setItem('wednesday_reset', new Date().toDateString());
 					resetWeeklyBossTasks($MainStore);

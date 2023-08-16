@@ -6,7 +6,7 @@
 {#if $MainStore.active}
 	<div class="w-full flex text-center mt-4 font-bold text-lg items-center justify-center">
 		<div class="flex flex-col w-[90%] justify-center">
-			<div class="w-full h-full flex border-t border-theme-decorated flex-wrap items-center justify-center">
+			<div class="w-full h-full flex flex-wrap items-center justify-center">
 				{#if $MainStore.active.level < 260}
 					<div class="mt-10">Level has not met minimum requirements</div>
 				{/if}

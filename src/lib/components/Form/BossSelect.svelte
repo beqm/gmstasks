@@ -21,13 +21,13 @@
 
 <div>
 	<button
-		class="flex items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated cursor-pointer"
+		class="flex items-center w-full bg-primary-200 bg-theme-softer border border-primary-100 text-xl cursor-pointer"
 		type="button"
 		on:click={toggleEventSelect}
 	>
 		<span class="p-2 text-sm sm:text-lg">{inputLabel.replace('_', ' ')}</span>
 		<svg
-			class="ml-auto mr-2 text-theme-decorated"
+			class="ml-auto mr-2 text-accent-100"
 			xmlns="http://www.w3.org/2000/svg"
 			height="1em"
 			viewBox="0 0 448 512"
@@ -41,12 +41,12 @@
 		<ul
 			transition:slide
 			id={inputLabel}
-			class=" flex flex-col items-center w-full bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated max-h-[220px] mb-2 overflow-y-auto"
+			class=" flex flex-col items-center w-full bg-primary-300 border border-primary-100 text-xl max-h-[220px] mb-2 overflow-y-auto"
 		>
 			{#each [...selectData.values()] as item}
 				<li class="flex text-left w-full">
 					<label class="p-2 text-sm sm:text-lg" for={item.name}>{item.difficulty} {item.name.replace('_', ' ')}</label>
-					<input type="checkbox" id={item.name} class="ml-auto mr-2" bind:checked={item.active} />
+					<input type="checkbox" id={item.name} class="ml-auto mr-4" bind:checked={item.active} />
 				</li>
 			{/each}
 		</ul>

@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { localStoragetoStore } from '$lib/utils/storage';
 
-	let notifierCount = (dashboard: Map<string, DashItem>) => {
+	let countTodoTasks = (dashboard: Map<string, DashItem>) => {
 		let counter = 0;
 		dashboard.forEach((value) => {
 			if (!value.status) {
@@ -15,7 +15,7 @@
 		return counter;
 	};
 
-	$: count = notifierCount($MainStore.dashboard);
+	$: count = countTodoTasks($MainStore.dashboard);
 
 	let cNavButton = 'text-dark';
 	let cContainer = 'hidden';
@@ -29,6 +29,7 @@
 			cContainer = 'hidden';
 		}
 	};
+
 	onMount(() => {
 		localStoragetoStore(MainStore);
 	});
@@ -43,13 +44,13 @@
 </svelte:head>
 
 <nav
-	class="flex z-10 relative flex-col w-full font-bold text-center h-[10vh] capitalize items-center text-theme-dark lg:min-w-[1050px]"
+	class="text-dark bg-dark font-sans flex relative flex-col w-full font-bold text-center h-[10vh] capitalize items-center lg:min-w-[1050px]"
 >
-	<div class="flex w-full lg:w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-theme-base">
-		<div class="p-3 flex items-center uppercase rounded-lg text-lg">GMSTASKS</div>
+	<div class="flex w-full lg:w-3/6 m-2 rounded-lg p-1 drop-shadow-lg bg-primary-300">
+		<div class="p-3 flex items-center rounded-lg text-lg">GMSTASKS</div>
 
 		<div class="flex items-center">
-			<div class="h-fit p-3 rounded-lg justify-center font-bold uppercase text-sm bg-theme-decorated">
+			<div class="h-fit p-3 rounded-lg justify-center font-bold uppercase text-sm bg-secondary-100">
 				Reset <DayTimer />
 			</div>
 		</div>
@@ -63,21 +64,21 @@
 		</button>
 
 		<ul
-			class={`${cContainer} absolute text-lg bg-theme-strong lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row w-full top-full left-1/2 transform -translate-x-1/2 flex flex-col list-none items-center`}
+			class={`${cContainer} absolute text-lg lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row w-full top-full left-1/2 transform -translate-x-1/2 flex flex-col list-none items-center`}
 		>
 			<a href="/">
-				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">dashboard</li>
+				<li class="p-2 m-1 hover:bg-secondary-300 rounded-lg duration-200 active:scale-90">dashboard</li>
 			</a>
 
 			<a href="characters">
-				<li class="p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">characters</li>
+				<li class="p-2 m-1 hover:bg-secondary-300 rounded-lg duration-200 active:scale-90">characters</li>
 			</a>
 
 			{#if $MainStore.active}
 				<a href="track">
-					<li class="flex p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">
+					<li class="flex p-2 m-1 rounded-lg duration-200 active:scale-90">
 						<svg
-							class="w-[1.5rem] text-theme-decorated"
+							class="w-[1.5rem] text-accent-100"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 512 512"
 							fill="currentColor"
@@ -88,10 +89,10 @@
 					</li>
 				</a>
 			{:else if !$MainStore.active}
-				<a href="track" class="track-disabled">
-					<li class="flex p-2 m-1 hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90">
+				<a href="track" class="cursor-default pointer-events-none">
+					<li class="flex p-2 m-1 hover:bg-secondary-300 rounded-lg duration-200 active:scale-90">
 						<svg
-							class="w-[1.5rem] text-theme-strongdecorated"
+							class="w-[1.5rem] text-accent-300"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 512 512"
 							fill="currentColor"
@@ -105,14 +106,18 @@
 		</ul>
 		{#if count > 0}
 			<a href="/">
-				<div
-					class="mr-2 p-2 h-full flex items-center hover:bg-theme-strongdecorated rounded-lg duration-200 active:scale-90 relative"
-				>
-					<div class="absolute right-[1px] top-4">{count}</div>
+				<div class="mr-2 p-2 h-full flex items-center rounded-lg duration-200 active:scale-90 relative">
+					{#if count < 10}
+						<span class="absolute right-[1px] top-4">{count}</span>
+					{:else if count > 10}
+						<span class="absolute right-[-10px] top-4">{count}</span>
+					{:else if count >= 99}
+						<span class="absolute right-[-10px] top-4">99+</span>
+					{/if}
 
 					<svg
 						height="1.2em"
-						class="text-theme-decorated"
+						class="text-accent-100"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 448 512"
 						fill="currentColor"
@@ -126,13 +131,6 @@
 	</div>
 </nav>
 
-<main class=" flex w-screen justify-center h-[90vh]">
+<main class="overflow-hidden w-screen justify-center h-[90vh] text-dark bg-dark font-sans">
 	<slot />
 </main>
-
-<style>
-	.track-disabled {
-		pointer-events: none;
-		cursor: default;
-	}
-</style>

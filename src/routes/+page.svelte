@@ -77,7 +77,7 @@
 <div class="flex w-full justify-center lg:h-[80vh]">
 	<div
 		in:fly={{ x: -200, duration: 250 }}
-		class="flex flex-col items-center w-full lg:w-9/12 rounded-lg mt-10 drop-shadow-lg bg-theme-base"
+		class="flex flex-col items-center w-full lg:w-9/12 rounded-lg mt-10 drop-shadow-lg bg-primary-300"
 	>
 		<div class="w-full text-center font-bold text-3xl mt-4">Dashboard</div>
 		<div class="justify-evenly w-[90%] mt-10 flex">
@@ -104,7 +104,7 @@
 				{:else}
 					<div class="w-full flex justify-center p-2">
 						<input
-							class="w-full sm:w-1/2 h-10 bg-theme-soft text-center outline-none focus:border focus:border-theme-decorated"
+							class="w-full sm:w-1/2 h-10 bg-primary-200 text-center outline-none border border-primary-100 focus:border-secondary-300 focus:bg-primary-300"
 							type="text"
 							placeholder="Search.."
 							bind:value={searchQuery}
@@ -115,8 +115,8 @@
 							{#if !item.status}
 								{#if (searchQuery && item.charName.toLowerCase().includes(searchQuery)) || item.trackName
 										.toLowerCase()
-										.includes(searchQuery)}
-									<div class="flex p-4 justify-evenly w-full border border-theme-base">
+										.includes(searchQuery) || item.trackType.toLowerCase().includes(searchQuery)}
+									<div class="flex p-4 justify-evenly w-full border border-primary-100">
 										<div class="w-1/5 flex items-center justify-center">
 											<img src={item.charImgUrl} alt="char_img" class="w-10" />
 										</div>
@@ -143,7 +143,7 @@
 
 										<button class="flex justify-center items-center" on:click={() => handleComplete(item)}>
 											<svg
-												class="text-theme-strongdecorated hover:text-theme-decorated"
+												class="text-accent-200 hover:text-accent-100"
 												xmlns="http://www.w3.org/2000/svg"
 												fill="currentColor"
 												height="1.5em"

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import BossTrack from '$lib/components/Track/BossTrack.svelte';
-	import EventTrack from '$lib/components/Track/EventTrack.svelte';
-	import BossNavbar from '$lib/components/Track/BossNavbar.svelte';
+	import SubNavbar from '$lib/components/Track/SubNavbar.svelte';
+
 	import DayTimer from '$lib/components/Timers/DayTimer.svelte';
 	import WeekTimer from '$lib/components/Timers/WeekTimer.svelte';
 	import SymbolNavbar from '$lib/components/Track/SymbolNavbar.svelte';
@@ -11,6 +11,7 @@
 	import MainStore from '$lib/stores/MainStore';
 	import { createDashBoardMap, localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { onMount } from 'svelte';
+	import EventTrack from '$lib/components/Track/EventTrack.svelte';
 
 	let currentPage = 'events';
 	let currentBossSubPage = 'daily';
@@ -69,32 +70,32 @@
 			currentSymbolSubPage = 'arcane';
 
 			if (path == 'events') {
-				trackEventsBtn.classList.add('bg-theme-decorated');
-				trackEventsBtn.classList.remove('hover:bg-theme-softdecorated');
+				trackEventsBtn.classList.add('bg-secondary-100');
+				trackEventsBtn.classList.remove('hover:bg-secondary-300');
 
-				trackBossesBtn.classList.remove('bg-theme-decorated');
-				trackBossesBtn.classList.add('hover:bg-theme-softdecorated');
+				trackBossesBtn.classList.remove('bg-secondary-300');
+				trackBossesBtn.classList.add('hover:bg-secondary-300');
 
-				trackSymbolsBtn.classList.remove('bg-theme-decorated');
-				trackSymbolsBtn.classList.add('hover:bg-theme-softdecorated');
+				trackSymbolsBtn.classList.remove('bg-secondary-300');
+				trackSymbolsBtn.classList.add('hover:bg-secondary-300');
 			} else if (path == 'bosses') {
-				trackBossesBtn.classList.add('bg-theme-decorated');
-				trackBossesBtn.classList.remove('hover:bg-theme-softdecorated');
+				trackBossesBtn.classList.add('bg-secondary-300');
+				trackBossesBtn.classList.remove('hover:bg-secondary-300');
 
-				trackEventsBtn.classList.remove('bg-theme-decorated');
-				trackEventsBtn.classList.add('hover:bg-theme-softdecorated');
+				trackEventsBtn.classList.remove('bg-secondary-300');
+				trackEventsBtn.classList.add('hover:bg-secondary-300');
 
-				trackSymbolsBtn.classList.remove('bg-theme-decorated');
-				trackSymbolsBtn.classList.add('hover:bg-theme-softdecorated');
+				trackSymbolsBtn.classList.remove('bg-secondary-300');
+				trackSymbolsBtn.classList.add('hover:bg-secondary-300');
 			} else {
-				trackSymbolsBtn.classList.add('bg-theme-decorated');
-				trackSymbolsBtn.classList.remove('hover:bg-theme-softdecorated');
+				trackSymbolsBtn.classList.add('bg-secondary-300');
+				trackSymbolsBtn.classList.remove('hover:bg-secondary-300');
 
-				trackEventsBtn.classList.remove('bg-theme-decorated');
-				trackEventsBtn.classList.add('hover:bg-theme-softdecorated');
+				trackEventsBtn.classList.remove('bg-secondary-300');
+				trackEventsBtn.classList.add('hover:bg-secondary-300');
 
-				trackBossesBtn.classList.remove('bg-theme-decorated');
-				trackBossesBtn.classList.add('hover:bg-theme-softdecorated');
+				trackBossesBtn.classList.remove('bg-secondary-300');
+				trackBossesBtn.classList.add('hover:bg-secondary-300');
 			}
 		}
 	};
@@ -104,10 +105,10 @@
 	{#if $MainStore.active}
 		<div
 			in:fly={{ x: -200, duration: 250 }}
-			class="flex flex-col sm:flex-row w-full lg:w-9/12 rounded-lg mt-10 sm:mt-10 drop-shadow-lg bg-theme-base"
+			class="flex flex-col sm:flex-row w-full lg:w-9/12 rounded-lg mt-10 sm:mt-10 drop-shadow-lg bg-primary-300"
 		>
 			<!-- Navbar -->
-			<div class="flex sm:flex-col sm:w-[20%] border-r border-theme-base">
+			<div class="flex sm:flex-col sm:w-[20%] border border-primary-100">
 				<div class="hidden sm:block">
 					<img src={$MainStore.active.img} alt="current active character" class="w-full overflow-hidden" />
 					<div class="max-h-[50px] overflow-hidden text-center font-bold sm:text-2xl">
@@ -119,28 +120,28 @@
 					<button
 						on:click={() => changePage('events')}
 						id="track-events-btn"
-						class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 bg-theme-decorated">Events</button
+						class="border-b border-t w-1/4 sm:w-full border-primary-100 p-4 bg-secondary-100">Events</button
 					>
 					<button
 						on:click={() => changePage('bosses')}
 						id="track-bosses-btn"
-						class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated">Bosses</button
+						class="border-b border-t w-1/4 sm:w-full border-primary-100 p-4 hover:bg-secondary-300">Bosses</button
 					>
 					<button
 						on:click={() => changePage('symbols')}
 						id="track-symbols-btn"
-						class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated">Symbols</button
+						class="border-b border-t w-1/4 sm:w-full border-primary-100 p-4 hover:bg-secondary-300">Symbols</button
 					>
 					{#if !$MainStore.active.isTracked}
 						<button
 							on:click={() => toggleToDashboard(true)}
-							class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated"
+							class="border-b border-t w-1/4 sm:w-full border-primary-100 p-4 hover:bg-secondary-300"
 							>Add to Dashboard</button
 						>
 					{:else}
 						<button
 							on:click={() => toggleToDashboard(false)}
-							class="border-b border-t w-1/4 sm:w-full border-theme-base p-4 hover:bg-theme-softdecorated"
+							class="border-b border-t w-1/4 sm:w-full border-primary-100 p-4 hover:bg-secondary-300"
 							>Remove from Dashboard</button
 						>
 					{/if}
@@ -158,13 +159,13 @@
 			<!-- Right Side -->
 			<div class="w-full sm:w-[80%] h-[90%]">
 				{#if currentPage == 'events'}
-					<BossNavbar on:pagechange={changeEventSubPage} />
+					<SubNavbar on:pagechange={changeEventSubPage} />
 					{#if currentEventSubPage == 'daily'}
-						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+						<div class="w-full justify-center flex text-2xl font-bold mt-4">
 							<DayTimer />
 						</div>
 					{:else if currentEventSubPage == 'weekly'}
-						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+						<div class="w-full justify-center flex text-2xl font-bold mt-4">
 							<WeekTimer weekDayTarget={1} />
 						</div>
 					{/if}
@@ -179,13 +180,13 @@
 						</div>
 					{/if}
 				{:else if currentPage == 'bosses'}
-					<BossNavbar on:pagechange={changeBossSubPage} />
+					<SubNavbar on:pagechange={changeBossSubPage} />
 					{#if currentBossSubPage == 'daily'}
-						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+						<div class="w-full justify-center flex text-2xl font-bold mt-4">
 							<DayTimer />
 						</div>
 					{:else if currentBossSubPage == 'weekly'}
-						<div class="w-full justify-center flex text-2xl font-bold text-theme-decorateds mt-4">
+						<div class="w-full justify-center flex text-2xl font-bold mt-4">
 							<WeekTimer weekDayTarget={4} />
 						</div>
 					{/if}

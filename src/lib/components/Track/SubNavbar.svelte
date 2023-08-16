@@ -7,17 +7,17 @@
 		let weeklyBtn = document.querySelector('#event-weekly') as HTMLButtonElement;
 
 		if (path == 'daily') {
-			dailyBtn.classList.add('bg-theme-decorated');
-			dailyBtn.classList.remove('hover:bg-theme-softdecorated');
+			dailyBtn.classList.add('bg-secondary-100');
+			dailyBtn.classList.remove('hover:bg-secondary-300');
 
-			weeklyBtn.classList.remove('bg-theme-decorated');
-			weeklyBtn.classList.add('hover:bg-theme-softdecorated');
+			weeklyBtn.classList.remove('bg-secondary-100');
+			weeklyBtn.classList.add('hover:bg-secondary-300');
 		} else if (path == 'weekly') {
-			weeklyBtn.classList.add('bg-theme-decorated');
-			weeklyBtn.classList.remove('hover:bg-theme-softdecorated');
+			weeklyBtn.classList.add('bg-secondary-100');
+			weeklyBtn.classList.remove('hover:bg-secondary-300');
 
-			dailyBtn.classList.remove('bg-theme-decorated');
-			dailyBtn.classList.add('hover:bg-theme-softdecorated');
+			dailyBtn.classList.remove('bg-secondary-100');
+			dailyBtn.classList.add('hover:bg-secondary-300');
 		}
 		dispatch('pagechange', path);
 	};
@@ -27,11 +27,11 @@
 	<button
 		id="event-daily"
 		on:click={() => changeEventSubPage('daily')}
-		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 bg-theme-decorated">Daily</button
+		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 bg-secondary-100">Daily</button
 	>
 	<button
 		id="event-weekly"
 		on:click={() => changeEventSubPage('weekly')}
-		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 hover:bg-theme-softdecorated">Weekly</button
+		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 hover:bg-secondary-300">Weekly</button
 	>
 </div>

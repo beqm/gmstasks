@@ -14,9 +14,6 @@
 	const flipDurationMs = 100;
 	let delModalInfo: Character;
 	let isOverlayActive = false;
-	let dropTargetStyle = {
-		b: 'green'
-	};
 
 	let exportData = () => {
 		let localActive = localStorage.getItem('active');
@@ -97,7 +94,7 @@
 		<ImportModal />
 		<button
 			on:click={exportData}
-			class="flex justify-items-center bg-green-300 m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 text-theme-base"
+			class="flex justify-items-center bg-green-100 m-2 p-2 rounded-lg font-bold capitalize hover:bg-green-200 text-light duration-200 active:scale-90"
 		>
 			<svg class="h-[1.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"
 				><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
@@ -108,7 +105,7 @@
 		<Form bind:this={FormComponentInstance} />
 	</div>
 	<div
-		class="flex flex-col w-full lg:w-9/12 overflow-y-scroll sm:max-h-[640px] bg-theme-base rounded-lg drop-shadow-lg scroll-container"
+		class="flex flex-col w-full lg:w-9/12 overflow-y-scroll sm:max-h-[640px] bg-primary-300 rounded-lg drop-shadow-lg scroll-container"
 	>
 		<!-- Columns -->
 		<div class="flex text-center justify-evenly text-sm lg:text-lg font-bold w-full">
@@ -122,14 +119,14 @@
 		{#if $MainStore.characters}
 			{#if $MainStore.characters.size > 0}
 				<div
-					use:dndzone={{ items: [...$MainStore.characters.values()], flipDurationMs: flipDurationMs, dropTargetStyle }}
+					use:dndzone={{ items: [...$MainStore.characters.values()], flipDurationMs: flipDurationMs }}
 					on:consider={handleConsider}
 					on:finalize={handleFinalize}
 				>
 					<!-- Rows -->
 					{#each [...$MainStore.characters] as [key, char] (char.id)}
 						<button
-							class="flex justify-evenly w-full cursor-pointer border bg-theme-soft border-theme-soft"
+							class="flex justify-evenly w-full cursor-pointer border bg-primary-200 border-primary-100"
 							animate:flip={{ duration: flipDurationMs }}
 							on:click={() => activateCharacter(char.id)}
 						>
@@ -148,7 +145,7 @@
 								<button
 									on:click={() => editCharacter(char.id)}
 									id="add-char-btn"
-									class="bg-blue-400 p-4 m-2 max-h-[70px] rounded-lg font-bold capitalize duration-200 active:scale-90"
+									class="bg-blue p-4 m-2 max-h-[70px] rounded-lg font-bold capitalize duration-200 active:scale-90"
 								>
 									<svg
 										class=""
@@ -164,7 +161,7 @@
 								<button
 									on:click={() => showDelModal(char)}
 									id="add-char-btn"
-									class="bg-red-400 p-4 m-2 max-h-[70px] rounded-lg font-bold capitalize duration-200 active:scale-90"
+									class="bg-red p-4 m-2 max-h-[70px] rounded-lg font-bold capitalize duration-200 active:scale-90"
 								>
 									<svg
 										class=""

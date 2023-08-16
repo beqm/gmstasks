@@ -8,6 +8,7 @@
 	import { validateImage } from '$lib/utils/validation';
 	import { createDashBoardMap, initCharacter, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { validateSymbols } from '$lib/utils/validation';
+	import { clickOutside } from '$lib/utils/clickOutside';
 
 	let character: Character = initCharacter();
 	let arcanes = Object.fromEntries(character.track.arcanes);
@@ -88,7 +89,7 @@
 <button
 	id="add-char-btn"
 	on:click={() => openForm()}
-	class="bg-green-300 m-2 p-1 rounded-lg font-bold capitalize hover:bg-green-400 duration-200 active:scale-90 flex text-center justify-center items-center text-theme-base"
+	class="bg-green-100 text-light m-2 p-1 rounded-lg font-bold capitalize hover:bg-green-200 duration-200 active:scale-90 flex text-center justify-center items-center"
 >
 	<svg class="h-[1.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"
 		><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path
@@ -99,16 +100,21 @@
 </button>
 
 {#if showForm}
-	<div id="form-backdrop" class="backdrop flex justify-center items-center z-10">
-		<div
+	<!-- Backdrop  -->
+	<div class="fixed top-0 left-0 right-0 bottom-0 bg-backdrop flex justify-center items-center z-10">
+		<form
 			transition:fly={{ y: 200, duration: 250 }}
-			class="bg-theme-base w-full h-full lg:h-fit lg:w-1/2 relative text-theme-dark flex rounded-lg z-10"
+			use:clickOutside={closeForm}
+			class="bg-primary-400 w-full h-full lg:h-fit lg:w-1/2 relative flex flex-col rounded-lg"
 		>
-			<form class="h-[90%] w-full overflow-y-auto">
-				<div class="w-full text-center font-bold text-2xl mb-2 mt-2">{formTitle}</div>
-				<div class="flex w-full mt-10 sm:max-h-[750px] md:max-h-[700px] overflow-y-scroll">
+			<div class="h-[10%] w-full text-center font-bold text-2xl mb-2 mt-2">{formTitle}</div>
+
+			<div class="h-[80%] w-full">
+				<div class="flex w-full mt-10">
 					<!-- Left Side -->
-					<div class="w-1/2 flex flex-col items-center border-r border-theme-decorated">
+					<div
+						class="w-1/2 flex flex-col items-center border-r border-secondary-200 md:max-h-[500px] overflow-y-scroll"
+					>
 						<!-- Character Section -->
 						<div>
 							<div class="w-full text-center font-bold text-xl mb-2">Character</div>
@@ -118,63 +124,64 @@
 							<Input bind:value={character.level} inputLabel="Level" />
 						</div>
 						<!-- Symbol Section -->
-						<div class="w-3/4">
+						<div class="w-full flex flex-col items-center">
 							<div class="w-full text-center font-bold text-xl mb-2">Symbols</div>
 							{#if character.level < 200}
 								<div class="w-full text-center font-bold text-xl mb-2">Level has not met minimum requirements</div>
 							{/if}
-							<SymbolInput
-								bind:value={arcanes.Vanishing}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/vanishing_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={arcanes.ChuChu}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/chuchu_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={arcanes.Lachelein}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/lachelein_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={arcanes.Arcana}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/esfera_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={arcanes.Morass}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/morass_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={arcanes.Esfera}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/esfera_icon.webp"
-							/>
+							<div class="w-1/2">
+								<SymbolInput
+									bind:value={arcanes.Vanishing}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/vanishing_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={arcanes.ChuChu}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/chuchu_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={arcanes.Lachelein}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/lachelein_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={arcanes.Arcana}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/esfera_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={arcanes.Morass}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/morass_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={arcanes.Esfera}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/esfera_icon.webp"
+								/>
 
-							<SymbolInput
-								bind:value={sacreds.Cernium}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/cernium_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={sacreds.Arcus}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/arcus_icon.webp"
-							/>
-							<SymbolInput
-								bind:value={sacreds.Odium}
-								char_lvl={character.level}
-								img="/assets/symbol_icons/odium_icon.webp"
-							/>
+								<SymbolInput
+									bind:value={sacreds.Cernium}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/cernium_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={sacreds.Arcus}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/arcus_icon.webp"
+								/>
+								<SymbolInput
+									bind:value={sacreds.Odium}
+									char_lvl={character.level}
+									img="/assets/symbol_icons/odium_icon.webp"
+								/>
+							</div>
 						</div>
 					</div>
 
 					<!-- Right Side -->
-					<div class="w-2/4 flex flex-col items-center border-l border-theme-decorated">
-						<!-- Events Section -->
+					<div class="w-2/4 flex flex-col items-center border-l border-secondary-200 overflow-y-auto max-h-[500px]">
 						<div class="w-3/4">
 							<div class="w-full text-center font-bold text-xl mb-2">Events</div>
 							<EventSelect inputLabel="Daily_Events" bind:selectData={character.track.dailyEvents} />
@@ -183,38 +190,29 @@
 							<BossSelect inputLabel="Weekly_Bosses" bind:selectData={character.track.weeklyBosses} />
 						</div>
 					</div>
-
-					<!-- Buttons -->
-					<div class="flex h-[10%] font-bold right-0 bottom-0 absolute m-2">
-						<button
-							on:click|preventDefault={closeForm}
-							type="button"
-							class="hover:bg-gray-500 p-2 mr-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
-						>
-							Cancel
-						</button>
-						<button
-							on:click={handleSubmit}
-							type="submit"
-							id="create-char-btn"
-							class="bg-green-300 p-2 ml-2 mt-auto rounded-lg text-theme-base hover:bg-green-500 duration-200 active:scale-90"
-						>
-							Confirm
-						</button>
-					</div>
 				</div>
-			</form>
-		</div>
+			</div>
+
+			<!-- Buttons -->
+			<div class="flex justify-end h-[10%]">
+				<div class="flex font-bold m-2 w-full sm:w-1/4 md:w-1/5">
+					<button
+						on:click|preventDefault={closeForm}
+						type="button"
+						class="bg-primary-200 hover:bg-secondary-300 w-1/2 p-2 mt-auto ml-auto rounded-lg bg-theme-soft duration-200 active:scale-90"
+					>
+						Cancel
+					</button>
+					<button
+						on:click={handleSubmit}
+						type="submit"
+						id="create-char-btn"
+						class="bg-green-100 p-2 ml-2 w-1/2 mt-auto rounded-lg text-light hover:bg-green-200 duration-200 active:scale-90"
+					>
+						Confirm
+					</button>
+				</div>
+			</div>
+		</form>
 	</div>
 {/if}
-
-<style>
-	.backdrop {
-		position: fixed;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
-		background: rgba(0, 0, 0, 0.5);
-	}
-</style>

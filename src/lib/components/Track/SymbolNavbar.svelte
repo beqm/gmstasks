@@ -8,17 +8,17 @@
 		let sacredBtn = document.querySelector('#symbol-sacred') as HTMLButtonElement;
 
 		if (path == 'arcane') {
-			arcaneBtn.classList.add('bg-theme-decorated');
-			arcaneBtn.classList.remove('hover:bg-theme-softdecorated');
+			arcaneBtn.classList.add('bg-secondary-200');
+			arcaneBtn.classList.remove('hover:bg-secondary-100');
 
-			sacredBtn.classList.remove('bg-theme-decorated');
-			sacredBtn.classList.add('hover:bg-theme-softdecorated');
+			sacredBtn.classList.remove('bg-secondary-200');
+			sacredBtn.classList.add('hover:bg-secondary-100');
 		} else if (path == 'sacred') {
-			sacredBtn.classList.add('bg-theme-decorated');
-			sacredBtn.classList.remove('hover:bg-theme-softdecorated');
+			sacredBtn.classList.add('bg-secondary-200');
+			sacredBtn.classList.remove('hover:bg-secondary-100');
 
-			arcaneBtn.classList.remove('bg-theme-decorated');
-			arcaneBtn.classList.add('hover:bg-theme-softdecorated');
+			arcaneBtn.classList.remove('bg-secondary-200');
+			arcaneBtn.classList.add('hover:bg-secondary-100');
 		}
 
 		dispatch('pagechange', path);
@@ -29,11 +29,11 @@
 	<button
 		id="symbol-arcane"
 		on:click={() => changeSymbolSubPage('arcane')}
-		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 bg-theme-decorated">Arcane</button
+		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 bg-secondary-200">Arcane</button
 	>
 	<button
 		id="symbol-sacred"
 		on:click={() => changeSymbolSubPage('sacred')}
-		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 hover:bg-theme-softdecorated">Sacred</button
+		class="p-2 mr-2 rounded-lg font-bold text-xl mt-10 hover:bg-secondary-100">Sacred</button
 	>
 </div>

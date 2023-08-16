@@ -1,28 +1,6 @@
-/* Write your global styles here, in PostCSS syntax */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-	:root {
-		--color-primary-strong: #401a2a;
-		--color-primary: #d4163c;
-		--color-primary-soft: #2c2931;
-
-		--color-secondary-strong: #14161d;
-		--color-secondary: #1a1c26;
-		--color-secondary-soft: #202330;
-		--color-secondary-softer: #27293a;
-
-		--color-font-base: #15171f;
-		--color-font-dark: #dfe0e2;
-	}
-	body {
-		color: var(--color-font-dark) !important;
-		font-family: sans-serif !important;
-		scrollbar-color: #2c2e34;
-	}
-}
 
 @layer components {
 	#add-char-modal {
@@ -35,59 +13,5 @@
 	dialog::backdrop {
 		background-color: black;
 		opacity: 0.5;
-	}
-
-	.train-popup {
-		display: flex;
-		position: absolute;
-		flex-direction: column;
-		text-align: center;
-		align-items: center;
-		justify-content: center;
-		height: 25%;
-		width: 25%;
-		text-align: center;
-		padding: 20px;
-		position: relative;
-		border-radius: 4px;
-		--tw-bg-opacity: 1;
-		background-color: rgb(71 85 105 / var(--tw-bg-opacity));
-		border-radius: 0.5rem;
-	}
-
-	@keyframes pulse {
-		0% {
-			transform: scale(0.6);
-		}
-		30% {
-			transform: scale(1.1);
-		}
-	}
-
-	.timer-pop {
-		outline: none;
-		animation-name: pulse;
-		animation-duration: 1s;
-		animation-iteration-count: infinite;
-	}
-
-	.buff-warning {
-		animation-name: buff_warning;
-		animation-duration: 10s;
-		animation-timing-function: linear;
-	}
-
-	@keyframes buff_warning {
-		10% {
-			transform: translateY(-100%);
-		}
-
-		50% {
-			transform: translateY(-100%);
-		}
-
-		60% {
-			transform: translateY(0);
-		}
 	}
 }

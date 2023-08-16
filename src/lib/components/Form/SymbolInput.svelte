@@ -7,7 +7,10 @@
 
 {#if value}
 	{#if char_lvl >= value.reqLevel}
-		<div transition:fade class="flex flex-col justify-center border border-theme-base p-2 text-center mt-4">
+		<div
+			transition:fade
+			class="flex flex-col justify-center bg-primary-300 border border-primary-100 p-2 text-center mt-4"
+		>
 			<div class="flex justify-center">
 				<img src={img} alt="Symbol Input" />
 			</div>
@@ -19,17 +22,17 @@
 						id={value.name + '-lvl'}
 						name={value.name + '-lvl'}
 						type="number"
-						class=" bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
+						class=" bg-primary-200 border border-primary-100 text-xl focus:bg-primary-300 outline-none"
 						bind:value={value.level}
 					/>
 				</div>
 				<div class="flex flex-col w-2/4">
-					<label for="vj-exp" class="block font-bold text-lg">EXP</label>
+					<label for={value.name + '-exp'} class="block font-bold text-lg">EXP</label>
 					<input
 						id={value.name + '-exp'}
 						name={value.name + '-exp'}
 						type="number"
-						class=" bg-theme-softer border border-theme-base text-xl focus:bg-theme-softdecorated"
+						class=" bg-primary-200 border border-primary-100 text-xl focus:bg-primary-300 outline-none"
 						bind:value={value.exp}
 					/>
 				</div>

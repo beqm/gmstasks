@@ -1,15 +1,18 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
 	import { saveMapToLocalStorage } from '$lib/utils/storage';
+	import { fade } from 'svelte/transition';
+	import { clickOutside } from '$lib/utils/clickOutside';
 
 	export let currentCharIteration: Character;
 	export let toggleOverlayFunction: any;
 	let name: string;
+	let showModal: boolean = false;
 
 	$: {
 		if (currentCharIteration !== undefined) {
 			toggleOverlayFunction();
-			showModal();
+			toggleModal();
 			name = currentCharIteration.name;
 		}
 	}
@@ -39,47 +42,44 @@
 		$MainStore = $MainStore;
 		saveMapToLocalStorage($MainStore.characters, 'characters');
 		saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
-		closeModal();
+		toggleModal();
 	};
 
-	const closeModal = () => {
-		let delCharModal = document?.querySelector('#del-char-modal') as HTMLDialogElement;
-		delCharModal.close();
-		delCharModal.className = 'hidden';
-	};
-
-	const showModal = () => {
-		let delCharModal = document?.querySelector('#del-char-modal') as HTMLDialogElement;
-		delCharModal.showModal();
-
-		delCharModal.className =
-			'w-full sm:w-[50%] xl:w-[25%] min-w-[300px] flex flex-col bg-theme-base text-theme-dark rounded-lg mt-32';
+	const toggleModal = () => {
+		showModal = !showModal;
 	};
 </script>
 
-<dialog id="del-char-modal" class="hidden">
-	<div class="flex font-bold text-2xl p-2">Delete Character</div>
-
-	<div class="flex font-bold text-xl p-2 justify-center">
-		You are about to&nbsp; <p class="text-theme-decorated">DELETE '{name}'</p>
-	</div>
-	<div class="flex font-bold text-xl p-2 justify-center">Are you sure?</div>
-
-	<div class="flex mt-auto">
-		<button
-			on:click={closeModal}
-			type="button"
-			class="bg-theme-soft m-2 p-2 ml-auto rounded-lg font-bold capitalize hover:bg-gray-500 duration-200 active:scale-90"
+{#if showModal}
+	<div in:fade class="fixed top-0 left-0 right-0 bottom-0 bg-backdrop flex justify-center z-10">
+		<div
+			use:clickOutside={toggleModal}
+			class="w-full sm:w-[50%] xl:w-[25%] min-w-[300px] flex flex-col bg-primary-300 rounded-lg mt-32 h-fit"
 		>
-			Cancel
-		</button>
-		<button
-			on:click={() => delCharacter(currentCharIteration.id)}
-			type="submit"
-			id="create-char-btn"
-			class="bg-theme-strongdecorated m-2 p-2 rounded-lg font-bold capitalize hover:bg-theme-decorated duration-200 active:scale-90"
-		>
-			Delete
-		</button>
+			<div class="flex font-bold text-2xl p-2">Delete Character</div>
+
+			<div class="flex font-bold text-xl p-2 justify-center">
+				You are about to&nbsp; <p class="text-accent-100">DELETE '{name}'</p>
+			</div>
+			<div class="flex font-bold text-xl p-2 justify-center">Are you sure?</div>
+
+			<div class="flex mt-auto">
+				<button
+					on:click={toggleModal}
+					type="button"
+					class="bg-primary-200 hover:bg-secondary-300 m-2 p-2 ml-auto rounded-lg font-bold capitalize duration-200 active:scale-90"
+				>
+					Cancel
+				</button>
+				<button
+					on:click={() => delCharacter(currentCharIteration.id)}
+					type="submit"
+					id="create-char-btn"
+					class="bg-secondary-200 m-2 p-2 rounded-lg font-bold capitalize hover:bg-secondary-100 duration-200 active:scale-90"
+				>
+					Delete
+				</button>
+			</div>
+		</div>
 	</div>
-</dialog>
+{/if}
