@@ -117,31 +117,23 @@
 										.toLowerCase()
 										.includes(searchQuery) || item.trackType.toLowerCase().includes(searchQuery)}
 									<div class="flex p-4 justify-evenly w-full border border-primary-100">
-										<div class="w-1/5 flex items-center justify-center">
+										<div class="w-[25%] flex items-center overflow-x-clip">
 											<img src={item.charImgUrl} alt="char_img" class="w-10" />
-										</div>
-										<div
-											class="w-1/5 flex justify-center text-sm lg:text-md items-center max-w-[5.4rem] overflow-x-clip"
-										>
 											{item.charName}
 										</div>
-										<div class="w-1/5 items-center justify-center flex">
-											<img src={item.trackImgUrl} alt="track_img" class="w-10" />
-										</div>
-
-										<div class="w-1/5 flex justify-center items-center text-sm lg:text-md max-w-[8rem] overflow-x-clip">
+										<div class="w-[30%] flex items-center text-sm lg:text-md overflow-x-clip">
+											<img src={item.trackImgUrl} alt="track_img" class="w-10 mr-2" />
 											{#if item.trackInfo}
 												{item.trackInfo.replace('_', ' ')}
 											{/if}
 											{item.trackName.replace('_', ' ')}
 										</div>
-										<div
-											class="w-1/5 flex justify-center items-center text-sm lg:text-md max-w-[5.4rem] overflow-x-clip"
-										>
+
+										<div class="w-[35%] flex items-center justify-center text-sm lg:text-md overflow-x-clip">
 											{item.period}
 										</div>
 
-										<button class="flex justify-center items-center" on:click={() => handleComplete(item)}>
+										<button class="w-[10%] flex justify-end items-center" on:click={() => handleComplete(item)}>
 											<svg
 												class="text-accent-200 hover:text-accent-100"
 												xmlns="http://www.w3.org/2000/svg"

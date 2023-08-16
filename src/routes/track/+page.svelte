@@ -73,28 +73,28 @@
 				trackEventsBtn.classList.add('bg-secondary-100');
 				trackEventsBtn.classList.remove('hover:bg-secondary-300');
 
-				trackBossesBtn.classList.remove('bg-secondary-300');
+				trackBossesBtn.classList.remove('bg-secondary-100');
 				trackBossesBtn.classList.add('hover:bg-secondary-300');
 
-				trackSymbolsBtn.classList.remove('bg-secondary-300');
+				trackSymbolsBtn.classList.remove('bg-secondary-100');
 				trackSymbolsBtn.classList.add('hover:bg-secondary-300');
 			} else if (path == 'bosses') {
-				trackBossesBtn.classList.add('bg-secondary-300');
+				trackBossesBtn.classList.add('bg-secondary-100');
 				trackBossesBtn.classList.remove('hover:bg-secondary-300');
 
-				trackEventsBtn.classList.remove('bg-secondary-300');
+				trackEventsBtn.classList.remove('bg-secondary-100');
 				trackEventsBtn.classList.add('hover:bg-secondary-300');
 
-				trackSymbolsBtn.classList.remove('bg-secondary-300');
+				trackSymbolsBtn.classList.remove('bg-secondary-100');
 				trackSymbolsBtn.classList.add('hover:bg-secondary-300');
 			} else {
-				trackSymbolsBtn.classList.add('bg-secondary-300');
+				trackSymbolsBtn.classList.add('bg-secondary-100');
 				trackSymbolsBtn.classList.remove('hover:bg-secondary-300');
 
-				trackEventsBtn.classList.remove('bg-secondary-300');
+				trackEventsBtn.classList.remove('bg-secondary-100');
 				trackEventsBtn.classList.add('hover:bg-secondary-300');
 
-				trackBossesBtn.classList.remove('bg-secondary-300');
+				trackBossesBtn.classList.remove('bg-secondary-100');
 				trackBossesBtn.classList.add('hover:bg-secondary-300');
 			}
 		}
