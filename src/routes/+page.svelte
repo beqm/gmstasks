@@ -114,11 +114,13 @@
 						/>
 					</div>
 					<div class="max-h-[200px] sm:max-h-[590px] overflow-y-auto">
-						{#each [...$MainStore.dashboard] as [key, item]}
+						{#each [...$MainStore.dashboard] as [_, item]}
 							{#if !item.status}
-								{#if (searchQuery && item.charName.toLowerCase().includes(searchQuery)) || item.trackName
+								{#if item.charName.toLowerCase().includes(searchQuery) || item.trackName
 										.toLowerCase()
-										.includes(searchQuery) || item.trackType.toLowerCase().includes(searchQuery)}
+										.includes(searchQuery) || item.trackInfo?.toLowerCase().includes(searchQuery) || item.period
+										.toLowerCase()
+										.includes(searchQuery)}
 									<div class="flex p-4 justify-evenly w-full border border-primary-100">
 										<div class="w-[25%] flex items-center overflow-x-clip">
 											<img src={item.charImgUrl} alt="char_img" class="w-10" />
