@@ -77,32 +77,35 @@
 <div class="flex w-full justify-center lg:h-[80vh]">
 	<div
 		in:fly={{ x: -200, duration: 250 }}
-		class="flex flex-col items-center w-full lg:w-9/12 rounded-lg mt-10 drop-shadow-lg bg-primary-300"
+		class="flex flex-col sm:flex-row items-center w-full lg:w-9/12 rounded-lg mt-10 drop-shadow-lg bg-primary-300"
 	>
-		<div class="w-full text-center font-bold text-3xl mt-4">Dashboard</div>
-		<div class="justify-evenly w-[90%] mt-10 flex">
-			<div class="w-full lg:w-[40%] text-center rounded-lg">
-				<div class="text-2xl font-bold">Bosses</div>
-				<div class="flex flex-col items-center p-4">
-					<ProgressBar label="Dailies" control={dailyBossesControl} />
-					<ProgressBar label="Weeklies" control={weeklyBossesControl} />
+		<div class="w-full sm:w-[20%] h-full sm:border-r sm:border-primary-100">
+			<div class="w-full text-center font-bold text-3xl mt-4">Dashboard</div>
+			<div class="justify-evenly w-[90%] mt-10 flex flex-col">
+				<div class="w-full text-center rounded-lg">
+					<div class="text-2xl font-bold">Bosses</div>
+					<div class="flex sm:flex-col items-center p-4">
+						<ProgressBar label="Dailies" control={dailyBossesControl} />
+						<ProgressBar label="Weeklies" control={weeklyBossesControl} />
+					</div>
 				</div>
-			</div>
-			<div class="w-full lg:w-[40%] text-center rounded-lg">
-				<div class="text-2xl font-bold">Events</div>
-				<div class="flex flex-col items-center p-4">
-					<ProgressBar label="Dailies" control={dailyEventControl} />
-					<ProgressBar label="Weeklies" control={weeklyEventControl} />
+				<div class="w-full text-center rounded-lg">
+					<div class="text-2xl font-bold">Events</div>
+					<div class="flex sm:flex-col items-center p-4">
+						<ProgressBar label="Dailies" control={dailyEventControl} />
+						<ProgressBar label="Weeklies" control={weeklyEventControl} />
+					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class="items-center w-full lg:w-[90%] flex flex-col rounded-lg p-2 h-full">
 			<div class="text-2xl font-bold">Todo</div>
 			<div class="flex flex-col w-full m-4">
 				{#if $MainStore.dashboard.size == 0}
 					<div class="text-center w-ful text-lg font-bold p-5">No Data Available</div>
 				{:else}
-					<div class="w-full flex justify-center p-2">
+					<div class="w-full flex justify-center sm:mb-4 p-2">
 						<input
 							class="w-full sm:w-1/2 h-10 bg-primary-200 text-center outline-none border border-primary-100 focus:border-secondary-300 focus:bg-primary-300"
 							type="text"
@@ -110,7 +113,7 @@
 							bind:value={searchQuery}
 						/>
 					</div>
-					<div class="max-h-[320px] sm:max-h-[220px] overflow-y-auto">
+					<div class="max-h-[200px] sm:max-h-[590px] overflow-y-auto">
 						{#each [...$MainStore.dashboard] as [key, item]}
 							{#if !item.status}
 								{#if (searchQuery && item.charName.toLowerCase().includes(searchQuery)) || item.trackName

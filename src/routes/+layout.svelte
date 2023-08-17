@@ -111,8 +111,8 @@
 				<div class="mr-2 p-2 h-full flex items-center rounded-lg duration-200 active:scale-90 relative">
 					{#if count < 10}
 						<span class="absolute right-[1px] top-4">{count}</span>
-					{:else if count > 10}
-						<span class="absolute right-[-10px] top-4">{count}</span>
+					{:else if count >= 10}
+						<span class="absolute right-[1px] top-4">{count}</span>
 					{:else if count >= 99}
 						<span class="absolute right-[-10px] top-4">99+</span>
 					{/if}

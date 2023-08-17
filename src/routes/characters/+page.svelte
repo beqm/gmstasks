@@ -31,7 +31,7 @@
 			[
 				JSON.stringify(
 					data,
-					(key, value) => {
+					(_, value) => {
 						if (value instanceof Map) {
 							return Object.fromEntries(value);
 						}
