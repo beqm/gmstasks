@@ -9,7 +9,7 @@
 	import ArcaneTrack from '$lib/components/Track/ArcaneTrack.svelte';
 	import SacredTrack from '$lib/components/Track/SacredTrack.svelte';
 	import MainStore from '$lib/stores/MainStore';
-	import { createDashBoardMap, localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { createDashBoardMap, localStoragetoStore, mapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { onMount } from 'svelte';
 	import EventTrack from '$lib/components/Track/EventTrack.svelte';
 
@@ -53,8 +53,8 @@
 			}
 			let char = tasksMapToObj($MainStore.active);
 			localStorage.setItem('active', JSON.stringify(char));
-			saveMapToLocalStorage($MainStore.characters, 'characters');
-			saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+			mapToLocalStorage($MainStore.characters, 'characters');
+			mapToLocalStorage($MainStore.dashboard, 'dashboard');
 			$MainStore = $MainStore;
 		}
 	};

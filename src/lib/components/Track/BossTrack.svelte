@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
-	import { tasksMapToObj, saveMapToLocalStorage } from '$lib/utils/storage';
+	import { tasksMapToObj, mapToLocalStorage } from '$lib/utils/storage';
 
 	export let bosses: MBoss[];
 
@@ -12,12 +12,12 @@
 
 			let char = tasksMapToObj($MainStore.active);
 			localStorage.setItem('active', JSON.stringify(char));
-			saveMapToLocalStorage($MainStore.characters, 'characters');
+			mapToLocalStorage($MainStore.characters, 'characters');
 
 			let dashItem = $MainStore.dashboard.get(`${$MainStore.active.id}|${currTrack.name}|${currTrack.difficulty}`);
 			if (dashItem) {
 				dashItem.status = true;
-				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+				mapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
 			$MainStore = $MainStore;
 		}

@@ -56,16 +56,15 @@ function createDashboardEvent(char: Character, event: MEvent, period: 'Daily' | 
 	return item;
 }
 
-export function saveMapToLocalStorage(data: Map<string, Character | DashItem>, localKey: string): void {
-	localStorage.setItem(
-		localKey,
-		JSON.stringify(Object.fromEntries(data), (key, value) => {
-			if (value instanceof Map) {
-				return Object.fromEntries(value);
-			}
-			return value;
-		})
-	);
+export function mapToLocalStorage(data: Map<string, Character | DashItem>, localKey: string): void {
+	const serializedData = JSON.stringify(Object.fromEntries(data), (_, value) => {
+		if (value instanceof Map) {
+			return Object.fromEntries(value);
+		}
+		return value;
+	});
+
+	localStorage.setItem(localKey, serializedData);
 }
 
 export function tasksMapToObj(char: Character): Character {

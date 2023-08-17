@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
-	import { saveMapToLocalStorage } from '$lib/utils/storage';
+	import { mapToLocalStorage } from '$lib/utils/storage';
 	import { fade } from 'svelte/transition';
 	import { clickOutside } from '$lib/utils/clickOutside';
 
@@ -40,8 +40,8 @@
 		});
 
 		$MainStore = $MainStore;
-		saveMapToLocalStorage($MainStore.characters, 'characters');
-		saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+		mapToLocalStorage($MainStore.characters, 'characters');
+		mapToLocalStorage($MainStore.dashboard, 'dashboard');
 		toggleModal();
 	};
 

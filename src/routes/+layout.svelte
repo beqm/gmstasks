@@ -5,13 +5,15 @@
 	import { onMount } from 'svelte';
 	import { localStoragetoStore } from '$lib/utils/storage';
 
-	let countTodoTasks = (dashboard: Map<string, DashItem>) => {
+	const countTodoTasks = (dashboard: Map<string, DashItem>): number => {
 		let counter = 0;
-		dashboard.forEach((value) => {
+
+		for (const value of dashboard.values()) {
 			if (!value.status) {
-				counter += 1;
+				counter++;
 			}
-		});
+		}
+
 		return counter;
 	};
 
@@ -64,7 +66,7 @@
 		</button>
 
 		<ul
-			class={`${cContainer} absolute text-lg lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row w-full top-full left-1/2 transform -translate-x-1/2 flex flex-col list-none items-center`}
+			class={`${cContainer} absolute text-lg lg:bg-transparent lg:w-fit lg:flex ml-auto lg:transform-none lg:static lg:flex-row w-full top-full left-1/2 -translate-x-1/2 flex flex-col list-none items-center`}
 		>
 			<a href="/">
 				<li class="p-2 m-1 hover:bg-secondary-300 rounded-lg duration-200 active:scale-90">dashboard</li>

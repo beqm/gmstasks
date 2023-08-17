@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MainStore from '$lib/stores/MainStore';
-	import { tasksMapToObj, saveMapToLocalStorage } from '$lib/utils/storage';
+	import { tasksMapToObj, mapToLocalStorage } from '$lib/utils/storage';
 	import { ArcaneDaily, ArcaneWeekly, SacredDaily, calculateSymbol } from '$lib/utils/validation';
 
 	export let events: MEvent[];
@@ -31,12 +31,12 @@
 
 			let char = tasksMapToObj($MainStore.active);
 			localStorage.setItem('active', JSON.stringify(char));
-			saveMapToLocalStorage($MainStore.characters, 'characters');
+			mapToLocalStorage($MainStore.characters, 'characters');
 
 			let dashItem = $MainStore.dashboard.get(`${$MainStore.active.id}|${currTrack.name}`);
 			if (dashItem) {
 				dashItem.status = true;
-				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+				mapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
 
 			$MainStore = $MainStore;

@@ -9,7 +9,7 @@
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';
 	import { fly } from 'svelte/transition';
-	import { saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { mapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 
 	const flipDurationMs = 100;
 	let delModalInfo: Character;
@@ -57,7 +57,7 @@
 
 	const handleFinalize = (e: CustomEvent<DndEvent<Character>>) => {
 		$MainStore.characters = new Map(e.detail.items.map((obj) => [obj.id, obj]));
-		saveMapToLocalStorage($MainStore.characters, 'characters');
+		mapToLocalStorage($MainStore.characters, 'characters');
 	};
 
 	let toggleOverlay = () => {

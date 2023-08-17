@@ -6,7 +6,7 @@
 	import EventSelect from '$lib/components/Form/EventSelect.svelte';
 	import BossSelect from '$lib/components/Form/BossSelect.svelte';
 	import { validateImage } from '$lib/utils/validation';
-	import { createDashBoardMap, initCharacter, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { createDashBoardMap, initCharacter, mapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { validateSymbols } from '$lib/utils/validation';
 	import { clickOutside } from '$lib/utils/clickOutside';
 
@@ -33,7 +33,9 @@
 		if (formController == 'create') {
 			character.id = crypto.randomUUID();
 		}
+
 		character.level = Math.min(Math.max(character.level, 1), 300);
+
 		character.img = validateImage(character);
 
 		character.track.arcanes = new Map(Object.entries(arcanes));
@@ -60,12 +62,12 @@
 				$MainStore.dashboard.set(key, value);
 			});
 
-			saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+			mapToLocalStorage($MainStore.dashboard, 'dashboard');
 		}
 
 		character = tasksMapToObj(character);
 		localStorage.setItem('active', JSON.stringify(character));
-		saveMapToLocalStorage($MainStore.characters, 'characters');
+		mapToLocalStorage($MainStore.characters, 'characters');
 		$MainStore = $MainStore;
 
 		closeForm();
@@ -121,7 +123,7 @@
 							<Input bind:value={character.img} inputLabel="Image" />
 							<Input bind:value={character.name} inputLabel="Name" />
 							<Input bind:value={character.job} inputLabel="Job" />
-							<Input bind:value={character.level} inputLabel="Level" />
+							<Input bind:value={character.level} inputLabel="Level" isNumber={true} />
 						</div>
 						<!-- Symbol Section -->
 						<div class="w-full flex flex-col items-center">

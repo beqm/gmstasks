@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { formatMillisecond } from '$lib/utils/validation';
-	import { resetDailyTasks, resetWeeklyBossTasks, resetWeeklyEventTasks, resetDashboardTasks } from '$lib/utils/tasks';
+	import { resetAllDailies, resetDashboard, resetWeeklyBosses, resetWeeklyEvents } from '$lib/utils/tasks';
 	import MainStore from '$lib/stores/MainStore';
-	import { localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { mapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 
 	let now = new Date();
 	now.setMinutes(now.getMinutes() + now.getTimezoneOffset());
@@ -26,45 +26,45 @@
 			if (!last_d_reset || last_d_reset !== now.toDateString()) {
 				console.log('hello');
 				localStorage.setItem('daily_reset', now.toDateString());
-				resetDailyTasks($MainStore);
-				resetDashboardTasks($MainStore, 'Daily');
+				resetAllDailies($MainStore);
+				resetDashboard($MainStore, 'Daily');
 				$MainStore = $MainStore;
 				if ($MainStore.active) {
 					let active = tasksMapToObj($MainStore.active);
 					localStorage.setItem('active', JSON.stringify(active));
 				}
-				saveMapToLocalStorage($MainStore.characters, 'characters');
-				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+				mapToLocalStorage($MainStore.characters, 'characters');
+				mapToLocalStorage($MainStore.dashboard, 'dashboard');
 			}
 
 			if (now.getDay() == 1) {
 				let last_m_reset = localStorage.getItem('monday_reset');
 				if (!last_m_reset || last_m_reset !== now.toDateString()) {
 					localStorage.setItem('monday_reset', new Date().toDateString());
-					resetWeeklyEventTasks($MainStore);
-					resetDashboardTasks($MainStore, 'Weekly');
+					resetWeeklyEvents($MainStore);
+					resetDashboard($MainStore, 'Weekly');
 					$MainStore = $MainStore;
 					if ($MainStore.active) {
 						let active = tasksMapToObj($MainStore.active);
 						localStorage.setItem('active', JSON.stringify(active));
 					}
-					saveMapToLocalStorage($MainStore.characters, 'characters');
-					saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+					mapToLocalStorage($MainStore.characters, 'characters');
+					mapToLocalStorage($MainStore.dashboard, 'dashboard');
 				}
 			} else if (now.getDay() == 4) {
 				let last_w_reset = localStorage.getItem('wednesday_reset');
 				if (!last_w_reset || last_w_reset !== now.toDateString()) {
 					localStorage.setItem('wednesday_reset', new Date().toDateString());
-					resetWeeklyBossTasks($MainStore);
-					resetDashboardTasks($MainStore, 'Weekly');
+					resetWeeklyBosses($MainStore);
+					resetDashboard($MainStore, 'Weekly');
 					$MainStore = $MainStore;
 
 					if ($MainStore.active) {
 						let active = tasksMapToObj($MainStore.active);
 						localStorage.setItem('active', JSON.stringify(active));
 					}
-					saveMapToLocalStorage($MainStore.characters, 'characters');
-					saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+					mapToLocalStorage($MainStore.characters, 'characters');
+					mapToLocalStorage($MainStore.dashboard, 'dashboard');
 				}
 			}
 		}, 1000);

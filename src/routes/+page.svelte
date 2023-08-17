@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte/internal';
 
 	import { progressControl } from '$lib/utils/tasks';
-	import { localStoragetoStore, saveMapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
+	import { localStoragetoStore, mapToLocalStorage, tasksMapToObj } from '$lib/utils/storage';
 	import { ArcaneWeekly, SacredDaily, ArcaneDaily, calculateSymbol } from '$lib/utils/validation';
 
 	let searchQuery: string = '';
@@ -58,8 +58,8 @@
 				let duplicate = tasksMapToObj($MainStore.active);
 				localStorage.setItem('active', JSON.stringify(duplicate));
 
-				saveMapToLocalStorage($MainStore.characters, 'characters');
-				saveMapToLocalStorage($MainStore.dashboard, 'dashboard');
+				mapToLocalStorage($MainStore.characters, 'characters');
+				mapToLocalStorage($MainStore.dashboard, 'dashboard');
 				$MainStore = $MainStore;
 			}
 		}

@@ -1,74 +1,49 @@
-import type { DStore, DashItem } from '$lib/types/types';
+export const progressControl = (dashMap: Map<string, DashItem>, type: string, period: string): number => {
+	let completedCounter = 0;
+	let totalCounter = 0;
 
-export const progressControl = (dashMap: Map<string, DashItem>, type: string, period: string) => {
-	let counter: number = 0;
-	let totalCounter: number = 0;
-	dashMap.forEach((item) => {
-		if (item.period == period && item.trackType == type) {
-			totalCounter += 1;
+	for (const item of dashMap.values()) {
+		if (item.period === period && item.trackType === type) {
+			totalCounter++;
 			if (item.status) {
-				counter += 1;
+				completedCounter++;
 			}
 		}
-	});
-
-	let result = (counter / totalCounter) * 100;
-	if (result) {
-		return Math.floor(result);
-	} else {
-		return 0;
 	}
+
+	const progressPercentage = totalCounter === 0 ? 0 : (completedCounter / totalCounter) * 100;
+	return Math.floor(progressPercentage);
 };
 
-export function resetWeeklyBossTasks(store: DStore) {
-	if (store.active) {
-		store.active.track.weeklyBosses.forEach((events) => {
-			events.complete = false;
-		});
-	}
-	store.characters.forEach((value) => {
-		value.track.weeklyEvents.forEach((event) => {
-			event.complete = false;
-		});
+export function resetWeeklyBosses(store: DStore) {
+	store.active?.track.weeklyBosses.forEach((event) => (event.complete = false));
+
+	store.characters.forEach((character) => {
+		character.track.weeklyBosses.forEach((event) => (event.complete = false));
 	});
 }
 
-export function resetWeeklyEventTasks(store: DStore) {
-	if (store.active) {
-		store.active.track.weeklyEvents.forEach((events) => {
-			events.complete = false;
-		});
-	}
-	store.characters.forEach((value) => {
-		value.track.weeklyEvents.forEach((event) => {
-			event.complete = false;
-		});
+export function resetWeeklyEvents(store: DStore) {
+	store.active?.track.weeklyEvents.forEach((event) => (event.complete = false));
+
+	store.characters.forEach((character) => {
+		character.track.weeklyEvents.forEach((event) => (event.complete = false));
 	});
 }
 
-export function resetDailyTasks(store: DStore) {
-	if (store.active) {
-		store.active.track.dailyBosses.forEach((boss) => {
-			boss.complete = false;
-		});
-		store.active.track.dailyEvents.forEach((events) => {
-			events.complete = false;
-		});
-	}
+export function resetAllDailies(store: DStore) {
+	store.active?.track.dailyBosses.forEach((boss) => (boss.complete = false));
+	store.active?.track.dailyEvents.forEach((event) => (event.complete = false));
 
-	store.characters.forEach((value) => {
-		value.track.dailyBosses.forEach((boss) => {
-			boss.complete = false;
-		});
-		value.track.dailyEvents.forEach((event) => {
-			event.complete = false;
-		});
+	store.characters.forEach((character) => {
+		character.track.dailyBosses.forEach((boss) => (boss.complete = false));
+		character.track.dailyEvents.forEach((event) => (event.complete = false));
 	});
 }
 
-export function resetDashboardTasks(store: DStore, period: 'Weekly' | 'Daily') {
+export function resetDashboard(store: DStore, period: 'Weekly' | 'Daily') {
 	store.dashboard.forEach((item) => {
-		if (period == item.period) {
+		if (item.period === period) {
 			item.status = false;
 		}
 	});
