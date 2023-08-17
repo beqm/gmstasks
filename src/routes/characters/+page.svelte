@@ -104,9 +104,7 @@
 		</button>
 		<Form bind:this={FormComponentInstance} />
 	</div>
-	<div
-		class="flex flex-col w-full lg:w-9/12 overflow-y-scroll sm:max-h-[640px] bg-primary-300 rounded-lg drop-shadow-lg scroll-container"
-	>
+	<div class="flex flex-col w-full lg:w-9/12 bg-primary-300 rounded-lg drop-shadow-lg scroll-container">
 		<!-- Columns -->
 		<div class="flex text-center justify-evenly text-sm lg:text-lg font-bold w-full">
 			<div class="w-1/6 align-middle p-2 uppercase" />
@@ -119,14 +117,15 @@
 		{#if $MainStore.characters}
 			{#if $MainStore.characters.size > 0}
 				<div
+					class="overflow-y-scroll sm:max-h-[640px]"
 					use:dndzone={{ items: [...$MainStore.characters.values()], flipDurationMs: flipDurationMs }}
 					on:consider={handleConsider}
 					on:finalize={handleFinalize}
 				>
 					<!-- Rows -->
-					{#each [...$MainStore.characters] as [key, char] (char.id)}
+					{#each [...$MainStore.characters] as [_, char] (char.id)}
 						<button
-							class="flex justify-evenly w-full cursor-pointer border bg-primary-200 border-primary-100"
+							class="flex justify-evenly w-full items-center cursor-pointer border bg-primary-200 border-primary-100"
 							animate:flip={{ duration: flipDurationMs }}
 							on:click={() => activateCharacter(char.id)}
 						>

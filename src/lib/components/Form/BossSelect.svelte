@@ -52,3 +52,18 @@
 		</ul>
 	{/if}
 </div>
+
+<style>
+	div::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	div::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	div::-webkit-scrollbar-thumb {
+		background-color: #27293a;
+		border-radius: 3px;
+	}
+</style>

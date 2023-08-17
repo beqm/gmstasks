@@ -41,7 +41,7 @@
 		<ul
 			transition:slide
 			id={inputLabel}
-			class=" flex flex-col items-center w-full border bg-primary-300 border-primary-100 text-xl max-h-[200px] mb-2 overflow-y-auto"
+			class="flex flex-col items-center w-full border bg-primary-300 border-primary-100 text-xl max-h-[200px] mb-2 overflow-y-auto"
 		>
 			{#each [...selectData] as [key, item]}
 				<li class="flex text-left w-full">

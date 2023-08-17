@@ -35,7 +35,6 @@
 		}
 
 		character.level = Math.min(Math.max(character.level, 1), 300);
-
 		character.img = validateImage(character);
 
 		character.track.arcanes = new Map(Object.entries(arcanes));
@@ -123,7 +122,7 @@
 							<Input bind:value={character.img} inputLabel="Image" />
 							<Input bind:value={character.name} inputLabel="Name" />
 							<Input bind:value={character.job} inputLabel="Job" />
-							<Input bind:value={character.level} inputLabel="Level" isNumber={true} />
+							<Input bind:value={character.level} inputLabel="Level" />
 						</div>
 						<!-- Symbol Section -->
 						<div class="w-full flex flex-col items-center">
