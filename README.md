@@ -1,4 +1,1 @@
-- [] Refactor Code
-- [] Tests
-- [] Workflow
-- [] Double check responsiveness
+A website for managing your tasks in the game maplestory global.
